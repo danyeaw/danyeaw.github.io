@@ -1,0 +1,4 @@
+Sitemap: https://danyeaw.github.io/sitemapindex.xml
+
+User-Agent: *
+Host: danyeaw.github.io
