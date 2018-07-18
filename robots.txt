@@ -1,4 +1,4 @@
-Sitemap: https://danyeaw.github.io/sitemapindex.xml
+Sitemap: https://dan.yeaw.me/sitemapindex.xml
 
 User-Agent: *
-Host: danyeaw.github.io
+Host: dan.yeaw.me
