@@ -6,15 +6,39 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
-  <loc>https://dan.yeaw.me/galleries/rss.xml</loc>
-  <lastmod>2018-07-18T01:51:00Z</lastmod>
+  <loc>https://dan.yeaw.me/categories/beeware.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/cat_python.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/gui.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/programming.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/python.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/toga.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://dan.yeaw.me/categories/widget.xml</loc>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/rss.xml</loc>
-  <lastmod>2018-07-18T01:51:00Z</lastmod>
+  <lastmod>2018-11-09T03:07:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/sitemap.xml</loc>
-  <lastmod>2018-07-18T01:51:00Z</lastmod>
+  <lastmod>2018-11-09T03:09:00Z</lastmod>
  </sitemap>
 </sitemapindex>
