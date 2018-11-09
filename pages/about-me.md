@@ -32,4 +32,4 @@ Please follow or connect with me:
 * [Twitter](https://twitter.com/danyeaw)
 * [Email](mailto:dan@yeaw.me)
 * [GitHub](https://github.com/danyeaw)
-* [LinkedIn](https://linkedin/in/danyeaw)
+* [LinkedIn](https://linkedin.com/in/danyeaw)
