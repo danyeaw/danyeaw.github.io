@@ -92,7 +92,7 @@
 'copy_assets:output/assets/fonts/glyphicons-halflings-regular.ttf', (93184, 542)
 'copy_files', (94208, 56)
 'copy_assets:output/assets/css/baguetteBox.css', (94720, 491)
-'copy_files:output/CNAME', (95232, 228)
+'copy_files:output/CNAME', (95232, 230)
 'render_taxonomies:output/categories/gui.xml', (95744, 554)
 'render_taxonomies:output/categories/toga.xml', (100352, 554)
 'render_taxonomies:output/categories/cat_python.xml', (101376, 554)
