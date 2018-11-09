@@ -1,7 +1,7 @@
 <!--
 .. title: 5 Steps to Build Python Native GUI Widgets for BeeWare
 .. slug: gui-widget-for-beeware
-.. date: 2018-11-03 15:47:21 UTC-04:00
+.. date: 2018-11-03 20:36:00 UTC-05:00
 .. tags: Python, BeeWare, Toga, GUI, programming, widget
 .. category: Python
 .. link: 
