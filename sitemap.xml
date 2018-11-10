@@ -7,54 +7,86 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://dan.yeaw.me/</loc>
-  <lastmod>2018-11-09T01:39:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2018/</loc>
-  <lastmod>2018-07-16T01:01:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/about-me/</loc>
-  <lastmod>2018-11-09T03:08:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/archive.html</loc>
-  <lastmod>2018-11-09T03:07:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/blog/gui-widget-for-beeware/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/beeware/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_python/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/gui/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/programming/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/python/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/toga/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/widget/</loc>
-  <lastmod>2018-11-09T01:11:00Z</lastmod>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/plugin/markdown/example.html</loc>
+  <lastmod>2018-11-10T18:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/plugin/notes-server/notes.html</loc>
+  <lastmod>2018-11-10T18:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/plugin/notes/notes.html</loc>
+  <lastmod>2018-11-10T18:42:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/</loc>
+  <lastmod>2018-11-10T20:00:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/</loc>
+  <lastmod>2018-11-10T20:01:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/markdown/example.html</loc>
+  <lastmod>2018-11-10T19:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes-server/notes.html</loc>
+  <lastmod>2018-11-10T19:59:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes/notes.html</loc>
+  <lastmod>2018-11-10T19:59:00Z</lastmod>
  </url>
 </urlset>

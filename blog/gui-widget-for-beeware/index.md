@@ -76,7 +76,7 @@ There are three internal layers that make up every widget:
 3. The **Native** layer  
   
   
-![Software architecture of Toga](/images/toga-architecture.png)
+![Software architecture of Toga](/images/toga-architecture.svg)
 
 The Interface layer provides the public API for the GUI application that you
 are building. This is the code you will type to build your app using Toga.
@@ -399,6 +399,7 @@ After you most likely do some troubleshooting of your widget to get it to work
 properly with your platform, you now should have a complete widget!
 
 ![Toga Tutorial 4 for a Canvas Widget](/images/tutorial-4.png)
+
 
 Tada! You did it, Submit a PR!
 

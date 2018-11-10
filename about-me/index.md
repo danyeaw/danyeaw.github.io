@@ -20,7 +20,7 @@ technology.
 
 I'm currently Functional Safety Supervisor for Ford Motor Company, which means
 I help design how complex automated and electrified technologies work together
-to be a safe system. I live near Detroit, MI, and I love its underdog spirit. I
+to be a safe systems. I live near Detroit, MI, and I love its underdog spirit. I
 am originally from California. Prior to this, I served as a submarine officer
 in the U.S. Navy.
 

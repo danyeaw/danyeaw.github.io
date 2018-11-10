@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Python)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_python.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; 
 &lt;a rel="license" href="http://creativecommons.org/licenses/by/4.0/"&gt;
 &lt;img alt="Creative Commons Licence" style="border-width:0; margin-bottom-12px"
-src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Fri, 09 Nov 2018 03:07:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
+src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Sat, 10 Nov 2018 20:06:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
 through languages like SysML to help design safety in to complex automated
 and electrified technologies. In my free time I took over maintaining a UML
 tool called &lt;a href="https://github.com/gaphor/gaphor"&gt;Gaphor&lt;/a&gt; with the aim of
@@ -55,7 +55,7 @@ how you could contribute your own widget to the project.&lt;/p&gt;
 &lt;li&gt;The &lt;strong&gt;Implementation&lt;/strong&gt; layer&lt;/li&gt;
 &lt;li&gt;The &lt;strong&gt;Native&lt;/strong&gt; layer  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img alt="Software architecture of Toga" src="https://dan.yeaw.me/images/toga-architecture.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Software architecture of Toga" src="https://dan.yeaw.me/images/toga-architecture.svg"&gt;&lt;/p&gt;
 &lt;p&gt;The Interface layer provides the public API for the GUI application that you
 are building. This is the code you will type to build your app using Toga.&lt;/p&gt;
 &lt;p&gt;The Interface layer calls public methods that are in the Toga_core portion of
