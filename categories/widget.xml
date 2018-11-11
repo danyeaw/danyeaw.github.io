@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about widget)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/widget.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; 
 &lt;a rel="license" href="http://creativecommons.org/licenses/by/4.0/"&gt;
 &lt;img alt="Creative Commons Licence" style="border-width:0; margin-bottom-12px"
-src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Sat, 10 Nov 2018 20:06:58 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
+src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Sun, 11 Nov 2018 02:49:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
 through languages like SysML to help design safety in to complex automated
 and electrified technologies. In my free time I took over maintaining a UML
 tool called &lt;a href="https://github.com/gaphor/gaphor"&gt;Gaphor&lt;/a&gt; with the aim of
@@ -34,7 +34,7 @@ then the &lt;a href="https://pybee.org/contributing/how/first-time/"&gt;First-ti
 &lt;p&gt;The current status of the BeeWare project, at the time of writing this, is that
 it is a solid proof of concept. Creating a simple app on macOS, Linux, or iOS
 is definitely possible. In fact there is an app called Travel Tips on Apple's
-App Store that was created by Russell Keith-McGee as a demonstration. Support
+App Store that was created by Russell Keith-Magee as a demonstration. Support
 for some of the other platforms like Windows and Android is lagging behind
 some, so except some very rough edges.&lt;/p&gt;
 &lt;p&gt;This alpha status may not be so exciting for you if you are just trying to
@@ -119,9 +119,9 @@ platforms:&lt;/p&gt;
 &lt;li&gt;wxpython&lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Panel&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Bind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;EVT_PAINT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;OnPaint&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;OnPaint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;evt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;OnPaint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;evt&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;dc&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PaintDC&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SetBrush&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Brush&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Colour&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;SetBrush&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Brush&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wx&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Colour&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
     &lt;span class="n"&gt;dc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DrawRectangle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;
 
@@ -222,7 +222,7 @@ widget:&lt;/p&gt;
 
 &lt;span class="sd"&gt;    Args:&lt;/span&gt;
 &lt;span class="sd"&gt;        x (float): x coordinate for the rectangle.&lt;/span&gt;
-
+&lt;span class="sd"&gt;        ...&lt;/span&gt;
 &lt;span class="sd"&gt;    """&lt;/span&gt;
 &lt;/pre&gt;
 
@@ -282,7 +282,7 @@ and objects that you left blank in the previous step.&lt;/p&gt;
 interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;Class&lt;/span&gt; &lt;span class="n"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Widget&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Widget&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;factory&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="nb"&gt;super&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;factory&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;factory&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;
@@ -385,4 +385,5 @@ properly with your platform, you now should have a complete widget!&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Toga Tutorial 4 for a Canvas Widget" src="https://dan.yeaw.me/images/tutorial-4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Tada! You did it, Submit a PR!&lt;/p&gt;
 &lt;p&gt;I would be interested in how it goes for you, drop me a line with your
-experience creating a widget.&lt;/p&gt;&lt;/div&gt;</description><category>BeeWare</category><category>GUI</category><category>programming</category><category>Python</category><category>Toga</category><category>widget</category><guid>https://dan.yeaw.me/blog/gui-widget-for-beeware/</guid><pubDate>Sun, 04 Nov 2018 01:36:00 GMT</pubDate></item></channel></rss>
+experience creating a widget.  &lt;/p&gt;
+&lt;p&gt;2018-11-10: minor editorial updates.&lt;/p&gt;&lt;/div&gt;</description><category>BeeWare</category><category>GUI</category><category>programming</category><category>Python</category><category>Toga</category><category>widget</category><guid>https://dan.yeaw.me/blog/gui-widget-for-beeware/</guid><pubDate>Sun, 04 Nov 2018 01:36:00 GMT</pubDate></item></channel></rss>

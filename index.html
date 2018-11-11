@@ -117,7 +117,7 @@ then the <a href="https://pybee.org/contributing/how/first-time/">First-time Con
 <p>The current status of the BeeWare project, at the time of writing this, is that
 it is a solid proof of concept. Creating a simple app on macOS, Linux, or iOS
 is definitely possible. In fact there is an app called Travel Tips on Apple's
-App Store that was created by Russell Keith-McGee as a demonstration. Support
+App Store that was created by Russell Keith-Magee as a demonstration. Support
 for some of the other platforms like Windows and Android is lagging behind
 some, so except some very rough edges.</p>
 <p>This alpha status may not be so exciting for you if you are just trying to
@@ -202,9 +202,9 @@ platforms:</p>
 <li>wxpython</li>
 </ul>
 <pre class="code literal-block"><span></span><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_PAINT</span><span class="p">,</span> <span class="n">OnPaint</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
     <span class="n">dc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">PaintDC</span><span class="p">()</span>
-    <span class="n">dc</span><span class="o">.</span><span class="n">SetBrush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Brush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">dc</span><span class="o">.</span><span class="n">SetBrush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Brush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
     <span class="n">dc</span><span class="o">.</span><span class="n">DrawRectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre>
 
@@ -305,7 +305,7 @@ widget:</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (float): x coordinate for the rectangle.</span>
-
+<span class="sd">        ...</span>
 <span class="sd">    """</span>
 </pre>
 
@@ -365,7 +365,7 @@ and objects that you left blank in the previous step.</p>
 interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:</p>
-<pre class="code literal-block"><span></span><span class="n">Class</span> <span class="n">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
+<pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
 </pre>
@@ -468,7 +468,8 @@ properly with your platform, you now should have a complete widget!</p>
 <p><img alt="Toga Tutorial 4 for a Canvas Widget" src="images/tutorial-4.png"></p>
 <p>Tada! You did it, Submit a PR!</p>
 <p>I would be interested in how it goes for you, drop me a line with your
-experience creating a widget.</p>
+experience creating a widget.  </p>
+<p>2018-11-10: minor editorial updates.</p>
 </div>
     </div>
     </article>

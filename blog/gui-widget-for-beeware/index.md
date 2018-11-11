@@ -48,7 +48,7 @@ then the [First-time Contributor's Guide](https://pybee.org/contributing/how/fir
 The current status of the BeeWare project, at the time of writing this, is that
 it is a solid proof of concept. Creating a simple app on macOS, Linux, or iOS
 is definitely possible. In fact there is an app called Travel Tips on Apple's
-App Store that was created by Russell Keith-McGee as a demonstration. Support
+App Store that was created by Russell Keith-Magee as a demonstration. Support
 for some of the other platforms like Windows and Android is lagging behind
 some, so except some very rough edges.
 
@@ -141,9 +141,9 @@ canvas.pack()
 * wxpython
 ```Python
 wx.Panel.Bind(wx.EVT_PAINT, OnPaint)
-def OnPaint(self, evt)
+def OnPaint(self, evt):
     dc = wx.PaintDC()
-    dc.SetBrush(wx.Brush(wx.Colour(200, 0, 0))
+    dc.SetBrush(wx.Brush(wx.Colour(200, 0, 0)))
     dc.DrawRectangle(10, 10, 100, 100)
 ```
 
@@ -242,7 +242,7 @@ def rect(self, x, y, width, height):
 
     Args:
         x (float): x coordinate for the rectangle.
-        
+        ...
     """
 ```
 
@@ -303,7 +303,7 @@ interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:
 ```Python
-Class Canvas(Widget):
+class Canvas(Widget):
     def __init__(self, id=None, style=None, factory=None):
         super().__init__(id=id, style=style, factory=factory)
 ```
@@ -373,7 +373,7 @@ class Canvas(Widget):
     def create(self):
         self.native = Gtk.DrawingArea()
         self.native.interface = self.interface
-    	self.native.connect("draw", self.gtk_draw_callback)
+        self.native.connect("draw", self.gtk_draw_callback)
     
     def gtk_draw_callback(self, canvas, gtk_context):
         self.interface._draw(self, draw_context=gtk_context)
@@ -404,4 +404,7 @@ properly with your platform, you now should have a complete widget!
 Tada! You did it, Submit a PR!
 
 I would be interested in how it goes for you, drop me a line with your
-experience creating a widget.
+experience creating a widget.  
+  
+  
+2018-11-10: minor editorial updates.
