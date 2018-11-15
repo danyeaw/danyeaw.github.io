@@ -92,8 +92,8 @@ canvas.pack()
 wxpython
 
 ```Python
-wx.Panel.Bind(wx.EVT_PAINT, OnPaint):
-def OnPaint(self, evt)
+wx.Panel.Bind(wx.EVT_PAINT, OnPaint)
+def OnPaint(self, evt):
     dc = wx.PaintDC()
     dc.SetBrush(wx.Brush(wx.Colour(200, 0, 0)))
     dc.DrawRectangle(10, 10, 100, 100)
@@ -138,7 +138,7 @@ the arc drawing object:
 
 import toga
 canvas = toga.Canvas(style=Pack(flex=1))
-with canvas.fill(color=rgb(200, 0, 0) as fill:
+with canvas.fill(color=rgb(200, 0, 0)) as fill:
     fill.rect(10, 10, 100, 100)
 ```</script></section><section  data-markdown><script type="text/template">## Write Code Outline
 ```Python

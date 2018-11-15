@@ -31,7 +31,9 @@ class HelloWorld(toga.App):
 def main():
     return HelloWorld('Hello World', 'org.pybee.helloworld')
 ```
+
 ---
+
 # Current Status
 
 * Solid proof of concept
@@ -44,11 +46,12 @@ def main():
 
 * The controls and logic that a user interacts with when using a GUI
 
-# ![](images/toga-widgets.png)
+![](images/toga-widgets.png)
 
 * A Canvas widget will be used as an example
 
 ---
+
 # Internal layers
 
 * The **Interface** layer
@@ -56,9 +59,12 @@ def main():
 * The **Implementation** layer
 
 * The **Native** layer
+
 ---
+
 <section data-background="/images/toga-architecture.svg" data-background-size="contain">
 </section>
+
 ---
 
 # Step 0
@@ -88,9 +94,9 @@ wxpython
 
 ```Python
 wx.Panel.Bind(wx.EVT_PAINT, OnPaint)
-def OnPaint(self, evt)
+def OnPaint(self, evt):
     dc = wx.PaintDC()
-    dc.SetBrush(wx.Brush(wx.Colour(200, 0, 0))
+    dc.SetBrush(wx.Brush(wx.Colour(200, 0, 0)))
     dc.DrawRectangle(10, 10, 100, 100)
 ```
 ---
@@ -139,7 +145,7 @@ the arc drawing object:
 
 import toga
 canvas = toga.Canvas(style=Pack(flex=1))
-with canvas.fill(color=rgb(200, 0, 0) as fill:
+with canvas.fill(color=rgb(200, 0, 0)) as fill:
     fill.rect(10, 10, 100, 100)
 ```
 ---
@@ -163,6 +169,7 @@ def rect(self, x, y, width, height):
 
     Args:
         x (float): x coordinate for the rectangle.
+	...
     """
 ```
 
@@ -170,9 +177,7 @@ def rect(self, x, y, width, height):
 
 # Step 3
 
-## Implement Toga_core
-### (with TDD)
-
+## Implement Toga_core (with TDD)
 * Write a test for each function of the widget outlined in the API from Step 3
 * Check that the tests fail
 * Specify the implementation layer API
@@ -206,7 +211,7 @@ def test_rect_modify():
 ## Code toga_core
 
 ```Python
-Class Canvas(Widget):
+class Canvas(Widget):
     def __init__(self, id=None, style=None, factory=None):
         super().__init__(id=id, style=style, factory=factory)
 
@@ -261,7 +266,7 @@ class Canvas(Widget):
     def create(self):
         self.native = Gtk.DrawingArea()
         self.native.interface = self.interface
-    	self.native.connect("draw", self.gtk_draw_callback)
+        self.native.connect("draw", self.gtk_draw_callback)
     
     def gtk_draw_callback(self, canvas, gtk_context):
         self.interface._draw(self, draw_context=gtk_context)
@@ -287,5 +292,3 @@ dan.yeaw.me
 linkedin.com/in/danyeaw  
   
 dan@yeaw.me  
-
----

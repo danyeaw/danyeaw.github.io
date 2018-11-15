@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about programming)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/programming.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2018 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; 
 &lt;a rel="license" href="http://creativecommons.org/licenses/by/4.0/"&gt;
 &lt;img alt="Creative Commons Licence" style="border-width:0; margin-bottom-12px"
-src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Sun, 11 Nov 2018 02:49:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
+src="https://i.creativecommons.org/l/by/4.0/88x31.png"&gt;&lt;/a&gt;</copyright><lastBuildDate>Thu, 15 Nov 2018 02:55:47 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>5 Steps to Build Python Native GUI Widgets for BeeWare</title><link>https://dan.yeaw.me/blog/gui-widget-for-beeware/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
 through languages like SysML to help design safety in to complex automated
 and electrified technologies. In my free time I took over maintaining a UML
 tool called &lt;a href="https://github.com/gaphor/gaphor"&gt;Gaphor&lt;/a&gt; with the aim of
@@ -185,7 +185,7 @@ the arc drawing object:
 
 import toga
 canvas = toga.Canvas(style=Pack(flex=1))
-with canvas.fill(color=rgb(200, 0, 0) as fill:
+with canvas.fill(color=rgb(200, 0, 0)) as fill:
     fill.rect(10, 10, 100, 100)
 &lt;/pre&gt;
 
