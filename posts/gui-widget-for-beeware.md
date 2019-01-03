@@ -7,7 +7,6 @@
 .. link: 
 .. description: Create your own Python native GUI widget for BeeWare with these 5 steps. 
 .. type: text
-.. status: draft
 -->
 
 Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
