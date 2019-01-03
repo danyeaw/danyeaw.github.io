@@ -7,74 +7,114 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://dan.yeaw.me/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2019-01-03T04:02:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2018/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T20:57:00Z</lastmod>
  </url>
  <url>
-  <loc>https://dan.yeaw.me/about-me/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <loc>https://dan.yeaw.me/2019/</loc>
+  <lastmod>2019-01-03T04:02:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/archive.html</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
- </url>
- <url>
-  <loc>https://dan.yeaw.me/blog/gui-widget-for-beeware/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2019-01-03T04:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2019-01-03T04:03:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/beeware-briefcase-python-poetry-packaging/</loc>
+  <lastmod>2019-01-03T04:02:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/beeware/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/briefcase/</loc>
+  <lastmod>2019-01-03T04:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_python/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/gui/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/packaging/</loc>
+  <lastmod>2019-01-03T04:03:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/poetry/</loc>
+  <lastmod>2019-01-03T04:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/programming/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/python/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/toga/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/widget/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <lastmod>2018-12-31T21:03:00Z</lastmod>
  </url>
  <url>
-  <loc>https://dan.yeaw.me/slides/</loc>
-  <lastmod>2018-11-10T20:00:00Z</lastmod>
+  <loc>https://dan.yeaw.me/pages/about-me/</loc>
+  <lastmod>2018-12-31T20:23:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/pages/slides/</loc>
+  <lastmod>2018-12-31T20:23:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/posts/gui-widget-for-beeware/</loc>
+  <lastmod>2018-12-31T20:47:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</loc>
+  <lastmod>2019-01-03T03:36:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/</loc>
-  <lastmod>2018-11-10T20:01:00Z</lastmod>
+  <lastmod>2019-01-03T01:40:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/markdown/example.html</loc>
-  <lastmod>2018-11-10T19:59:00Z</lastmod>
+  <lastmod>2018-12-31T20:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes-server/notes.html</loc>
-  <lastmod>2018-11-10T19:59:00Z</lastmod>
+  <lastmod>2018-12-31T20:46:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes/notes.html</loc>
-  <lastmod>2018-11-10T19:59:00Z</lastmod>
+  <lastmod>2018-12-31T20:46:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/</loc>
+  <lastmod>2019-01-03T03:50:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/markdown/example.html</loc>
+  <lastmod>2019-01-03T03:48:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes-server/notes.html</loc>
+  <lastmod>2019-01-03T03:48:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes/notes.html</loc>
+  <lastmod>2019-01-03T03:48:00Z</lastmod>
  </url>
 </urlset>

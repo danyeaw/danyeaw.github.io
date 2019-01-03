@@ -6,85 +6,406 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dan Yeaw's Blog</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-<link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
-<link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://dan.yeaw.me/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="blog/gui-widget-for-beeware/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/python-packaging-with-poetry-and-briefcase/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 
-<!-- Menubar -->
-
-<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
-<!-- This keeps the margins nice -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="https://dan.yeaw.me/">
-
-                <span id="blog-title">Dan Yeaw's Blog</span>
-            </a>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
         </div>
-<!-- /.navbar-header -->
-        <div class="collapse navbar-collapse" id="bs-navbar" role="navigation" aria-expanded="false">
-            <ul class="nav navbar-nav">
-<li>
-<a href="about-me/">About Me</a>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="https://dan.yeaw.me/">
+
+            <span id="blog-title">Dan Yeaw's Blog</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav"></ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item active">
+<a href="." class="nav-link">Posts <span class="sr-only">(active)</span></a>
                 </li>
-<li>
-<a href="slides/">Slides</a>
+<li class="nav-item">
+<a href="pages/about-me/" class="nav-link">About Me</a>
                 </li>
-<li>
-<a href="archive.html">Archive</a>
+<li class="nav-item">
+<a href="pages/slides/" class="nav-link">Slides</a>
                 </li>
-<li>
-<a href="categories/">Tags</a>
+<li class="nav-item">
+<a href="archive.html" class="nav-link">Archive</a>
                 </li>
-<li>
-<a href="rss.xml">RSS feed</a>
+<li class="nav-item">
+<a href="categories/" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="rss.xml" class="nav-link">RSS feed</a>
 
                 
             </li>
 </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!-- /.navbar-collapse -->
-    </div>
-<!-- /.container -->
-</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
     <div class="body-content">
         <!--Body content-->
-        <div class="row">
-            
-            
+        
+        
+    
+        
 
     
-
-
-    
-<div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="blog/gui-widget-for-beeware/" class="u-url">5 Steps to Build Python Native GUI Widgets for BeeWare</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Dan Yeaw
-            </span></p>
-            <p class="dateline"><a href="blog/gui-widget-for-beeware/" rel="bookmark"><time class="published dt-published" datetime="2018-11-03T20:36:00-05:00" title="2018-11-03 20:36">2018-11-03 20:36</time></a></p>
-                <p class="commentline">
+        
+    <div class="postindex">
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/python-packaging-with-poetry-and-briefcase/" class="u-url">How to Rock Python Packaging with Poetry and Briefcase</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Dan Yeaw
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/python-packaging-with-poetry-and-briefcase/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-01-02T23:01:00-05:00" itemprop="datePublished" title="2019-01-02 23:01">2019-01-02 23:01</time></a>
+            </p>
+                        <p class="commentline">
         
 
 
-        </p>
+                </p>
 </div>
-    </header><div class="e-content entry-content">
-    <div>
+            </header><div class="e-content entry-content">
+                    <div>
+<p>As part of modernizing <a href="https://github.com/gaphor/gaphas">Gaphas</a>, the
+diagramming widget for Python, I took another look at what the best practices
+are for packaging and releasing a new version of a Python library or
+application. There are new configuration formats and tools to make packaging
+and distributing your Python code much easier.</p>
+<h2>A Short Background on Packaging</h2>
+<p>There are two main use cases for packaging:</p>
+<ol>
+<li>Packaging a Library - software that other programs will make use of.</li>
+<li>Packaging an Application - software that a user will make use of.</li>
+</ol>
+<p>This may not be a completely accurate definition because software does not
+always fit cleanly in to one of these bins, but these use cases will help to
+keep focus on what exactly we are trying achieve with the packaging.</p>
+<h4>The Library</h4>
+<p>The goal for packaging a library is to place it on the Python Packaging Index
+(PyPI), so other projects can <code>pip install</code> it. In order to distribute a
+library, the standard format is the Wheel. It allows for providing a built</p>
+<p>distribution of files and metadata so that pip only needs to extract files out
+of the distribution and move them to the correct location on the target system
+for the package to be installed. In other words, nothing needs to be built and
+re-compiled.</p>
+<p>Previously if you wanted to
+achieve this, it was common to have four configuration files:</p>
+<ol>
+<li>setup.py - The setup script for building, distributing and installing
+  modules using the Distutils.</li>
+<li>requirements.txt - Allow easy install of requirements using <code>pip install -r</code>
+</li>
+<li>setup.cfg - The setup configuration file</li>
+<li>MANIFEST.in - The manifest template, directs sdist how to generate
+  a manifest</li>
+</ol>
+<h4>The Application</h4>
+<p>The goal for packaging an application is get it in the formats where you can
+distribute it on the different platforms for easy installation by your users.
+For Windows this is often an exe or msi. For macOS this is an app. For Linux
+this is a deb, flatpak, appimage, or snap. There is a whole host of tools to
+do this like:
+<a href="https://py2exe.org">py2exe</a>, <a href="https://py2app.readthedocs.io/">py2app</a>,
+<a href="https://cx-freeze.readthedocs.io/">cx_Freeze</a>,
+<a href="https://pyinstaller.readthedocs.io/">PyInstaller</a>, and
+<a href="https://github.com/jaredks/rumps">rumps</a>.</p>
+<h4>pyproject.toml</h4>
+<p>On the packaging front, in May of 2016,
+<a href="https://www.python.org/dev/peps/pep-0518/">PEP 518</a> was created. The PEP does
+a good job of describing all of the shortcoming of the setup script method to
+specify build requirements. The PEP also specified a new configuration format
+call pyproject.toml. If you aren't familiar with TOML, it is human-usable and is
+more simple than YAML.</p>
+<p>The pyproject.toml replaced those four configuration files above using two main
+sections:</p>
+<ol>
+<li>
+<code>[build-system]</code> - The build-system table contains the minimum requirements
+  for the build system to execute.</li>
+<li>
+<code>[tool]</code> - The tool table is where different tools can have users specify
+  configuration data.</li>
+</ol>
+<h4>The Tools</h4>
+<p>Making use of this new configuration format, a tool called
+<a href="https://github.com/takluyver/flit">flit</a> has been around since 2015 as a
+simple way to put Python Libraries on PyPI.</p>
+<p>In 2017,
+<a href="https://github.com/pypa/pipenv">Pipenv</a> was created to solve pain points about
+managing virtualenvs and dependencies for Python Applications by using a new
+Pipfile to manage dependencies. The other major enhancement was the use of a
+lock file. While a Wheel is the important output for a Library, for an
+Application, the lock file becomes the important thing created for the project.
+The lock file contains the exact version of every dependency so that it can be
+repeatably rebuilt.</p>
+<p>In 2018, a new project called <a href="https://github.com/sdispater/poetry">Poetry</a>
+combined some of the ideas from flit and Pipenv to create a new tool that aims
+to further simplify and improve packaging. Like flit, Poetry makes use of the
+pyproject.toml to manage configuration all in one place. Like Pipenv, Poetry
+uses a lock file (poetry.lock) and will automatically create a virtualenv
+if one does not already exist. It also has other advantages like exhaustive
+dependency resolution that we will explore more thoroughly below.</p>
+<p>For Application distribution, I am going to focus on a single tool called
+<a href="https://briefcase.readthedocs.io/">Briefcase</a> which along with the other set
+of <a href="https://pybee.org">BeeWare</a> tools and libraries allows for you to
+distribute your program as a native application to Windows, Linux, macOS, iOS,
+Android, and the web.</p>
+<h2>Tutorial</h2>
+<p>With the background information out of the way, lets work through how you can
+create a new Python project from scratch, and then package and distribute it.</p>
+<h4>Initial Tool Installation</h4>
+<p>To do that, I am going to introduce one more tool (the last one I promise!)
+called <a href="https://cookiecutter.readthedocs.io/">cookiecutter</a>. Cookiecutter
+provides Python project templates, so that you can quickly get up to speed
+creating a project that can be packaged and distributed without creating a
+bunch of files and boilerplate manually.</p>
+<p>To install cookiecutter, depending on your setup and operating system, from a
+virtualenv you can run:</p>
+<pre class="code literal-block"><span></span>$ pip install cookiecutter
+</pre>
+
+
+<p>Next we are going to install Poetry. The recommended way is to run:</p>
+<pre class="code literal-block"><span></span>$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py <span class="p">|</span> python
+</pre>
+
+
+<h4>TestPyPI Account Sign-Up</h4>
+<p>As part of this tutorial we will be publishing packages. If you don't already
+have an account, please register for an account on
+<a href="https://test.pypi.org/account/register/">TestPyPI</a>. TestPyPI allows you to try
+distribution tools and processes without affecting the real PyPI.</p>
+<h4>Create Your Project</h4>
+<p>To create the Python project, we are going to use the Briefcase template, so
+run <code>cookiecutter</code> on this template:</p>
+<pre class="code literal-block"><span></span>$ cookiecutter https://github.com/pybee/briefcase-template
+</pre>
+
+
+<p>Cookiecutter will ask you for information about the project like the name,
+description, and software licence. Once this is finished, add any additional
+code to your project, or just keep it as is for this demo.</p>
+<p>Change your directory to the app name you gave (I called mine dantestapp), and
+initialize git:</p>
+<pre class="code literal-block"><span></span>$ <span class="nb">cd</span> dantestapp
+$ git init
+$ git add .
+</pre>
+
+
+<h4>Create a pyproject.toml Configuration</h4>
+<p>Poetry comes equipped to create a pyproject.toml file for your project, which
+makes it easy to add it to an existing or new project. To initiliaze the
+configuration run:</p>
+<pre class="code literal-block"><span></span>$ poetry init
+</pre>
+
+
+<p>The command guides you through creating your pyproject.toml config. It
+automatically pulls in the configuration values from the briefcase-template
+that we created earlier so using the default values by hitting enter after the
+first six questions will be fine. This is what it provided for an output:</p>
+<pre class="code literal-block"><span></span>Package name <span class="o">[</span>dantestapp<span class="o">]</span>: 
+Version <span class="o">[</span><span class="m">0</span>.1.0<span class="o">]</span>: 
+Description <span class="o">[]</span>: 
+Author <span class="o">[</span>Dan Yeaw &lt;dan@yeaw.me&gt;, n to skip<span class="o">]</span>: 
+License <span class="o">[]</span>: MIT
+Compatible Python versions <span class="o">[</span>^3.7<span class="o">]</span>: 
+</pre>
+
+
+<h5>Define Dependencies</h5>
+<p>The configuration generator then asks for you to define your dependencies:</p>
+<pre class="code literal-block"><span></span>Would you like to define your dependencies <span class="o">(</span>require<span class="o">)</span> interactively? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>
+</pre>
+
+
+<p>Hit enter for yes.</p>
+<p>For the next prompt <code>Search for package:</code> enter in briefcase. We are setting
+briefcase as a dependency for our project to run.</p>
+<pre class="code literal-block"><span></span>Enter package <span class="c1"># to add, or the complete package name if it is not listed: </span>
+ <span class="o">[</span><span class="m">0</span><span class="o">]</span> briefcase
+ <span class="o">[</span><span class="m">1</span><span class="o">]</span> django-briefcase
+</pre>
+
+
+<p>Type 0 to select the first option. and hit enter to select the latest version.
+You now need to repeat this process to also add Toga as a dependency. Toga is
+the native cross-platform GUI toolkit. Once you are done, hit enter again to
+complete searching for other dependencies.</p>
+<h5>Define Development Dependencies</h5>
+<p>At the next prompt the config generator is now asking us to define our development
+dependencies:</p>
+<pre class="code literal-block"><span></span>Would you like to define your dev dependencies <span class="o">(</span>require-dev<span class="o">)</span> interactively <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>
+</pre>
+
+
+<p>Hit enter to select the default value which is yes.</p>
+<p>We are going to make <a href="https://pytest.org">pytest</a> a development dependency for
+the project.</p>
+<p>At the prompt <code>Search for package:</code> enter in pytest.</p>
+<pre class="code literal-block"><span></span>Found <span class="m">100</span> packages matching pytest
+
+Enter package <span class="c1"># to add, or the complete package name if it is not listed: </span>
+ <span class="o">[</span> <span class="m">0</span><span class="o">]</span> pytest
+</pre>
+
+
+<p>You will get a long list of pytest packages. Type 0 to select the first option.
+and hit enter to select the latest version. Then hit enter again to complete
+searching for other development dependencies.</p>
+<h5>Complete the Configuration</h5>
+<p>The final step of the configuration generator summaries the configuration that it created.
+Notice that first three sections are tool tables for Poetry, and the final one is
+the build-system table.</p>
+<pre class="code literal-block"><span></span><span class="o">[</span>tool.poetry<span class="o">]</span>
+<span class="nv">name</span> <span class="o">=</span> <span class="s2">"dantestapp"</span>
+<span class="nv">version</span> <span class="o">=</span> <span class="s2">"0.1.0"</span>
+<span class="nv">description</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="nv">authors</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"Dan Yeaw &lt;dan@yeaw.me&gt;"</span><span class="o">]</span>
+<span class="nv">license</span> <span class="o">=</span> <span class="s2">"MIT"</span>
+
+<span class="o">[</span>tool.poetry.dependencies<span class="o">]</span>
+<span class="nv">python</span> <span class="o">=</span> <span class="s2">"^3.7"</span>
+<span class="nv">briefcase</span> <span class="o">=</span> <span class="s2">"^0.2.8"</span>
+<span class="nv">toga</span> <span class="o">=</span> <span class="s2">"^0.2.15"</span>
+
+<span class="o">[</span>tool.poetry.dev-dependencies<span class="o">]</span>
+<span class="nv">pytest</span> <span class="o">=</span> <span class="s2">"^4.0"</span>
+
+<span class="o">[</span>build-system<span class="o">]</span>
+<span class="nv">requires</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"poetry&gt;=0.12"</span><span class="o">]</span>
+build-backend <span class="o">=</span> <span class="s2">"poetry.masonry.api"</span>
+</pre>
+
+
+<p>The dependencies use a "caret requirement", like <code>python = "^3.7"</code>. This makes
+use of <a href="https://semver.org/">semantic versioning</a>. So in this example if Python 3.8
+is released, then it will automatically update to this version. But, it won't
+update to 4.0 automatically, since that is a major version change. If we put in
+our configuration <code>"^3.7.2"</code>, then it would automatically update to
+3.7.3 which it is released, but not 3.8, since that is a new minor version.</p>
+<p>There are also "tilde requirements" that are more restrictive. So if you enter `python = "~3.7"
+it will only allow update to the next patch level, like from 3.7.2 to 3.7.3. The combination
+of caret and tilde requirements allows you to get updates to your dependencies when they are released, but
+puts you in control to ensure that incompatible changes won't break your app. Nice!</p>
+<p>The final prompt asks: <code>Do you confim generation? (yes/no) [yes]</code>. Go ahead 
+and hit enter to confirm. Congrats, you have generated a pyproject.toml
+configuration!</p>
+<h4>Install Dependencies</h4>
+<p>OK, the hard work is over, we have created our project and finished the configuration.
+Now it is time to see how Poetry and Briefcase really shines.</p>
+<p>To install the dependencies that you defined in the pyproject.toml, just run:</p>
+<pre class="code literal-block"><span></span>$ poetry install
+</pre>
+
+
+<p>Poetry includes an exhaustive dependency resolver, so it will now resolve all of the
+dependencies it needs to install Briefcase, Toga, and pytest. It will also create
+a <code>poetry.lock</code> file which ensures that anyone using your program would get the
+exact same set of dependencies that you used and tested with.</p>
+<p>Notice that we also did not create or specify a virtual environment. Poetry automatically
+creates one prior to installing packages, if one isn't already activated. If you
+would like to see which packages are installed and which virtual environment
+Poetry is using you can run:</p>
+<pre class="code literal-block"><span></span>$ poetry show -v
+or
+$ poetry config --list
+</pre>
+
+
+<h4>Bundle and Run your Application for Platform Distribution</h4>
+<p>For a Python Application, you want to bundle the application and all of its
+dependencies into a single package so that it can easily be installed on a users
+platform without the user manually install Python and other modules.</p>
+<p>Briefcase allows you to package and run your app using your platform:</p>
+<pre class="code literal-block"><span></span><span class="o">(</span>Windows<span class="o">)</span> $ poetry run python setup.py windows -s
+<span class="o">(</span>macOS<span class="o">)</span>   $ poetry run python setup.py macos -s
+<span class="o">(</span>Linux<span class="o">)</span>   $ poetry run python setup.py linux -s
+</pre>
+
+
+<p>Your app will launch, will just be a blank window at this point.</p>
+<p>Also notice that it creates a folder with the platform name that you used
+above. Inside this folder, Briefcase has packaged your app for distribution on
+your platform. Briefcase also has distribution options for android, ios, and
+django.</p>
+<h4>Build your Library for Distribution on PyPI</h4>
+<pre class="code literal-block"><span></span>$ poetry build
+
+Building dantestapp <span class="o">(</span><span class="m">0</span>.1.0<span class="o">)</span>
+ - Building sdist
+ - Built dantestapp-0.1.0.tar.gz
+
+ - Building wheel
+ - Built dantestapp-0.1.0-py3-none-any.whl
+</pre>
+
+
+<p>The source distribution (sdist) and wheel are now in a new <code>dist</code> folder.</p>
+<h4>Publish your Library to PyPI</h4>
+<p>First we are going to add the TestPyPI repository to Poetry, so that it knows
+where to publish to. The default location is to the real PyPI.</p>
+<pre class="code literal-block"><span></span>$ poetry config repositories.test-pypi https://test.pypi.org/legacy/
+</pre>
+
+
+<p>Now simply run:</p>
+<pre class="code literal-block"><span></span>$ poetry publish -r test-pypi
+</pre>
+
+
+<p>The <code>-r</code> argument tells Poetry to use the repository that we configured. Poetry
+then will ask for your username and password. Congrats! Your package is now
+available to be viewed at https://test.pypi.org/project/your-project-name/ and
+can be pip installed with <code>pip install -i https://test.pypi.org/simple/
+your-project-name</code>.</p>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/gui-widget-for-beeware/" class="u-url">5 Steps to Build Python Native GUI Widgets for BeeWare</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Dan Yeaw
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/gui-widget-for-beeware/" rel="bookmark">
+            <time class="published dt-published" datetime="2018-11-03T20:36:00-05:00" itemprop="datePublished" title="2018-11-03 20:36">2018-11-03 20:36</time></a>
+            </p>
+                        <p class="commentline">
+        
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <div>
 <p>Part of my work at Ford Motor Company is to use Model-Based Systems Engineering
 through languages like SysML to help design safety in to complex automated
 and electrified technologies. In my free time I took over maintaining a UML
@@ -471,34 +792,37 @@ properly with your platform, you now should have a complete widget!</p>
 experience creating a widget.  </p>
 <p>2018-11-10: minor editorial updates.</p>
 </div>
-    </div>
-    </article>
+                </div>
+            </article>
 </div>
+    
 
-
-
+    
         
 
 
+    
 
 
-
-        </div>
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2018         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-<img alt="Creative Commons Licence" style="border-width:0; margin-bottom-12px" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>
+            Contents © 2019         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>
 </div>
 
 
-            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+        <script src="assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
     moment.locale("en");
     fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates -->
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
 </body>
 </html>
