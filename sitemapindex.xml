@@ -6,10 +6,6 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
-  <loc>https://dan.yeaw.me/categories/beeware-briefcase-python-poetry-packaging.xml</loc>
-  <lastmod>2019-01-03T04:02:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://dan.yeaw.me/categories/beeware.xml</loc>
   <lastmod>2019-01-03T04:03:00Z</lastmod>
  </sitemap>
@@ -55,6 +51,6 @@
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/sitemap.xml</loc>
-  <lastmod>2019-01-03T04:04:00Z</lastmod>
+  <lastmod>2019-01-04T00:12:00Z</lastmod>
  </sitemap>
 </sitemapindex>
