@@ -616,3 +616,4 @@
 'render_taxonomies:output/categories/poetry/index.html', (650240, 2325)
 'render_taxonomies:output/categories/poetry.xml', (654336, 655)
 'render_taxonomies:output/categories/packaging.xml', (655360, 655)
+'copy_files:output/slides/python-packaging-with-poetry-and-briefcase/slides.md', (656384, 340)
