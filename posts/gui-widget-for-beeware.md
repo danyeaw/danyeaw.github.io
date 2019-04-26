@@ -74,11 +74,23 @@ There are three internal layers that make up every widget:
 2. The **Implementation** layer
 3. The **Native** layer  
   
-  
-![Software architecture of Toga](/images/toga-architecture.svg)
+![Toga Blackbox](/images/toga-blackbox.svg)
 
-The Interface layer provides the public API for the GUI application that you
-are building. This is the code you will type to build your app using Toga.
+As the input to Toga, the Interface layer provides the public API for the GUI
+application that you are building. This is the code you will type to build your
+app using Toga.
+
+As the output of Toga, the Native layer connects the Toga_impl's to the Native
+Platform. For C language based platforms, Toga directly calls the native
+widgets. For example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+
+widgets through PyGObject. For other platforms, more intermediate work may be
+required through a bridge or transpiler:
+
+* macOS and iOS, the Rubicon-ObjC project provides a bridge between Objective-C and Python.
+* Web, Batavia provides a javascript implementation of the Python virtual machine. 
+* Android, VOC is a transpiler that converts Python in to Java bytecode.
+
+![Toga Whitebox](/images/toga-whitebox.svg)
 
 The Interface layer calls public methods that are in the Toga_core portion of
 the project and this is where this Interface layer API is defined. Toga_core
@@ -86,21 +98,21 @@ also provides any abstract functionality that is independent of the platform
 that Toga is running on, like setting up and running the app itself.
 
 The Implementation layer connects Toga_core to the Toga_impl component.
-Toga_impl is the platform backends like Toga_ios, Toga_cocoa, and Toga_gtk. A
-factory method in Toga_core automatically selects and initializes the correct
-implementation objects based on the platform it is running on. Toga_dummy is
-also a type of Toga_impl backend, and it is used for smoke testing without a
-specific platform to find simple failures.
 
-The Native layer connects the Toga_impl's to the Native Platform. For C
-language based platforms, Toga_impl directly call the native widgets. For
-example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+ widgets
-through PyGObject. For other platforms, more intermediate work may be required
-through a bridge or transpiler:
+![Factory Method](/images/factory-method.svg)
 
-* macOS and iOS, the Rubicon-ObjC project provides a bridge between Objective-C and Python.
-* Web, Batavia provides a javascript implementation of the Python virtual machine. 
-* Android, VOC is a transpiler that converts Python in to Java bytecode.
+Toga uses the Factory Method design pattern in order to improve testability.
+This pattern creates objects using a factory method instead of directly
+calling a constructor. In Toga, this factory method is in Toga_core and it is
+used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
+or Toga_gtk. The factory method automatically selects the correct backend based
+on the `sys.platform` of the platform it is running on.
+
+Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
+without a specific platform to find simple failures. When tests are initialized,
+Toga_dummy is passed in as the factory. This allows the tests and the creation
+of objects to be separated which improves maintainability and makes the test
+code easier to read.
 
 I know there is a lot there, but understanding the software architecture of
 Toga together with the surrounding projects and interfaces will be key to
