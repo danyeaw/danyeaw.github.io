@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>5 Steps to Build Python Native GUI Widgets for BeeWare</title>
+    <link rel="stylesheet" href="./css/reveal.css" />
+    <link rel="stylesheet" href="./css/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+    <link rel="stylesheet" href="./css/print/paper.css" type="text/css" media="print" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+## 5 Steps to Build Python Native GUI Widgets for
+
+![BeeWare Logo](images/beeware-logo.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+BeeWare is
+
+Software libraries for cross-platform native app development from a single Python codebase
+
+and
+
+Tools to simplify app deployment
+</script></section><section  data-markdown><script type="text/template">
+# Hello World
+
+![Hello World Example](images/hello-world.svg)
+<!-- .element style="border: 0; height: 500px; box-shadow: None" -->
+
+<aside class="notes"><p>import toga</p>
+<p>class HelloWorld(toga.App):
+    def startup(self):
+        self.main_window = toga.MainWindow(title=self.name)
+        main_box = toga.Box()
+        self.main_window.content = main_box
+        self.main_window.show()</p>
+<p>def main():
+    return HelloWorld(&#39;Hello World&#39;, &#39;org.pybee.helloworld&#39;)</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+# Background
+
+A widget is the controls and logic that a user interacts with when using a GUI
+
+![Example Widgets](images/toga-widgets.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+A Canvas widget will be used as an example
+</script></section><section  data-markdown><script type="text/template">
+# Toga Blackbox
+
+![Context Diagram](images/toga-blackbox.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+# Toga Whitebox
+
+![Context Diagram](images/toga-whitebox.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+# Toga_Impl Factory Pattern
+
+![Factory Pattern](images/factory-pattern.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+# Step 0
+## development platform
+* Normally pick the platform that you are most familiar with
+* macOS and Gtk+ are the most developed 👍
+* Is this a mobile only widget (camera, GPS, etc)?
+</script></section><section  data-markdown><script type="text/template">
+# Step 1
+## Research your widget
+* How do you create this widget on different platforms
+* Think, brainstorm, whiteboard, and discuss how you would want to create and manipulate this widget with Python
+</script></section><section  data-markdown><script type="text/template">## Research your widget
+Tkinter
+
+![Research Examples](images/research-tkinter.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>import tkinter as tk</p>
+<p>root = Tk()
+canvas = tk.Canvas()
+canvas.create_rectangle(10, 10, 100, 100, fill=&quot;red&quot;)
+canvas.pack()
+root.mainloop()</p>
+<p>4 Steps:
+Create, Configure, Pack, and Bind</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Research your widget
+GTK
+
+![Research Examples](images/research-gtk.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>drawingarea = Gtk.DrawingArea()
+drawingarea.connect(&quot;draw&quot;, draw)
+def draw(da, ctx):
+    ctx.set_source_rgb(200, 0, 0)
+    ctx.rectangle(10, 10, 100, 100)
+    ctx.fill()</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+##  Research your widget
+Use Cases
+
+![Use Cases](images/usecases.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+# Step 2
+
+## Interface layer: Pythonic API
+* Write your API documentation first
+* The API provides the set of clearly defined methods of communication (layers) between the software components
+* Documentation Driven Development
+* This is iterative with Step 1
+</script></section><section  data-markdown><script type="text/template">## Write Docs
+
+![Write Docs](images/write-docs.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>The canvas is used for creating a blank widget that you can
+draw on.</p>
+<h2 id="usage">Usage</h2>
+<p>An example of simple usage is to draw a colored rectangle on
+the screen using the <code>rect</code> drawing object:</p>
+<p>import toga
+canvas = toga.Canvas(style=Pack(flex=1))
+with canvas.fill(color=rgb(200, 0, 0)) as fill:
+    fill.rect(10, 10, 100, 100)</p>
+</aside></script></section><section  data-markdown><script type="text/template">## Write Code Outline
+![Canvas Outline](images/outline-canvas.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>class Canvas(Context, Widget):
+    &quot;&quot;&quot;Create new canvas.</p>
+<pre><code>Args:
+    id (str):  An identifier for this widget.
+    style (:obj:`Style`): An optional style object. 
+    factory (:obj:`module`): A python module that is
+        capable to return a implementation of this class.
+
+ &quot;&quot;&quot;
+</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+# Step 3
+
+## Implement Toga_core
+### (with TDD)
+* Write a test for each function of the widget outlined in the API from Step 2
+* Check that the tests fail
+* Specify the implementation layer API
+* Write the core code for the widget to call the implementation layer
+</script></section><section  data-markdown><script type="text/template">
+## Write tests for Toga_core
+
+![Test Creation](images/toga_core-test-creation.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>def test_widget_created():
+    assertEqual(canvas._impl.interface, canvas)
+    self.assertActionPerformed(canvas, &quot;create Canvas&quot;)</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Write tests for Toga_core
+
+![Test Creation](images/toga_core-test-modify.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>def test_rect_modify():
+    rect = canvas.rect(-5, 5, 10, 15)
+    rect.x = 5
+    rect.y = -5
+    rect.width = 0.5
+    rect.height = -0.5
+    canvas.redraw()
+    self.assertActionPerformedWith(
+            canvas, &quot;rect&quot;, x=5, y=-5, width=0.5, height=-0.5
+        )</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+## Code toga_core
+
+![Canvas Outline](images/code-toga_core.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>class Canvas(Widget):
+    def <strong>init</strong>(self, id=None, style=None, factory=None):
+        super().<strong>init</strong>(id=id, style=style, factory=factory)</p>
+<pre><code>    # Create a platform specific implementation of Canvas
+    self._impl = self.factory.Canvas(interface=self)
+
+def rect(self, x, y, width, height):
+    self.impl.rect(
+        self.x, self.y, self.width, self.height
+    )
+</code></pre></aside></script></section><section  data-markdown><script type="text/template"># Step 4
+## Implement Toga_impl
+### dummy backend
+
+* Dummy is for automatic testing without a native platform
+* Code the implementation layer API endpoint, create a method for each call of the API
+* Check that all tests now pass</script></section><section  data-markdown><script type="text/template">## Implement Toga_impl
+### dummy backend
+
+![Dummy Backend](images/toga_impl-dummy-backend.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>class Canvas(Widget):
+    def create(self):
+        self._action(&quot;create Canvas&quot;)</p>
+<pre><code>def rect(self, x, y, width, height):
+    self._action(
+        &quot;rect&quot;, x=x, y=y, width=width, height=height
+    )
+</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+# Step 5
+## Implement Toga_impl
+### your platform
+
+* Copy toga_dummy and create a new endpoint for the platform you chose in Step 1
+* Make use of the native interface API for this widget on your platform
+</script></section><section  data-markdown><script type="text/template">
+## Implement Toga_impl
+### your platform
+
+![Canvas Outline](images/toga_impl-platform-backend.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>class Canvas(Widget):
+    def create(self):
+        self.native = Gtk.DrawingArea()
+        self.native.interface = self.interface
+        self.native.connect(&quot;draw&quot;, self.gtk_draw_callback)</p>
+<pre><code>def gtk_draw_callback(self, canvas, gtk_context):
+    self.interface._draw(self, draw_context=gtk_context)
+
+def rect(self, x, y, width, height, draw_context):
+    draw_context.rectangle(x, y, width, height)
+</code></pre></aside></script></section><section  data-markdown><script type="text/template"># ![](images/tutorial-4.png)  
+## Submit a pull request!  
+  
+## 🎉👍💖
+</script></section><section  data-markdown><script type="text/template">
+@danyeaw  
+  
+github.com/danyeaw  
+  
+dan.yeaw.me  
+  
+linkedin.com/in/danyeaw  
+  
+dan@yeaw.me  
+</script></section></div>
+    </div>
+
+    <script src="./lib/js/head.min.js"></script>
+    <script src="./js/reveal.js"></script>
+
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // Optional libraries used to extend on reveal.js
+      var deps = [
+        { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+        { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+        { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: './plugin/zoom-js/zoom.js', async: true },
+        { src: './plugin/notes/notes.js', async: true },
+        { src: './plugin/math/math.js', async: true }
+      ];
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        dependencies: deps
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal.getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"none","slideNumber":"c","controls":false,"progress":false}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
