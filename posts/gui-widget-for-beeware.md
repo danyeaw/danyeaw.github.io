@@ -74,7 +74,7 @@ There are three internal layers that make up every widget:
 2. The **Implementation** layer
 3. The **Native** layer  
   
-![Toga Blackbox](/images/toga-blackbox.svg)
+<img src="/images/toga-blackbox.svg" alt="Toga Blackbox" height="200"/>
 
 As the input to Toga, the Interface layer provides the public API for the GUI
 application that you are building. This is the code you will type to build your
@@ -90,7 +90,7 @@ required through a bridge or transpiler:
 * Web, Batavia provides a javascript implementation of the Python virtual machine. 
 * Android, VOC is a transpiler that converts Python in to Java bytecode.
 
-![Toga Whitebox](/images/toga-whitebox.svg)
+<img src="/images/toga-whitebox.svg" alt="Toga Whitebox" height="175"/>
 
 The Interface layer calls public methods that are in the Toga_core portion of
 the project and this is where this Interface layer API is defined. Toga_core
@@ -99,7 +99,7 @@ that Toga is running on, like setting up and running the app itself.
 
 The Implementation layer connects Toga_core to the Toga_impl component.
 
-![Factory Method](/images/factory-method.svg)
+<img src="/images/factory-pattern.svg" alt="Factory Method" height="300"/>
 
 Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
@@ -145,8 +145,8 @@ platforms:
 
 * Tkinter
 ```Python
-canvas = Tk.Canvas()
-canvas.create_rectangle(10, 10, 100, 100, fill="C80000")
+canvas = tk.Canvas()
+canvas.create_rectangle(10, 10, 100, 100, fill="red")
 canvas.pack()
 ```
 * wxpython
@@ -285,14 +285,17 @@ then back across the Implementation layer to the Toga_core. The object should be
 equal as long as it was created successfully. The second line of the test
 ```assertActionPerformed``` is using the dummy backend to test that the canvas was
 created, and I'll discuss that more in Step 4 below.
+
 ```Python
 def test_widget_created():
     assertEqual(canvas._impl.interface, canvas)
     self.assertActionPerformed(canvas, "create Canvas")
-````
+```
+
 Further along in my test creation I also wanted to check that the user could modify
 a widget that was already created. So I created a test that modifies the coordinates
 and size of a rectangle. 
+
 ```Python
 def test_rect_modify():
     rect = canvas.rect(-5, 5, 10, 15)
@@ -305,6 +308,7 @@ def test_rect_modify():
     	    canvas, "rect", x=5, y=-5, width=0.5, height=-0.5
         )
 ```
+
 Once you are done creating your tests and make sure that they are failing as
 expected, it is time to move on to filling in all of those Toga_core classes
 and objects that you left blank in the previous step.
