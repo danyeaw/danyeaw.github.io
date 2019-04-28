@@ -419,7 +419,8 @@ properly with your platform, you now should have a complete widget!
 Tada! You did it, Submit a PR!
 
 I would be interested in how it goes for you, drop me a line with your
-experience creating a widget.  
+experience creating a widget.
+
   
-  
-2018-11-10: minor editorial updates.
+2018-11-10: Minor editorial updates.
+2019-04-27: Split Toga Architecture diagram up to make it more clear.
