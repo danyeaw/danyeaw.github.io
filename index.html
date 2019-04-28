@@ -459,29 +459,38 @@ how you could contribute your own widget to the project.</p>
 <li>The <strong>Implementation</strong> layer</li>
 <li>The <strong>Native</strong> layer  </li>
 </ol>
-<p><img alt="Software architecture of Toga" src="images/toga-architecture.svg"></p>
-<p>The Interface layer provides the public API for the GUI application that you
-are building. This is the code you will type to build your app using Toga.</p>
-<p>The Interface layer calls public methods that are in the Toga_core portion of
-the project and this is where this Interface layer API is defined. Toga_core
-also provides any abstract functionality that is independent of the platform
-that Toga is running on, like setting up and running the app itself.</p>
-<p>The Implementation layer connects Toga_core to the Toga_impl component.
-Toga_impl is the platform backends like Toga_ios, Toga_cocoa, and Toga_gtk. A
-factory method in Toga_core automatically selects and initializes the correct
-implementation objects based on the platform it is running on. Toga_dummy is
-also a type of Toga_impl backend, and it is used for smoke testing without a
-specific platform to find simple failures.</p>
-<p>The Native layer connects the Toga_impl's to the Native Platform. For C
-language based platforms, Toga_impl directly call the native widgets. For
-example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+ widgets
-through PyGObject. For other platforms, more intermediate work may be required
-through a bridge or transpiler:</p>
+<p><img src="images/toga-blackbox.svg" alt="Toga Blackbox" height="200"></p>
+<p>As the input to Toga, the Interface layer provides the public API for the GUI
+application that you are building. This is the code you will type to build your
+app using Toga.</p>
+<p>As the output of Toga, the Native layer connects the Toga_impl's to the Native
+Platform. For C language based platforms, Toga directly calls the native
+widgets. For example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+
+widgets through PyGObject. For other platforms, more intermediate work may be
+required through a bridge or transpiler:</p>
 <ul>
 <li>macOS and iOS, the Rubicon-ObjC project provides a bridge between Objective-C and Python.</li>
 <li>Web, Batavia provides a javascript implementation of the Python virtual machine. </li>
 <li>Android, VOC is a transpiler that converts Python in to Java bytecode.</li>
 </ul>
+<p><img src="images/toga-whitebox.svg" alt="Toga Whitebox" height="175"></p>
+<p>The Interface layer calls public methods that are in the Toga_core portion of
+the project and this is where this Interface layer API is defined. Toga_core
+also provides any abstract functionality that is independent of the platform
+that Toga is running on, like setting up and running the app itself.</p>
+<p>The Implementation layer connects Toga_core to the Toga_impl component.</p>
+<p><img src="images/factory-pattern.svg" alt="Factory Method" height="300"></p>
+<p>Toga uses the Factory Method design pattern in order to improve testability.
+This pattern creates objects using a factory method instead of directly
+calling a constructor. In Toga, this factory method is in Toga_core and it is
+used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
+or Toga_gtk. The factory method automatically selects the correct backend based
+on the <code>sys.platform</code> of the platform it is running on.</p>
+<p>Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
+without a specific platform to find simple failures. When tests are initialized,
+Toga_dummy is passed in as the factory. This allows the tests and the creation
+of objects to be separated which improves maintainability and makes the test
+code easier to read.</p>
 <p>I know there is a lot there, but understanding the software architecture of
 Toga together with the surrounding projects and interfaces will be key to
 implementing your own widget. With that background information out of the way,
@@ -513,8 +522,8 @@ platforms:</p>
 <ul>
 <li>Tkinter</li>
 </ul>
-<pre class="code literal-block"><span></span><span class="n">canvas</span> <span class="o">=</span> <span class="n">Tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">()</span>
-<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">"C80000"</span><span class="p">)</span>
+<pre class="code literal-block"><span></span><span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">()</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
 <span class="n">canvas</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
 </pre>
 
@@ -661,12 +670,13 @@ created, and I'll discuss that more in Step 4 below.</p>
 <pre class="code literal-block"><span></span><span class="k">def</span> <span class="nf">test_widget_created</span><span class="p">():</span>
     <span class="n">assertEqual</span><span class="p">(</span><span class="n">canvas</span><span class="o">.</span><span class="n">_impl</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertActionPerformed</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="s2">"create Canvas"</span><span class="p">)</span>
-<span class="sb">````</span>
-<span class="n">Further</span> <span class="n">along</span> <span class="ow">in</span> <span class="n">my</span> <span class="n">test</span> <span class="n">creation</span> <span class="n">I</span> <span class="n">also</span> <span class="n">wanted</span> <span class="n">to</span> <span class="n">check</span> <span class="n">that</span> <span class="n">the</span> <span class="n">user</span> <span class="n">could</span> <span class="n">modify</span>
-<span class="n">a</span> <span class="n">widget</span> <span class="n">that</span> <span class="n">was</span> <span class="n">already</span> <span class="n">created</span><span class="o">.</span> <span class="n">So</span> <span class="n">I</span> <span class="n">created</span> <span class="n">a</span> <span class="n">test</span> <span class="n">that</span> <span class="n">modifies</span> <span class="n">the</span> <span class="n">coordinates</span>
-<span class="ow">and</span> <span class="n">size</span> <span class="n">of</span> <span class="n">a</span> <span class="n">rectangle</span><span class="o">.</span> 
-<span class="sb">``</span><span class="err">`</span><span class="n">Python</span>
-<span class="k">def</span> <span class="nf">test_rect_modify</span><span class="p">():</span>
+</pre>
+
+
+<p>Further along in my test creation I also wanted to check that the user could modify
+a widget that was already created. So I created a test that modifies the coordinates
+and size of a rectangle. </p>
+<pre class="code literal-block"><span></span><span class="k">def</span> <span class="nf">test_rect_modify</span><span class="p">():</span>
     <span class="n">rect</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
     <span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Python)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_python.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Thu, 03 Jan 2019 04:03:00 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;As part of modernizing &lt;a href="https://github.com/gaphor/gaphas"&gt;Gaphas&lt;/a&gt;, the
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Python)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_python.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Sun, 28 Apr 2019 00:27:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;As part of modernizing &lt;a href="https://github.com/gaphor/gaphas"&gt;Gaphas&lt;/a&gt;, the
 diagramming widget for Python, I took another look at what the best practices
 are for packaging and releasing a new version of a Python library or
 application. There are new configuration formats and tools to make packaging
@@ -342,29 +342,38 @@ how you could contribute your own widget to the project.&lt;/p&gt;
 &lt;li&gt;The &lt;strong&gt;Implementation&lt;/strong&gt; layer&lt;/li&gt;
 &lt;li&gt;The &lt;strong&gt;Native&lt;/strong&gt; layer  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img alt="Software architecture of Toga" src="https://dan.yeaw.me/images/toga-architecture.svg"&gt;&lt;/p&gt;
-&lt;p&gt;The Interface layer provides the public API for the GUI application that you
-are building. This is the code you will type to build your app using Toga.&lt;/p&gt;
-&lt;p&gt;The Interface layer calls public methods that are in the Toga_core portion of
-the project and this is where this Interface layer API is defined. Toga_core
-also provides any abstract functionality that is independent of the platform
-that Toga is running on, like setting up and running the app itself.&lt;/p&gt;
-&lt;p&gt;The Implementation layer connects Toga_core to the Toga_impl component.
-Toga_impl is the platform backends like Toga_ios, Toga_cocoa, and Toga_gtk. A
-factory method in Toga_core automatically selects and initializes the correct
-implementation objects based on the platform it is running on. Toga_dummy is
-also a type of Toga_impl backend, and it is used for smoke testing without a
-specific platform to find simple failures.&lt;/p&gt;
-&lt;p&gt;The Native layer connects the Toga_impl's to the Native Platform. For C
-language based platforms, Toga_impl directly call the native widgets. For
-example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+ widgets
-through PyGObject. For other platforms, more intermediate work may be required
-through a bridge or transpiler:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-blackbox.svg" alt="Toga Blackbox" height="200"&gt;&lt;/p&gt;
+&lt;p&gt;As the input to Toga, the Interface layer provides the public API for the GUI
+application that you are building. This is the code you will type to build your
+app using Toga.&lt;/p&gt;
+&lt;p&gt;As the output of Toga, the Native layer connects the Toga_impl's to the Native
+Platform. For C language based platforms, Toga directly calls the native
+widgets. For example with Gtk+ on Linux, the Toga_gtk directly calls the Gtk+
+widgets through PyGObject. For other platforms, more intermediate work may be
+required through a bridge or transpiler:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;macOS and iOS, the Rubicon-ObjC project provides a bridge between Objective-C and Python.&lt;/li&gt;
 &lt;li&gt;Web, Batavia provides a javascript implementation of the Python virtual machine. &lt;/li&gt;
 &lt;li&gt;Android, VOC is a transpiler that converts Python in to Java bytecode.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-whitebox.svg" alt="Toga Whitebox" height="175"&gt;&lt;/p&gt;
+&lt;p&gt;The Interface layer calls public methods that are in the Toga_core portion of
+the project and this is where this Interface layer API is defined. Toga_core
+also provides any abstract functionality that is independent of the platform
+that Toga is running on, like setting up and running the app itself.&lt;/p&gt;
+&lt;p&gt;The Implementation layer connects Toga_core to the Toga_impl component.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/factory-pattern.svg" alt="Factory Method" height="300"&gt;&lt;/p&gt;
+&lt;p&gt;Toga uses the Factory Method design pattern in order to improve testability.
+This pattern creates objects using a factory method instead of directly
+calling a constructor. In Toga, this factory method is in Toga_core and it is
+used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
+or Toga_gtk. The factory method automatically selects the correct backend based
+on the &lt;code&gt;sys.platform&lt;/code&gt; of the platform it is running on.&lt;/p&gt;
+&lt;p&gt;Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
+without a specific platform to find simple failures. When tests are initialized,
+Toga_dummy is passed in as the factory. This allows the tests and the creation
+of objects to be separated which improves maintainability and makes the test
+code easier to read.&lt;/p&gt;
 &lt;p&gt;I know there is a lot there, but understanding the software architecture of
 Toga together with the surrounding projects and interfaces will be key to
 implementing your own widget. With that background information out of the way,
@@ -396,8 +405,8 @@ platforms:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Tkinter&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;canvas&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_rectangle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"C80000"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;canvas&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Canvas&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;create_rectangle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"red"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;
 
@@ -544,12 +553,13 @@ created, and I'll discuss that more in Step 4 below.&lt;/p&gt;
 &lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_widget_created&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;assertEqual&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_impl&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;interface&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;assertActionPerformed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;"create Canvas"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="sb"&gt;````&lt;/span&gt;
-&lt;span class="n"&gt;Further&lt;/span&gt; &lt;span class="n"&gt;along&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;creation&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="n"&gt;also&lt;/span&gt; &lt;span class="n"&gt;wanted&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;check&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;user&lt;/span&gt; &lt;span class="n"&gt;could&lt;/span&gt; &lt;span class="n"&gt;modify&lt;/span&gt;
-&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;widget&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;was&lt;/span&gt; &lt;span class="n"&gt;already&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;So&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;modifies&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;coordinates&lt;/span&gt;
-&lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;rectangle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; 
-&lt;span class="sb"&gt;``&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;Python&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_rect_modify&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;Further along in my test creation I also wanted to check that the user could modify
+a widget that was already created. So I created a test that modifies the coordinates
+and size of a rectangle. &lt;/p&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_rect_modify&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;rect&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;canvas&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;rect&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
     &lt;span class="n"&gt;rect&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;
