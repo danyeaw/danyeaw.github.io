@@ -18,15 +18,44 @@
 
 ![BeeWare Logo](images/beeware-logo.png)
 <!-- .element style="border: 0; box-shadow: None" -->
-</script></section><section  data-markdown><script type="text/template">
+
+<aside class="notes"><p>Hi my name is Dan Yeaw. I work for Ford Motor Company where I help
+design safety in to complex software-based automated and electrified
+technologies. In my free time, I have been working on an open source tool
+used to model these complex system designs.</p>
+<p>Eventually I got really frustrated with the current set of GUI toolkits
+that are available for Python. I want the ability to write an app once
+and have it look and feel great on all of my devices, but instead I was
+dealing with toolkits that are wrapped or introspected around C or C++
+libraries, or visually look like a blast from past. They made me feel like I 
+was going against the grain of Python instead of writing great Pythonic code.</p>
+<p>I am currently a core contributor to the BeeWare project, and I am so excited
+to talk to you about 5 Steps to Build Python Native GUI Widgets for BeeWare.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 BeeWare is
 
-Software libraries for cross-platform native app development from a single Python codebase
+### Cross-platform
+### Native
+### App development
+### with Python
 
 and
 
-Tools to simplify app deployment
-</script></section><section  data-markdown><script type="text/template">
+### Simple app deployment
+
+</script></section><section  data-markdown><script type="text/template"># Toga
+## Beeware's GUI Toolkit
+![Toga](images/tiberius-512.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+<aside class="notes"><p>Solid proof of concept
+Creating a simple app on macOS, Linux, or iOS is definitely possible.</p>
+<p>This alpha status may not be so exciting for you if you are just trying to
+build an app, but I think it is very exciting for those that want to
+contribute to an open source project. Although there are many ways to get
+involved, users keep asking how they can build a GUI widget that isn&#39;t yet
+supported. I think this is a great way to make a significant contribution.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
 # Hello World
 
 ![Hello World Example](images/hello-world.svg)
@@ -56,9 +85,22 @@ A Canvas widget will be used as an example
 ![Context Diagram](images/toga-blackbox.svg)
 <!-- .element style="border: 0; box-shadow: None" -->
 </script></section><section  data-markdown><script type="text/template">
+# Bridge or Transpiler
+![Rubicon](images/rubicon.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+![VOC](images/voc-512.png)
+<!-- .element style="border: 0; box-shadow: None" height="256" -->
+![Batavia](images/batavia-512.png)
+<!-- .element style="border: 0; box-shadow: None" height="256" -->
+</script></section><section  data-markdown><script type="text/template">
 # Toga Whitebox
 
 ![Context Diagram](images/toga-whitebox.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+</script></section><section  data-markdown><script type="text/template">
+# More Terms
+
+![More Terms](images/toga-impl-interface.svg)
 <!-- .element style="border: 0; box-shadow: None" -->
 </script></section><section  data-markdown><script type="text/template">
 # Toga_Impl Factory Pattern
@@ -69,13 +111,14 @@ A Canvas widget will be used as an example
 # Step 0
 ## development platform
 * Normally pick the platform that you are most familiar with
-* macOS and Gtk+ are the most developed 👍
+* macOS and GTK are the most developed 👍
 * Is this a mobile only widget (camera, GPS, etc)?
 </script></section><section  data-markdown><script type="text/template">
 # Step 1
 ## Research your widget
-* How do you create this widget on different platforms
-* Think, brainstorm, whiteboard, and discuss how you would want to create and manipulate this widget with Python
+* Abstraction requires knowledge of specific examples
+* Create use cases or user stories
+* Get feedback
 </script></section><section  data-markdown><script type="text/template">## Research your widget
 Tkinter
 
@@ -112,7 +155,7 @@ Use Cases
 </script></section><section  data-markdown><script type="text/template">
 # Step 2
 
-## Interface layer: Pythonic API
+## Write Docs
 * Write your API documentation first
 * The API provides the set of clearly defined methods of communication (layers) between the software components
 * Documentation Driven Development
@@ -131,11 +174,11 @@ the screen using the <code>rect</code> drawing object:</p>
 canvas = toga.Canvas(style=Pack(flex=1))
 with canvas.fill(color=rgb(200, 0, 0)) as fill:
     fill.rect(10, 10, 100, 100)</p>
-</aside></script></section><section  data-markdown><script type="text/template">## Write Code Outline
+</aside></script></section><section  data-markdown><script type="text/template">## Write Code Outline / Docstrings
 ![Canvas Outline](images/outline-canvas.svg)
 <!-- .element style="border: 0; box-shadow: None" -->
 
-<aside class="notes"><p>class Canvas(Context, Widget):
+<aside class="notes"><p>class Canvas(Widget):
     &quot;&quot;&quot;Create new canvas.</p>
 <pre><code>Args:
     id (str):  An identifier for this widget.
@@ -149,10 +192,8 @@ with canvas.fill(color=rgb(200, 0, 0)) as fill:
 
 ## Implement Toga_core
 ### (with TDD)
-* Write a test for each function of the widget outlined in the API from Step 2
-* Check that the tests fail
-* Specify the implementation layer API
-* Write the core code for the widget to call the implementation layer
+* First write tests for Toga_core
+* Then code the outline created in Step 2
 </script></section><section  data-markdown><script type="text/template">
 ## Write tests for Toga_core
 
@@ -230,17 +271,44 @@ def rect(self, x, y, width, height):
 <aside class="notes"><p>class Canvas(Widget):
     def create(self):
         self.native = Gtk.DrawingArea()
-        self.native.interface = self.interface
         self.native.connect(&quot;draw&quot;, self.gtk_draw_callback)</p>
 <pre><code>def gtk_draw_callback(self, canvas, gtk_context):
     self.interface._draw(self, draw_context=gtk_context)
 
 def rect(self, x, y, width, height, draw_context):
     draw_context.rectangle(x, y, width, height)
-</code></pre></aside></script></section><section  data-markdown><script type="text/template"># ![](images/tutorial-4.png)  
+</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+## Implement Toga_impl
+### other platforms
+
+![Canvas Outline](images/toga_impl-cocoa-backend.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+    
+<aside class="notes"><p>class TogaCanvas(NSView):
+    @objc<em>method
+    def drawRect</em>(self, rect: NSRect) -&gt; None:
+        context = NSGraphicsContext.currentContext.graphicsPort()</p>
+<p>class Canvas(Widget):
+    def create(self):
+        self.native = TogaCanvas.alloc().init()</p>
+<pre><code>def rect(self, x, y, width, height, draw_context, *args, **kwargs):
+    rectangle = CGRectMake(x, y, width, height)
+    core_graphics.CGContextAddRect(draw_context, rectangle
+</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+# Iterate
+### Iterate through steps 1-5 to complete your widget implementation
+</script></section><section  data-markdown><script type="text/template">
 ## Submit a pull request!  
   
+# ![](images/tutorial-4.png)  
 ## 🎉👍💖
+</script></section><section  data-markdown><script type="text/template">
+# Summary
+1. Research Your Widget
+2. Write Docs
+3. Toga_core
+4. Toga_impl - Dummy Backend
+5. Toga_impl - Your Platform
 </script></section><section  data-markdown><script type="text/template">
 @danyeaw  
   
