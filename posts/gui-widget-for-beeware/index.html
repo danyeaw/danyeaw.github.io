@@ -186,13 +186,19 @@ the project and this is where this Interface layer API is defined. Toga_core
 also provides any abstract functionality that is independent of the platform
 that Toga is running on, like setting up and running the app itself.</p>
 <p>The Implementation layer connects Toga_core to the Toga_impl component.</p>
-<p><img src="../../images/factory-pattern.svg" alt="Factory Method" height="300"></p>
+<p>A couple of other terms you should know about are <code>impl</code> and <code>interface</code>.
+1. From Toga_core, <code>self.impl</code> is used to go across the interface layer to
+Toga_impl.
+2. From Toga_impl, <code>self.interface</code> is used to go across the interface layer
+back to Toga_core.</p>
+<p><img src="../../images/toga-impl-interface.svg" alt="More Terms" height="175"></p>
 <p>Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
 calling a constructor. In Toga, this factory method is in Toga_core and it is
 used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the <code>sys.platform</code> of the platform it is running on.</p>
+<p><img src="../../images/factory-pattern.svg" alt="Factory Method" height="300"></p>
 <p>Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
 Toga_dummy is passed in as the factory. This allows the tests and the creation
@@ -221,11 +227,16 @@ definitely go for it.</p>
 <h2>Step 1</h2>
 <h3>Research your widget</h3>
 <ul>
-<li>How do you create this widget on different platforms</li>
-<li>Think, brainstorm, whiteboard, and discuss how you would want to create and manipulate this widget with Python</li>
+<li>Abstraction requires knowledge of specific examples</li>
+<li>Create use cases or user stories</li>
+<li>Get feedback</li>
 </ul>
-<p>For example, this is how you would draw a rectangle on a Canvas on different
-platforms:</p>
+<p>Since Toga is an abstraction of native GUI toolkits, understanding the APIs for
+these platforms is extremely important in order to develop a well abstracted API
+for Toga. In other words, these native platforms provide the inspiration and
+constraints on implementing your own widget.</p>
+<p>As an example, of how you would conduct this research, this is how you would
+draw a rectangle on a Canvas on different platforms:</p>
 <ul>
 <li>Tkinter</li>
 </ul>
@@ -268,22 +279,38 @@ platforms:</p>
 </pre>
 
 
+<p>The other thing to understand is how a user will use this widget to build their
+own app. I like to create a quick Use Case diagram to flush this out, but you
+could also use User Stories or similar methods.</p>
+<p>For the case of the Canvas widget, I came up with three main use cases:</p>
+<ol>
+<li>A simple drawing app, where a user adds shapes, colors, and text to the
+   screen.</li>
+<li>A vectoring drawing app, where a user draws lines and shapes, and then needs
+   the ability to edit the nodes of the lines.</li>
+<li>A platformer game, where there is a lot of objects draw on the screen,
+   including the hero. The hero needs its own drawing context so that they can
+   run, jump, and move around without unintentionally modifying the rest of the
+   objects.  </li>
+</ol>
+<p><img src="../../images/usecases.svg" alt="Use Cases" height="300"></p>
+<p>The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
+or Draft Pull Request at this point and start to discuss the design of your
+widget abstraction with others and continue that discussion as you design your
+python API in step 2.</p>
 <h2>Step 2</h2>
-<h3>Create the Pythonic API for your interface layer</h3>
+<h3>Write Docs</h3>
 <ul>
 <li>Write your API documentation first</li>
 <li>The API provides the set of clearly defined methods of communication (layers) between the software components</li>
 <li>Documentation Driven Development</li>
 <li>This is iterative with Step 1</li>
 </ul>
-<p>Start with explaining what your widget is and what it is used for. Think about
-the use cases of the widget. What types of apps are users going to build with
-this widget? These are the scenarios that your widget needs to be able to
-support. How would a user want to use your widget? When looking at the Canvas
-widgets from my research, I noticed that the current drawing widgets were very
-procedural, you have to create your canvas drawing using many steps. For
-example, you have to first set the color to draw with, then draw an object, and
-then fill in that object.</p>
+<p>With your Use Cases from Step 1, start your docs by explaining what your widget
+is and what it is used for. When looking at the Canvas widgets from my research,
+I noticed that the current drawing widgets were very procedural, you have to
+create your canvas drawing using many steps. For example, you have to first set
+the color to draw with, then draw an object, and then fill in that object.</p>
 <p>Python has the context manager and the "with" statement, and making use of this
 for a canvas allows the user to better break up the draw operations with some
 nesting. It also allows for automatically starting or closing drawing of a
@@ -501,14 +528,20 @@ implementation of the rectangle creation that calls Gtk+'s cairo drawing:</p>
 </pre>
 
 
-<p>After you most likely do some troubleshooting of your widget to get it to work
-properly with your platform, you now should have a complete widget!</p>
+<h2>Iterate</h2>
+<h4>Iterate through steps 1-5 to complete your widget implementation</h4>
+<p>In the examples, we created a Canvas and a rectangle drawing operation on that
+canvas. Now it is time to iterate back through all the steps and implement all
+the other drawing operations that a Canvas needs like the other shapes, lines,
+and text. Once you finish this, you should now have a complete widget!</p>
 <p><img alt="Toga Tutorial 4 for a Canvas Widget" src="../../images/tutorial-4.png"></p>
 <p>Tada! You did it, Submit a PR!</p>
 <p>I would be interested in how it goes for you, drop me a line with your
 experience creating a widget.</p>
-<p>2018-11-10: Minor editorial updates.
-2019-04-27: Split Toga Architecture diagram up to make it more clear.</p>
+<p>2018-11-10: Minor editorial updates.</p>
+<p>2019-04-27: Split Toga Architecture diagram up to make it more clear.</p>
+<p>2019-05-02: Improve description about research in Step 1. Add description of
+<code>impl</code> and <code>interface</code> in architecture section.</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">

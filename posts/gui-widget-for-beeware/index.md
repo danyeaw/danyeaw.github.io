@@ -99,7 +99,13 @@ that Toga is running on, like setting up and running the app itself.
 
 The Implementation layer connects Toga_core to the Toga_impl component.
 
-<img src="/images/factory-pattern.svg" alt="Factory Method" height="300"/>
+A couple of other terms you should know about are `impl` and `interface`.
+1. From Toga_core, `self.impl` is used to go across the interface layer to
+Toga_impl.
+2. From Toga_impl, `self.interface` is used to go across the interface layer
+back to Toga_core.
+
+<img src="/images/toga-impl-interface.svg" alt="More Terms" height="175"/>
 
 Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
@@ -107,6 +113,8 @@ calling a constructor. In Toga, this factory method is in Toga_core and it is
 used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the `sys.platform` of the platform it is running on.
+
+<img src="/images/factory-pattern.svg" alt="Factory Method" height="300"/>
 
 Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
@@ -137,11 +145,17 @@ definitely go for it.
 
 # Step 1
 ## Research your widget
-* How do you create this widget on different platforms
-* Think, brainstorm, whiteboard, and discuss how you would want to create and manipulate this widget with Python
+* Abstraction requires knowledge of specific examples
+* Create use cases or user stories
+* Get feedback
 
-For example, this is how you would draw a rectangle on a Canvas on different
-platforms:
+Since Toga is an abstraction of native GUI toolkits, understanding the APIs for
+these platforms is extremely important in order to develop a well abstracted API
+for Toga. In other words, these native platforms provide the inspiration and
+constraints on implementing your own widget.
+
+As an example, of how you would conduct this research, this is how you would
+draw a rectangle on a Canvas on different platforms:
 
 * Tkinter
 ```Python
@@ -176,21 +190,40 @@ def draw(da, ctx):
     ctx.fill()
 ```
 
+The other thing to understand is how a user will use this widget to build their
+own app. I like to create a quick Use Case diagram to flush this out, but you
+could also use User Stories or similar methods.
+
+For the case of the Canvas widget, I came up with three main use cases:
+
+1. A simple drawing app, where a user adds shapes, colors, and text to the
+   screen.
+2. A vectoring drawing app, where a user draws lines and shapes, and then needs
+   the ability to edit the nodes of the lines.
+3. A platformer game, where there is a lot of objects draw on the screen,
+   including the hero. The hero needs its own drawing context so that they can
+   run, jump, and move around without unintentionally modifying the rest of the
+   objects.  
+
+<img src="/images/usecases.svg" alt="Use Cases" height="300"/>
+
+The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
+or Draft Pull Request at this point and start to discuss the design of your
+widget abstraction with others and continue that discussion as you design your
+python API in step 2.
+
 # Step 2
-## Create the Pythonic API for your interface layer
+## Write Docs
 * Write your API documentation first
 * The API provides the set of clearly defined methods of communication (layers) between the software components
 * Documentation Driven Development
 * This is iterative with Step 1
 
-Start with explaining what your widget is and what it is used for. Think about
-the use cases of the widget. What types of apps are users going to build with
-this widget? These are the scenarios that your widget needs to be able to
-support. How would a user want to use your widget? When looking at the Canvas
-widgets from my research, I noticed that the current drawing widgets were very
-procedural, you have to create your canvas drawing using many steps. For
-example, you have to first set the color to draw with, then draw an object, and
-then fill in that object.
+With your Use Cases from Step 1, start your docs by explaining what your widget
+is and what it is used for. When looking at the Canvas widgets from my research,
+I noticed that the current drawing widgets were very procedural, you have to
+create your canvas drawing using many steps. For example, you have to first set
+the color to draw with, then draw an object, and then fill in that object.
 
 Python has the context manager and the "with" statement, and making use of this
 for a canvas allows the user to better break up the draw operations with some
@@ -410,8 +443,14 @@ implementation of the rectangle creation that calls Gtk+'s cairo drawing:
     def rect(self, x, y, width, height, draw_context):
         draw_context.rectangle(x, y, width, height)
 ```
-After you most likely do some troubleshooting of your widget to get it to work
-properly with your platform, you now should have a complete widget!
+
+# Iterate
+### Iterate through steps 1-5 to complete your widget implementation
+
+In the examples, we created a Canvas and a rectangle drawing operation on that
+canvas. Now it is time to iterate back through all the steps and implement all
+the other drawing operations that a Canvas needs like the other shapes, lines,
+and text. Once you finish this, you should now have a complete widget!
 
 ![Toga Tutorial 4 for a Canvas Widget](/images/tutorial-4.png)
 
@@ -423,4 +462,8 @@ experience creating a widget.
 
   
 2018-11-10: Minor editorial updates.
+
 2019-04-27: Split Toga Architecture diagram up to make it more clear.
+
+2019-05-02: Improve description about research in Step 1. Add description of
+`impl` and `interface` in architecture section.

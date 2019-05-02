@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about BeeWare)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/beeware.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Sun, 28 Apr 2019 00:33:32 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;As part of modernizing &lt;a href="https://github.com/gaphor/gaphas"&gt;Gaphas&lt;/a&gt;, the
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about BeeWare)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/beeware.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2019 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Thu, 02 May 2019 20:49:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;div&gt;&lt;p&gt;As part of modernizing &lt;a href="https://github.com/gaphor/gaphas"&gt;Gaphas&lt;/a&gt;, the
 diagramming widget for Python, I took another look at what the best practices
 are for packaging and releasing a new version of a Python library or
 application. There are new configuration formats and tools to make packaging
@@ -362,13 +362,19 @@ the project and this is where this Interface layer API is defined. Toga_core
 also provides any abstract functionality that is independent of the platform
 that Toga is running on, like setting up and running the app itself.&lt;/p&gt;
 &lt;p&gt;The Implementation layer connects Toga_core to the Toga_impl component.&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/factory-pattern.svg" alt="Factory Method" height="300"&gt;&lt;/p&gt;
+&lt;p&gt;A couple of other terms you should know about are &lt;code&gt;impl&lt;/code&gt; and &lt;code&gt;interface&lt;/code&gt;.
+1. From Toga_core, &lt;code&gt;self.impl&lt;/code&gt; is used to go across the interface layer to
+Toga_impl.
+2. From Toga_impl, &lt;code&gt;self.interface&lt;/code&gt; is used to go across the interface layer
+back to Toga_core.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-impl-interface.svg" alt="More Terms" height="175"&gt;&lt;/p&gt;
 &lt;p&gt;Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
 calling a constructor. In Toga, this factory method is in Toga_core and it is
 used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the &lt;code&gt;sys.platform&lt;/code&gt; of the platform it is running on.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/factory-pattern.svg" alt="Factory Method" height="300"&gt;&lt;/p&gt;
 &lt;p&gt;Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
 Toga_dummy is passed in as the factory. This allows the tests and the creation
@@ -397,11 +403,16 @@ definitely go for it.&lt;/p&gt;
 &lt;h2&gt;Step 1&lt;/h2&gt;
 &lt;h3&gt;Research your widget&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;How do you create this widget on different platforms&lt;/li&gt;
-&lt;li&gt;Think, brainstorm, whiteboard, and discuss how you would want to create and manipulate this widget with Python&lt;/li&gt;
+&lt;li&gt;Abstraction requires knowledge of specific examples&lt;/li&gt;
+&lt;li&gt;Create use cases or user stories&lt;/li&gt;
+&lt;li&gt;Get feedback&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For example, this is how you would draw a rectangle on a Canvas on different
-platforms:&lt;/p&gt;
+&lt;p&gt;Since Toga is an abstraction of native GUI toolkits, understanding the APIs for
+these platforms is extremely important in order to develop a well abstracted API
+for Toga. In other words, these native platforms provide the inspiration and
+constraints on implementing your own widget.&lt;/p&gt;
+&lt;p&gt;As an example, of how you would conduct this research, this is how you would
+draw a rectangle on a Canvas on different platforms:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Tkinter&lt;/li&gt;
 &lt;/ul&gt;
@@ -444,22 +455,38 @@ platforms:&lt;/p&gt;
 &lt;/pre&gt;
 
 
+&lt;p&gt;The other thing to understand is how a user will use this widget to build their
+own app. I like to create a quick Use Case diagram to flush this out, but you
+could also use User Stories or similar methods.&lt;/p&gt;
+&lt;p&gt;For the case of the Canvas widget, I came up with three main use cases:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A simple drawing app, where a user adds shapes, colors, and text to the
+   screen.&lt;/li&gt;
+&lt;li&gt;A vectoring drawing app, where a user draws lines and shapes, and then needs
+   the ability to edit the nodes of the lines.&lt;/li&gt;
+&lt;li&gt;A platformer game, where there is a lot of objects draw on the screen,
+   including the hero. The hero needs its own drawing context so that they can
+   run, jump, and move around without unintentionally modifying the rest of the
+   objects.  &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/usecases.svg" alt="Use Cases" height="300"&gt;&lt;/p&gt;
+&lt;p&gt;The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
+or Draft Pull Request at this point and start to discuss the design of your
+widget abstraction with others and continue that discussion as you design your
+python API in step 2.&lt;/p&gt;
 &lt;h2&gt;Step 2&lt;/h2&gt;
-&lt;h3&gt;Create the Pythonic API for your interface layer&lt;/h3&gt;
+&lt;h3&gt;Write Docs&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Write your API documentation first&lt;/li&gt;
 &lt;li&gt;The API provides the set of clearly defined methods of communication (layers) between the software components&lt;/li&gt;
 &lt;li&gt;Documentation Driven Development&lt;/li&gt;
 &lt;li&gt;This is iterative with Step 1&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Start with explaining what your widget is and what it is used for. Think about
-the use cases of the widget. What types of apps are users going to build with
-this widget? These are the scenarios that your widget needs to be able to
-support. How would a user want to use your widget? When looking at the Canvas
-widgets from my research, I noticed that the current drawing widgets were very
-procedural, you have to create your canvas drawing using many steps. For
-example, you have to first set the color to draw with, then draw an object, and
-then fill in that object.&lt;/p&gt;
+&lt;p&gt;With your Use Cases from Step 1, start your docs by explaining what your widget
+is and what it is used for. When looking at the Canvas widgets from my research,
+I noticed that the current drawing widgets were very procedural, you have to
+create your canvas drawing using many steps. For example, you have to first set
+the color to draw with, then draw an object, and then fill in that object.&lt;/p&gt;
 &lt;p&gt;Python has the context manager and the "with" statement, and making use of this
 for a canvas allows the user to better break up the draw operations with some
 nesting. It also allows for automatically starting or closing drawing of a
@@ -677,11 +704,17 @@ implementation of the rectangle creation that calls Gtk+'s cairo drawing:&lt;/p&
 &lt;/pre&gt;
 
 
-&lt;p&gt;After you most likely do some troubleshooting of your widget to get it to work
-properly with your platform, you now should have a complete widget!&lt;/p&gt;
+&lt;h2&gt;Iterate&lt;/h2&gt;
+&lt;h4&gt;Iterate through steps 1-5 to complete your widget implementation&lt;/h4&gt;
+&lt;p&gt;In the examples, we created a Canvas and a rectangle drawing operation on that
+canvas. Now it is time to iterate back through all the steps and implement all
+the other drawing operations that a Canvas needs like the other shapes, lines,
+and text. Once you finish this, you should now have a complete widget!&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Toga Tutorial 4 for a Canvas Widget" src="https://dan.yeaw.me/images/tutorial-4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Tada! You did it, Submit a PR!&lt;/p&gt;
 &lt;p&gt;I would be interested in how it goes for you, drop me a line with your
 experience creating a widget.&lt;/p&gt;
-&lt;p&gt;2018-11-10: Minor editorial updates.
-2019-04-27: Split Toga Architecture diagram up to make it more clear.&lt;/p&gt;&lt;/div&gt;</description><category>BeeWare</category><category>GUI</category><category>programming</category><category>Python</category><category>Toga</category><category>widget</category><guid>https://dan.yeaw.me/posts/gui-widget-for-beeware/</guid><pubDate>Sun, 04 Nov 2018 01:36:00 GMT</pubDate></item></channel></rss>
+&lt;p&gt;2018-11-10: Minor editorial updates.&lt;/p&gt;
+&lt;p&gt;2019-04-27: Split Toga Architecture diagram up to make it more clear.&lt;/p&gt;
+&lt;p&gt;2019-05-02: Improve description about research in Step 1. Add description of
+&lt;code&gt;impl&lt;/code&gt; and &lt;code&gt;interface&lt;/code&gt; in architecture section.&lt;/p&gt;&lt;/div&gt;</description><category>BeeWare</category><category>GUI</category><category>programming</category><category>Python</category><category>Toga</category><category>widget</category><guid>https://dan.yeaw.me/posts/gui-widget-for-beeware/</guid><pubDate>Sun, 04 Nov 2018 01:36:00 GMT</pubDate></item></channel></rss>
