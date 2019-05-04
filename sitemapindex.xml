@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://dan.yeaw.me/categories/beeware.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/briefcase.xml</loc>
@@ -15,11 +15,11 @@
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/cat_python.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/gui.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/packaging.xml</loc>
@@ -31,26 +31,26 @@
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/programming.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/python.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/toga.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/categories/widget.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/rss.xml</loc>
-  <lastmod>2019-04-28T00:33:00Z</lastmod>
+  <lastmod>2019-05-02T20:49:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://dan.yeaw.me/sitemap.xml</loc>
-  <lastmod>2019-05-02T19:14:00Z</lastmod>
+  <lastmod>2019-05-04T01:44:00Z</lastmod>
  </sitemap>
 </sitemapindex>
