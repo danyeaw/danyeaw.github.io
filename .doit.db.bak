@@ -73,7 +73,7 @@
 'copy_assets:output/assets/js/fancydates.js', (327680, 646)
 'render_sources:output/about-me/index.md', (76288, 241)
 'render_tag_cloud', (76800, 56)
-'sitemap:output/sitemapindex.xml', (77312, 254)
+'sitemap:output/sitemapindex.xml', (77312, 255)
 'copy_assets:output/assets/css/images/ie6/borderTopLeft.png', (77824, 528)
 'copy_assets:output/assets/fonts/glyphicons-halflings-regular.woff2', (78848, 546)
 'render_posts', (79872, 56)
