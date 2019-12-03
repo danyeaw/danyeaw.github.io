@@ -34,6 +34,8 @@ experience with other CI/CD systems, how to test and deploy Python applications
 and libraries using GitHub Actions, and finally highlight some other Actions
 that can be used to automate other parts of your Python workflow.
 
+## Overview of CI/CD
+
 CI is the practice of frequently integrating changes to code with the existing
 code repository. CD then extends CI by making sure the software checked in
 to the master branch is always in a state to be deployed to users, and
@@ -56,6 +58,8 @@ the updates they merge the changes back to the master branch.
 Either in a fixed release cadence, or occasionally, the maintainers then add a
 version tag to master, and kickoff the CD system to package and release a new
 version to users.
+
+## My Experience with other CI/CD Systems
 
 Since most open source projects didn't want the overhead of maintaining their
 own local CI server using software like Jenkins, the use of cloud-based or
@@ -123,6 +127,8 @@ is screaming fast, about twice as fast as Travis CI was for my complex
 workflows (25 minutes to 12 minutes). The tight integration that allows testing
 on all three major platforms was also just what I was looking for.
 
+## How to Test a Python Library using GitHub Actions
+
 With all the background out of the way, now enters GitHub Actions. Although I
 was very pleased with how Azure Pipelines performs, I thought it would be nice
 to have something that could better mix the ease of use of Travis CI with the
@@ -151,6 +157,12 @@ different workflows that you can use as templates to create your own:
 2. Python package - test on multiple Python versions
 3. Publish Python Package - publish a package to PyPI using Twine
 
+Below is the workflow I had in mind:
+![workflow image]
+I want to start with a lint job that is run, and once that has successfully
+completed I want to start parallel jobs using the multiple versions of Python
+that my library supports.
+
 For these libraries, the 2nd workflow was the closest for what I was looking
 for, since I wanted to test on multiple versions of Python. I selected the
 `Set up this workflow` option. GitHub then creates a new draft YAML file based
@@ -165,12 +177,13 @@ Actions is quite good. It includes full autocomplete (toggled with Ctrl+Space),
 and it actively highlights errors in your YAML file to ensure the correct
 syntax for each workflow.
 
+### Execute on Events
+
 The top of each workflow file are two keywords: `name` and `on`. The `name` sets
 what will be displayed in the Actions tab for the workflow you are creating. If
 you don't define a name, then the name of the YAML file will be shown as the
 Action is running. The `on` keyword defines what will cause the workflow to be
-started. You can define multiple events that will start the workflow by adding
-them as a comma separated list. The template uses a value of `push`, which means
+started. . The template uses a value of `push`, which means
 that the workflow will be kicked off when you push to any branch in the
 repo. Here is an example of how I set these settings for my libraries:
 
@@ -191,6 +204,8 @@ during two conditions:
 You can see how that was configured above. Being able to start a workflow on
 any type of event in GitHub is extremely powerful, and it one of the advantages
 of the tight integration that GitHub Actions has.
+
+### Lint Job
 
 The next section of the YAML file is called `jobs`, this is where each main
 block of the workflow will be defined as a job. The jobs will then be further
@@ -241,20 +256,313 @@ your own using the Actions SDK and some TypeScript. I am now convinced that this
 is the "secret sauce" of GitHub Actions, and will be what makes this service
 truly special. I will discuss more about this later.
 
-These two Actions I am using, clone a copy of the code I am testing from my repo
-and sets up Python 3. Actions often use the`with` keyword for the configuration
-options, and in this case I am telling the `setup-python` action to use a newer
-version from Python 3.
+The first two Actions I am using clones a copy of the code I am testing from my
+repo and sets up Python 3. Actions often use the`with` keyword for the
+configuration options, and in this case I am telling the `setup-python` action
+to use a newer version from Python 3.
+
+```yaml
+      - uses: actions/checkout@v1
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+```
 
 The last two steps of the linting job are using the `run` keyword. Here I am
 defining commands to execute that aren't covered by an Action. As I mentioned
 earlier, I am using pre-commit to run Black over the project and check that the
 code formatting is correct. I have this broken up in to two steps:
 
-1. Install pre-commit, and install the pre-commit hook environments
-2. Run Black against all the files in the repo
+1. Install Dependencies - installs pre-commit, and the pre-commit hook
+environments
+2. Lint with pre-commit - runs Black against all the files in the repo
 
+In the *Install Dependencies* step, I am also using the pipe operator, "|",
+which signifies that I am giving multiple commands, and I am separating each
+one on a new line. We now should have a complete lint job for a Python library,
+if you haven't already, now would be a good time to commit and push your
+changes to a branch and check the lint job passes for your repo.
 
+### Test Job
 
+For the test job, I created another job called `test`, and it also uses
+the `ubuntu-latest` platform for the job. I did use one new keyword here called
+`needs`. This defines that this job should only be started once the lint job has
+finished successfully. If I didn't include this, then the lint job and all the
+other test jobs would all be started in parallel.
 
+```yaml
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+```
+
+Next up I used another new keyword called `strategy`. A strategy creates a build
+matrix for your jobs. A build matrix is a set of different configurations of the
+virtual environment used for the job. For example, you can run a job against
+multiple operating systems, tool version, or in this case against different
+versions of Python. This prevents repetitiveness because otherwise you would
+need to copy and paste the same steps over and over again for different versions
+of Python. Finally, the template we are using also had a max-parallel keyword
+which limits the number of parallel jobs that can run simultaneously. I am only
+using four versions of Python, and I don't have any reason to limit the number
+of parallel jobs, so I removed this line for my YAML file.
+
+```yaml
+    strategy:
+      matrix:
+        python-version: [2.7, 3.6, 3.7, 3.8]
+```
+
+Now on to the steps of the job. My first two steps, checkout the sources and
+setup Python, are the same two steps as I had above in the lint job. There is
+one difference, and that is that I am using the `${{ matrix.python-version }}`
+syntax in the setup Python step. I use the {{ }} syntax to define an
+expression. I am using a special kind of expression called a context, which is
+a way to access information about a workflow run, the virtual environment,
+jobs, steps, and in this case the Python version information from the matrix
+parameters that I configured earlier. Finally, I use the $ symbol in front of
+the context expression to tell Actions to expand the expression in to its
+value. If version 3.8 of Python is currently running from the matrix, then `${{
+matrix.python-version }}` is replaced by `3.8`.
+
+```yaml
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+```
+
+Since I am testing a GTK diagramming library, I need to also install some
+Ubuntu dependencies. I use the `>` symbol as YAML syntax to ignore the newlines
+in my run value, this allows me to execute a really long command while keeping
+my standard line length in my .yml file. 
+
+```yaml
+      - name: Install Ubuntu Dependencies
+        run: >
+          sudo apt-get update -q && sudo apt-get install
+          --no-install-recommends -y xvfb python3-dev python3-gi
+          python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev
+```
+
+For my projects, I love using Poetry for managing my Python dependencies.
+See my other article on [Python Packaging with Poetry and
+Briefcase](link://slug/python-packaging-with-poetry-and-briefcase) for more
+information on how to make use of Poetry for your projects. I am using a custom
+Action that [Daniel Schep](https://github.com/dschep) created that installs
+Poetry. Although installing Poetry manually is pretty straightforward, I really
+like being able to make use of these building blocks that others have created.
+Although you should always use a Python virtual environment while you are
+working on a local development environment, they aren't really needed since
+the environment created for CI/CD is already isolated and won't be reused. This
+would be a nice improvement to the `install-poetry-action`, so that the
+creation of virtualenvs are turned off by default.
+
+```yaml
+      - name: Install Poetry
+        uses: dschep/install-poetry-action@v1.2
+        with:
+          version: 1.0.0b3
+      - name: Turn off Virtualenvs
+        run: poetry config virtualenvs.create false
+```
+
+Next we have Poetry install the dependencies using the `poetry.lock` file using
+the `poetry install` command. Then we are to the key step of the job, which is
+to run all the tests using Pytest. I preface the `pytest` command with
+`xvfb-run` because this is a GUI library, and many of the tests would fail
+because there is no display server, like X or Wayland, running on the CI runner.
+The X virtual framebuffer (Xvfb) display server is used to perform all the
+graphical operations in memory without showing any screen output.
+
+```yaml
+      - name: Install Python Dependencies
+        run: poetry install
+      - name: Test with Pytest
+        run: xvfb-run pytest
+```
+
+The final step of the test phase is to upload the code coverage information. We
+are using [Code Climate](https://codeclimate.com/oss/) for analyzing coverage,
+because it also integrates a nice maintainability score based on things like
+code smells and duplication it finds. I find this to be a good tool to help us
+focus our refactoring and other maintenance efforts.
+[Coveralls](https://coveralls.io) and [Codecov](https://codecov.io) are good
+options that I have used as well. In order for the code coverage information to
+be recorded while Pytest is running, I am using the
+[pytest-cov](https://pytest-cov.rtd.io) Pytest plugin.
+
+```yaml
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v2.3.0
+        env:
+          CC_TEST_REPORTER_ID: 195e9f83022747c8eefa3ec9510dd730081ef111acd99c98ea0efed7f632ff8a
+        with:
+          coverageCommand: coverage xml
+```
+
+At this point we are done with our configuration to test a library. Commit and
+push your changes to your branch, and ensure all of the steps pass successfully.
+This is what the output will look like on the Actions tab in GitHub:
+![GitHub Actions Output]
+
+## How to Test and Deploy a Python Application using GitHub Actions
+
+My use case for testing a cross-platform Python Application is slightly
+different from the previous one we looked at for a library. For the library, it
+was really important that we tested on all the supported versions of Python.
+For an application, I package the application for the platform it is running on
+with the version of Python that I want the app to use, normally the latest
+stable release of Python. So instead of testing with multiple versions of
+Python, it becomes much more important to ensure that the tests pass on all of
+the platforms that the application will run on, and then package and deploy the
+app for each platform.
+
+Below are the two pipelines I would like to create, one for CI and one for CD.
+Although you could combine these in to a single pipeline, I like that GitHub
+Actions allows so much flexibility in being able to define any GitHub event to
+start a workflow. This tight integration is definitely a huge bonus here, and it
+allows you to make each workflow a little more atomic and understandable. I
+named my two workflows `build.yml` for the CI portion, and `release.yml` for the
+CD portion.
+
+![App pipeline picture]
+
+### Caching Python Dependencies
+
+Although the lint phase is the same between a library and an application, I am
+going to add in one more optional cahce step that I didn't include earlier for
+simplification:
+
+```yaml
+      - name: Use Python Dependency Cache
+        uses: actions/cache@v1.0.3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-pip-
+```
+
+It is a good practice to use a cache to store information that doesn't often
+change in your builds, like Python dependencies. It can help speed up the build
+process and lessen the load on the PyPI servers. I also learned from the
+[Travis CI
+documentation](https://docs.travis-ci.com/user/caching/#things-not-to-cache)
+while setting this up that you should not cache large files that are quick to
+install, but are slow to download like Ubuntu packages and docker images. These
+files take as long to download from the cache as they do from the original
+source. This explains why the cache action doesn't have any examples on caching
+these types of files.
+
+The caches work by checking if a cached archive exists at the beginning of the
+workflow. If it exists, it downloads it and unpacks it to the path location.
+At the end of the workflow, the action checks if the cache previously existed,
+if not, this is called a cache miss, and it creates a new archive and uploads it
+to remote storage.
+
+A few configurations to notice, the `path` is operating system dependent because
+pip stores its cache in different locations. My configuration above is for
+Ubuntu, but you would need to use `~\AppData\Local\pip\Cache` for Windows and
+`~/Library/Caches/pip` for macOS. The `key` is used used to determine if the
+correct cache exists for restoring and saving to. Since I am using Poetry for
+dependency management, and I am taking the hash of the `poetry.lock` file and
+adding it to end of a key which contains the context expression for the operating
+system that the job is running on, `runner.os`, and pip. This will look like
+`Windows-pip-iefaieh82h2h231j093` where the end is a long hash. This way if my
+project dependencies change, my `poetry.lock` will be updated, and a new cache
+will be created instead of restoring from the old cache. If you aren't using
+Poetry, you could also use your `requirements.txt` or `Pipfile.lock` for the
+same purpose.
+
+As we mentioned earlier, if the `key` doesn't match an existing cache, it's
+called a cache miss. The final configuration option called `restore-keys` is
+optional, and it provides an ordered list of keys to use for restoring the
+cache. It does this by sequentially searching for any caches that partially
+match in the restore-keys list. If a key partially matches, the action
+downloads and unpacks the archive for use, until the new cache is uploaded at
+the end of the workflow.
+
+### Test Job
+
+Ideally, it would be great to use a build matrix to test across platforms. This
+way you could have similar build steps for each platform without repeating
+yourself. This would look something like this:
+
+```yaml
+runs-on: ${{ matrix.os }}
+strategy:
+    matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+steps:
+    - name: Install Ubuntu Dependencies
+      if: matrix.os == 'ubuntu-latest'
+      run: >
+        sudo apt-get update -q && sudo apt-get install
+        --no-install-recommends -y xvfb python3-dev python3-gi
+        python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev
+    - name: Install Brew Dependencies
+      if: matrix.os == 'macOS-latest'
+      run: brew install gobject-introspection gtk+3 adwaita-icon-theme
+```
+
+Notice the `if` keyword tests which operating system is currently being used in
+order to modify the commands for each platform. As I mentioned earlier, the GTK
+app I am working on, requires [MSYS2](https://www.msys2.org) in order to test
+and package it for Windows. Since MSYS2 is a niche platform, most of the steps
+are unique and require manually setting paths and executing shell scripts. At
+some point maybe we can get some of these unique parts better wrapped in an
+action, so that when we abstract up to the steps, they can be more common
+across platforms. Right now, using a matrix for each operating system in my
+case wasn't easier than just creating three separate jobs, one for each
+platform.
+
+The implementation of the three test jobs is similar to the library test job
+that we looked at earlier.
+
+```yaml
+test-linux:
+  needs: lint
+  runs-on: ubuntu-latest
+...
+test-macos:
+  needs: lint
+  runs-on: macOS-latest
+...
+test-windows:
+  needs:lint
+  runs-on: windows-latest
+```
+
+The other steps to install the dependencies, setup caching, and test with Pytest
+were identical.
+
+### CD Workflow
+
+Now that we have gone through the CI workflow for a Python application, on to
+the CD portion. This workflow is using different event triggers:
+
+```yaml
+name: Release
+
+on:
+  release:
+    types: [created, edited]
+```
+
+GitHub has a Release tab that is built in to each repo. The deployment workflow
+here is started if I create or modify a release. You can define multiple events
+that will start the workflow by adding them as a comma separated list. When I
+want to release a new version of Gaphor:
+
+1. I update the version number in the `pyproject.toml`, commit the change, add
+a version tag, and push the commit and the tag
+2. Once the tests pass, I edit a previously drafted release to point the tag to
+the tag of the release.
+3. The release workflow automatically builds and uploads the Python Wheel and
+sdist, the macOS dmg, and the Windows installer.
+4. Once I am ready, I click on the GitHub option to Publish release.
 
