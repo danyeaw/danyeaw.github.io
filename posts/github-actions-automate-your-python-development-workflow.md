@@ -25,7 +25,7 @@ libraries, a diagramming widget called
 maintenance of a library that enables multidispatch and events called
 [Generic](https://github.com/gaphor/generic). It is important to have an
 efficient programming workflow to maintain these projects, so we can spend more
-of our open source volunteer time focusing on implemented new features and
+of our open source volunteer time focusing on implementing new features and
 other enjoyable parts of programming, and less time doing manual and boring
 project maintenance.
 
@@ -39,7 +39,11 @@ that can be used to automate other parts of your Python workflow.
 CI is the practice of frequently integrating changes to code with the existing
 code repository. CD then extends CI by making sure the software checked in
 to the master branch is always in a state to be deployed to users, and
-automates the deployment process. For open source projects on GitHub or GitLab,
+automates the deployment process.
+
+![CI/CD Workflow Diagram]
+
+For open source projects on GitHub or GitLab,
 the workflow often looks like:
 
 1. The latest development is on the mainline branch called master.
@@ -53,7 +57,7 @@ to the new branch on their fork.
 6. The Pull Request kicks off a build on the CI system automatically, runs
 formatting and other lint checks, and runs all the tests.
 7. Once all the tests pass, and the maintainers of the project are good with
-the updates they merge the changes back to the master branch.
+the updates, they merge the changes back to the master branch.
 
 Either in a fixed release cadence, or occasionally, the maintainers then add a
 version tag to master, and kickoff the CD system to package and release a new
@@ -73,10 +77,11 @@ AppVeyor if they need to test on Windows.
 I think the popularity of Travis CI and the other similar services is based on
 how easy they were to get going with. You would login to the service with your
 GitHub account, tell the service to test one of your projects, add a YAML
-formatted file to your repository using one of the examples, and push to repo
-to trigger your first build. Although these services are still hugely popular,
-2019 was the year that they started to lose some of their momentum. In January
-2019, a company called Idera bought Travis CI. In February Travis CI then
+formatted file to your repository using one of the examples, and push to the
+software repository (repo) to trigger your first build. Although these services
+are still hugely popular, 2019 was the year that they started to lose some of
+their momentum. In January 2019, a company called Idera bought Travis CI. In
+February Travis CI then
 [layed-off](https://twitter.com/alicegoldfuss/status/1098604563664420865) a lot
 of their senior engineers and technical staff.
 
@@ -98,12 +103,12 @@ the app on all three major platforms. I used this as an opportunity to learn
 Azure Pipelines with the goal of being able to fill this gap we had in our
 workflow.
 
-My takeaways from this experience is that Azure Pipelines is lacking much of the
-ease of use that Travis CI has, but has other huge positives including build
-speed and the flexibility and power to create complex cross-platform workflows.
-Developing a complex workflow on any of these CI systems is challenging because
-the feedback you receive takes a long time to get back to you. In order to
-create a workflow, I normally:
+My takeaways from this experience is that Azure Pipelines is lacking much of
+the ease of use as compared to Travis CI, but has other huge advantages
+including build speed and the flexibility and power to create complex
+cross-platform workflows. Developing a complex workflow on any of these CI
+systems is challenging because the feedback you receive takes a long time to
+get back to you. In order to create a workflow, I normally:
 
 1. Create a branch of the project I am working on
 2. Develop a YAML configuration based on the documentation and examples available
@@ -112,15 +117,16 @@ create a workflow, I normally:
 for the build to run
 5. Go back to step 2 and repeat, over and over again
 
-I also thought the documentation was often lacking good examples of complex
-workflows, and was not very clear on how to use each step. This drove even
-more trial and error, which requires a lot of patience as you are working on a
-solution. After a lot of effort, I was able to complete a configuration that
-tested Gaphor on Linux, macOS, and Windows. I also was able to partially get the
-CD to work by setting up Pipelines to add the built dmg file for macOS to a
-draft release when I push a new version tag. A couple of weeks ago, I was also
-able build and upload Python Wheel and source distribution, along with the
-Windows binaries built in [MSYS2](https://www.msys2.org).
+One of my other main takeaways was that the documentation was often lacking
+good examples of complex workflows, and was not very clear on how to use each
+step. This drove even more trial and error, which requires a lot of patience as
+you are working on a solution. After a lot of effort, I was able to complete a
+configuration that tested Gaphor on Linux, macOS, and Windows. I also was able
+to partially get the CD to work by setting up Pipelines to add the built dmg
+file for macOS to a draft release when I push a new version tag. A couple of
+weeks ago, I was also able build and upload Python Wheel and source
+distribution, along with the Windows binaries built in
+[MSYS2](https://www.msys2.org).
 
 Despite the challenges getting there, the result was very good! Azure Pipelines
 is screaming fast, about twice as fast as Travis CI was for my complex
@@ -148,6 +154,7 @@ standard for a Python package:
 
 To get started with GitHub Actions on a project, go to the Actions tab on the
 main repo:
+
 ![Actions tab image]
 
 Based on your project being made up of mostly Python, GitHub will suggest three
@@ -158,7 +165,9 @@ different workflows that you can use as templates to create your own:
 3. Publish Python Package - publish a package to PyPI using Twine
 
 Below is the workflow I had in mind:
+
 ![workflow image]
+
 I want to start with a lint job that is run, and once that has successfully
 completed I want to start parallel jobs using the multiple versions of Python
 that my library supports.
@@ -175,7 +184,9 @@ nomenclature I am familiar with.
 As a side note, the online editor that GitHub as implemented in for creating
 Actions is quite good. It includes full autocomplete (toggled with Ctrl+Space),
 and it actively highlights errors in your YAML file to ensure the correct
-syntax for each workflow.
+syntax for each workflow. These type of error checks are priceless due to the
+long feedback loop, and I actually recommend using the online editor at this
+point over what VSCode or Pycharm provide.
 
 ### Execute on Events
 
@@ -183,7 +194,7 @@ The top of each workflow file are two keywords: `name` and `on`. The `name` sets
 what will be displayed in the Actions tab for the workflow you are creating. If
 you don't define a name, then the name of the YAML file will be shown as the
 Action is running. The `on` keyword defines what will cause the workflow to be
-started. . The template uses a value of `push`, which means
+started. The template uses a value of `push`, which means
 that the workflow will be kicked off when you push to any branch in the
 repo. Here is an example of how I set these settings for my libraries:
 
@@ -250,11 +261,11 @@ Let's start with the Actions first, since they are he first two steps in my
 lint job. The keyword for an Acion is `uses`, and the value is the action repo
 name and the version. I think of Actions as a library, a reusable step that I
 can use in my CI/CD pipeline without having to reinvent the wheel. GitHub
-developed These first two Actions that I am making use of, but you will see
-later that you can make use of any Actions posted by users, and even create
-your own using the Actions SDK and some TypeScript. I am now convinced that this
-is the "secret sauce" of GitHub Actions, and will be what makes this service
-truly special. I will discuss more about this later.
+developed these first two Actions that I am making use of, but you will see
+later that you can make use of any Actions posted by other users, and even
+create your own using the Actions SDK and some TypeScript. I am now convinced
+that this is the "secret sauce" of GitHub Actions, and will be what makes this
+service truly special. I will discuss more about this later.
 
 The first two Actions I am using clones a copy of the code I am testing from my
 repo and sets up Python 3. Actions often use the`with` keyword for the
@@ -405,9 +416,72 @@ be recorded while Pytest is running, I am using the
           coverageCommand: coverage xml
 ```
 
-At this point we are done with our configuration to test a library. Commit and
-push your changes to your branch, and ensure all of the steps pass successfully.
-This is what the output will look like on the Actions tab in GitHub:
+
+### CD Workflow - Upload to PyPI
+
+I am using a second workflow for my app, and this workflow would actually be
+more in place for a library, so I'll cover it here. The Python Package Index
+(PyPI) is normally how we share libraries across Python projects, and it is
+where they are installed from when you run `pip install`. Once I am ready to
+release a new version of my library, I want the CD pipeline to upload it to
+PyPI automatically.
+
+If you recall from earlier, the third GitHub Action Python workflow template was
+called Publish Python Package. This template is close to what I needed for my
+use case, except I am using Poetry to build and upload instead of using
+`setup.py` to build and Twine to upload. I also used a slightly different event
+trigger.
+
+```yaml
+on:
+  release:
+    types: published
+```
+This sets my workflow to execute when I fully publish the GitHub release. The
+Publish Python Package template used the event `created` instead, but it makes
+more sense to me to publish the new version, and then upload it to PyPI, instead
+of upload to PyPI and then publishing it. Once a version is uploaded to PyPI it
+can't be reuploaded, and new version has to be created to upload again. So doing
+the permanent step last is my preference.
+
+The rest of the workflow until we get to the last step should look very similar
+to the test workflow:
+
+```yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+    - name: Install Poetry
+      uses: dschep/install-poetry-action@v1.2
+      with:
+        version: 1.0.0b3
+    - name: Install Dependencies
+      run: poetry install
+    - name: Build and publish
+      run: |
+        poetry build
+        poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
+```
+
+The final step in the workflow uses the `poetry publish` command to upload the
+Wheel and sdist to PyPI. The `secrets.PYPI_USERNAME` and `secrets.PYPI_PASSWORD`
+context expressions are defined by going to the repository settings, then
+selecting Secrets, and defining two new encrypted environmental variables that
+are only exposed to this workflow. If a contributor created a Pull Request from
+a fork of this repo, the secrets would not be passed to any of the workflows.
+These secrets passed via the `-u` and `-p` options of the `publish` command,
+are used to authenticate with the PyPI servers.
+
+At this point we are done with our configuration to test and release a library.
+Commit and push your changes to your branch, and ensure all of the steps pass
+successfully. This is what the output will look like on the Actions tab in
+GitHub:
 ![GitHub Actions Output]
 
 ## How to Test and Deploy a Python Application using GitHub Actions
@@ -520,6 +594,11 @@ across platforms. Right now, using a matrix for each operating system in my
 case wasn't easier than just creating three separate jobs, one for each
 platform.
 
+If you are interested in a more complex matrix setup, Jeff Triplett
+[posted](https://twitter.com/webology/status/1201887760413528065?s=20) his
+configuration for running five different Django versions against five different
+Python versions.
+
 The implementation of the three test jobs is similar to the library test job
 that we looked at earlier.
 
@@ -540,7 +619,7 @@ test-windows:
 The other steps to install the dependencies, setup caching, and test with Pytest
 were identical.
 
-### CD Workflow
+### CD Workflow - Release the App Installers
 
 Now that we have gone through the CI workflow for a Python application, on to
 the CD portion. This workflow is using different event triggers:
@@ -559,10 +638,100 @@ that will start the workflow by adding them as a comma separated list. When I
 want to release a new version of Gaphor:
 
 1. I update the version number in the `pyproject.toml`, commit the change, add
-a version tag, and push the commit and the tag
+a version tag, and finally push the commit and the tag.
 2. Once the tests pass, I edit a previously drafted release to point the tag to
 the tag of the release.
 3. The release workflow automatically builds and uploads the Python Wheel and
 sdist, the macOS dmg, and the Windows installer.
 4. Once I am ready, I click on the GitHub option to Publish release.
 
+In order to achieve this workflow, first we create a job for Windows and macOS:
+
+```yaml
+upload-windows:
+    runs-on: windows-latest
+...
+upload-macos:
+    runs-on: macOS-latest
+...
+```
+
+The next steps to checkout the source, setup Python, install dependencies,
+install poetry, turn off virtualenvs, use the cache, and have poetry install the
+Python dependencies are the exact same as the application Test Job above.
+
+Next we build the wheel and sdist, which is a single command when using Poetry:
+```yaml
+      - name: Build Wheel and sdist
+        run: poetry build
+```
+
+Our packaging for Windows is using custom shell scripts that run
+[PyInstaller](https://www.pyinstaller.org) to package up the app, libraries, and
+Python, and makensis to create a Windows installer. We are also using a custom
+shell script to package the app for macOS. Once I execute the scripts to
+package the app, I then upload the release assets to GitHub:
+
+```yaml
+      - name: Upload Assets
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'macos-dmg/*dmg;dist/*;win-installer/*.exe'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Here I am using Andrew Butler's
+[upload-release-assets](https://github.com/AButler/upload-release-assets)
+action. GitHub also has an action to perform this called
+[upload-release-asset](https://github.com/actions/upload-release-asset), but
+at the time of writing this, it didn't support uploading multiple files using
+wildcard characters, called glob patterns. `secrets.GITHUB_TOKEN` is another
+context expression to get the access token to allow Actions permissions to
+access the project repository, in this case to upload the release assets to a
+drafted release.
+
+## Future Improvements to My Workflow
+
+I think there is still some opportunity to simplify the workflows that I have
+created through updates to existing actions or creating new actions. As I
+mentioned earlier, it would be nice to have things at a maturity level so that
+no custom environment variable, paths, or shell scripts need to be run. Instead,
+we would be building workflows with actions as building blocks. I wasn't
+expecting this before I started working with GitHub Actions, but I am sold that 
+this would be immensely powerful.
+
+Since GitHub recently released CI/CD for Actions, many of the GitHub provided
+actions could use a little polish still. Most of the things that I thought of
+for improvements already had been recognized by others with Issues opened for
+Feature requests. If we give it a little time, I am sure these will be improved
+soon.
+
+I also said that one of my goals was to release to the three major platforms,
+but if you were paying attention in the last section, I only mentioned Windows
+and macOS. We are currently packaging our app using Flatpak for Linux and it is
+distributed through [FlatHub](https://flathub.org). FlatHub does have an
+automatic build system, but it requires manifest files stored in a special
+separate FlatHub repo for the app. I also contributed to the [Flatpak Builder
+Tools](https://github.com/flatpak/flatpak-builder-tools) in order to
+automatically generate the needed manifest from the `poetry.lock` file. This
+works good, but it would be nice in the future to have the CD workflow for my
+app, kickoff updates to the FlatHub repo.
+
+## Bonus - Other Great Actions
+
+[Debugging with
+tmate](https://github.com/marketplace/actions/debugging-with-tmate) - tmate is
+a terminal sharing app built on top of tmux. This great action allows you to
+pause a workflow in the middle of executing the steps, and then ssh in to the
+host runner and debug your configuration. I was getting a Python segmentation
+fault while running my tests, and this action proved to be exteremely useful.
+
+[Release Drafter](https://github.com/marketplace/actions/release-drafter) - In
+my app CD workflow, I showed that I am executing it when I create or edit a
+release. The release drafter action drafts my next release with release notes
+based on the Pull Requests that are merged. I then only have to edit the
+release to add the tag I want to release with, and all of my release assets
+automatically get uploaded. The [PR
+Labeler](https://github.com/marketplace/actions/pr-labeler) action goes along
+with this well to label your Pull Requests based on branch name patterns like
+`feature/*`.
