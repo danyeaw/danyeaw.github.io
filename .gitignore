@@ -5,4 +5,4 @@ cache
 .doit.db.bak
 __pycache__
 output
-.idea
+.idea/

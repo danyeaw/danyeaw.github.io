@@ -36,12 +36,16 @@ that can be used to automate other parts of your Python workflow.
 
 ## Overview of CI/CD
 
-CI is the practice of frequently integrating changes to code with the existing
-code repository. CD then extends CI by making sure the software checked in
-to the master branch is always in a state to be deployed to users, and
+Continuous Integration (CI) is the practice of frequently integrating changes to
+code with the existing code repository.
+
+<img src="/images/continuous-integration.svg" alt="Continuous Integration" height="200"/>
+
+Continuous Delivery / Delivery (CD) then extends CI by making sure the software checked in
+to the master branch is always in a state to be delivered to users, and
 automates the deployment process.
 
-![CI/CD Workflow Diagram]
+<img src="/images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="200"/>
 
 For open source projects on GitHub or GitLab,
 the workflow often looks like:
@@ -155,7 +159,7 @@ standard for a Python package:
 To get started with GitHub Actions on a project, go to the Actions tab on the
 main repo:
 
-![Actions tab image]
+<img src="/images/github-actions-tag.png" alt="GitHub Actions Tab" height="100"/>
 
 Based on your project being made up of mostly Python, GitHub will suggest three
 different workflows that you can use as templates to create your own:
@@ -166,7 +170,7 @@ different workflows that you can use as templates to create your own:
 
 Below is the workflow I had in mind:
 
-![workflow image]
+<img src="/images/library-workflow.svg" alt="Library Workflow" height="200"/>
 
 I want to start with a lint job that is run, and once that has successfully
 completed I want to start parallel jobs using the multiple versions of Python
