@@ -112,6 +112,14 @@ pyinotify = "*"
 
 [[package]]
 category = "main"
+description = "A GitHub Pages import tool."
+name = "ghp-import2"
+optional = false
+python-versions = "*"
+version = "1.0.1"
+
+[[package]]
+category = "main"
 description = "Internationalized Domain Names in Applications (IDNA)"
 name = "idna"
 optional = false
@@ -407,7 +415,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "edf7c10f217757f07c6d05d270831894558bf8ae69af00ece436f15ba7bfbf80"
+content-hash = "d77edc221f75cbc64cc24f018eb66108348a79883bec01fc4802780c06225710"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -464,6 +472,10 @@ docutils = [
 doit = [
     {file = "doit-0.31.1-py3-none-any.whl", hash = "sha256:52b7ad1c0095425bd719c2fc9fb27af94fb0ee478762c50abf385faaf786d010"},
     {file = "doit-0.31.1.tar.gz", hash = "sha256:bad01949effd537cade3aea286cc2cde074bdb7a4f442015557b1228dd46f5ea"},
+]
+ghp-import2 = [
+    {file = "ghp-import2-1.0.1.tar.gz", hash = "sha256:fdf95846b26c5b42964b3146ffc4f22107bbba7baa42659f0f22bfe08ec96d7f"},
+    {file = "ghp_import2-1.0.1-py2.py3-none-any.whl", hash = "sha256:1172fa772abc3dba7f3ff902e7b202eb8ebaf4a463e9d63b8e90cc9edd57330e"},
 ]
 idna = [
     {file = "idna-2.8-py2.py3-none-any.whl", hash = "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"},
