@@ -39,13 +39,13 @@ that can be used to automate other parts of your Python workflow.
 Continuous Integration (CI) is the practice of frequently integrating changes to
 code with the existing code repository.
 
-<img src="/images/continuous-integration.svg" alt="Continuous Integration" height="200"/>
+<img src="/images/continuous-integration.svg" alt="Continuous Integration" height="250"/>
 
 Continuous Delivery / Delivery (CD) then extends CI by making sure the software checked in
 to the master branch is always in a state to be delivered to users, and
 automates the deployment process.
 
-<img src="/images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="200"/>
+<img src="/images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="300"/>
 
 For open source projects on GitHub or GitLab,
 the workflow often looks like:
@@ -86,7 +86,7 @@ software repository (repo) to trigger your first build. Although these services
 are still hugely popular, 2019 was the year that they started to lose some of
 their momentum. In January 2019, a company called Idera bought Travis CI. In
 February Travis CI then
-[layed-off](https://twitter.com/alicegoldfuss/status/1098604563664420865) a lot
+[laid-off](https://twitter.com/alicegoldfuss/status/1098604563664420865) a lot
 of their senior engineers and technical staff.
 
 The 800-pound gorilla entered the space in 2018, when Microsoft bought GitHub
@@ -152,14 +152,14 @@ itself. Both Gaphas and Generic were using Travis CI. The workflow was pretty
 standard for a Python package:
 
 1. Run lint using [pre-commit](https://pre-commit.com) to run
-[Black](https://black.rtd.io) over the code base.
+[Black](https://black.rtd.io) over the code base
 2. Use a matrix build to test the library using Python 2.7, 3.6, 3.7, and 3.8
 3. Upload coverage information
 
 To get started with GitHub Actions on a project, go to the Actions tab on the
 main repo:
 
-<img src="/images/github-actions-tag.png" alt="GitHub Actions Tab" height="100"/>
+<img src="/images/github-actions-tab.png" alt="GitHub Actions Tab" height="60"/>
 
 Based on your project being made up of mostly Python, GitHub will suggest three
 different workflows that you can use as templates to create your own:
@@ -173,7 +173,7 @@ Below is the workflow I had in mind:
 <img src="/images/library-workflow.svg" alt="Library Workflow" height="200"/>
 
 I want to start with a lint job that is run, and once that has successfully
-completed I want to start parallel jobs using the multiple versions of Python
+completed, I want to start parallel jobs using the multiple versions of Python
 that my library supports.
 
 For these libraries, the 2nd workflow was the closest for what I was looking
@@ -185,7 +185,7 @@ of the YAML file from `pythonpackage.yml` to any filename you choose. I called
 mine `build.yml`, since calling this type of workflow a build is the
 nomenclature I am familiar with.
 
-As a side note, the online editor that GitHub as implemented in for creating
+As a side note, the online editor that GitHub has implemented for creating
 Actions is quite good. It includes full autocomplete (toggled with Ctrl+Space),
 and it actively highlights errors in your YAML file to ensure the correct
 syntax for each workflow. These type of error checks are priceless due to the
@@ -225,16 +225,14 @@ of the tight integration that GitHub Actions has.
 The next section of the YAML file is called `jobs`, this is where each main
 block of the workflow will be defined as a job. The jobs will then be further
 broken down in to steps, and multiple commands can be executed in each step.
-Each job that you define is given a name. In the template the job is named
-`build`, but there isn't any special significance of this name. In the
-template, they also are running a lint step for each version of Python being
-tested against. I decided that I wanted to run lint once as a separate job, and
-then once that is complete, all the testing can be kicked off in parallel.
+Each job that you define is given a name. In the template, the job is named
+`build`, but there isn't any special significance of this name. They also are
+running a lint step for each version of Python being tested against. I decided
+that I wanted to run lint once as a separate job, and then once that is
+complete, all the testing can be kicked off in parallel.
 
-In order to add lint as a separate job, I created a new job called `lint` nested
-within the `jobs` keyword. Once again, this job name doesn't have any special
-meaning, it is just a unique name that you give it. Below is an example of my
-lint job:
+In order to add lint as a separate job, I created a new job called `lint`
+nested within the `jobs` keyword. Below is an example of my lint job:
 
 ```yaml
 jobs:
@@ -258,11 +256,11 @@ Next comes the `runs-on` keyword which defines which platform GitHub Actions
 will run this job on, and in this case I am running on linting on the latest
 available version of Ubuntu. The `steps` keyword is where most of the workflow
 content will be, since it defines each step that will be taken as it is run.
-Each step optionally gets a name, and then either defines an Action to use or a
+Each step optionally gets a name, and then either defines an Action to use, or a
 command to run.
 
-Let's start with the Actions first, since they are he first two steps in my
-lint job. The keyword for an Acion is `uses`, and the value is the action repo
+Let's start with the Actions first, since they are the first two steps in my
+lint job. The keyword for an Action is `uses`, and the value is the action repo
 name and the version. I think of Actions as a library, a reusable step that I
 can use in my CI/CD pipeline without having to reinvent the wheel. GitHub
 developed these first two Actions that I am making use of, but you will see
@@ -272,7 +270,7 @@ that this is the "secret sauce" of GitHub Actions, and will be what makes this
 service truly special. I will discuss more about this later.
 
 The first two Actions I am using clones a copy of the code I am testing from my
-repo and sets up Python 3. Actions often use the`with` keyword for the
+repo, and sets up Python. Actions often use the `with` keyword for the
 configuration options, and in this case I am telling the `setup-python` action
 to use a newer version from Python 3.
 
@@ -286,8 +284,8 @@ to use a newer version from Python 3.
 
 The last two steps of the linting job are using the `run` keyword. Here I am
 defining commands to execute that aren't covered by an Action. As I mentioned
-earlier, I am using pre-commit to run Black over the project and check that the
-code formatting is correct. I have this broken up in to two steps:
+earlier, I am using pre-commit to run Black over the project and check the code
+formatting is correct. I have this broken up in to two steps:
 
 1. Install Dependencies - installs pre-commit, and the pre-commit hook
 environments
@@ -297,7 +295,7 @@ In the *Install Dependencies* step, I am also using the pipe operator, "|",
 which signifies that I am giving multiple commands, and I am separating each
 one on a new line. We now should have a complete lint job for a Python library,
 if you haven't already, now would be a good time to commit and push your
-changes to a branch and check the lint job passes for your repo.
+changes to a branch, and check the lint job passes for your repo.
 
 ### Test Job
 
@@ -404,8 +402,8 @@ graphical operations in memory without showing any screen output.
 The final step of the test phase is to upload the code coverage information. We
 are using [Code Climate](https://codeclimate.com/oss/) for analyzing coverage,
 because it also integrates a nice maintainability score based on things like
-code smells and duplication it finds. I find this to be a good tool to help us
-focus our refactoring and other maintenance efforts.
+code smells and duplication it detects. I find this to be a good tool to help
+us focus our refactoring and other maintenance efforts.
 [Coveralls](https://coveralls.io) and [Codecov](https://codecov.io) are good
 options that I have used as well. In order for the code coverage information to
 be recorded while Pytest is running, I am using the
@@ -442,14 +440,14 @@ on:
     types: published
 ```
 This sets my workflow to execute when I fully publish the GitHub release. The
-Publish Python Package template used the event `created` instead, but it makes
-more sense to me to publish the new version, and then upload it to PyPI, instead
-of upload to PyPI and then publishing it. Once a version is uploaded to PyPI it
-can't be reuploaded, and new version has to be created to upload again. So doing
-the permanent step last is my preference.
+Publish Python Package template used the event `created` instead. However, it
+makes more sense to me to publish the new version, and then upload it to PyPI,
+instead of uploading to PyPI and then publishing it. Once a version is uploaded
+to PyPI it can't be reuploaded, and new version has to be created to upload
+again. In other words, doing the most permanent step last is my preference.
 
-The rest of the workflow until we get to the last step should look very similar
-to the test workflow:
+The rest of the workflow, until we get to the last step, should look very
+similar to the test workflow:
 
 ```yaml
 jobs:
@@ -474,31 +472,37 @@ jobs:
 ```
 
 The final step in the workflow uses the `poetry publish` command to upload the
-Wheel and sdist to PyPI. The `secrets.PYPI_USERNAME` and `secrets.PYPI_PASSWORD`
-context expressions are defined by going to the repository settings, then
-selecting Secrets, and defining two new encrypted environmental variables that
-are only exposed to this workflow. If a contributor created a Pull Request from
-a fork of this repo, the secrets would not be passed to any of the workflows.
-These secrets passed via the `-u` and `-p` options of the `publish` command,
-are used to authenticate with the PyPI servers.
+Wheel and sdist to PyPI. I defined the `secrets.PYPI_USERNAME` and
+`secrets.PYPI_PASSWORD` context expressions by going to the repository
+settings, then selecting Secrets, and defining two new encrypted environmental
+variables that are only exposed to this workflow. If a contributor created a
+Pull Request from a fork of this repo, the secrets would not be passed to any
+of workflows started from the Pull Request. These secrets, passed via the `-u`
+and `-p` options of the `publish` command, are used to authenticate with the
+PyPI servers.
 
-At this point we are done with our configuration to test and release a library.
-Commit and push your changes to your branch, and ensure all of the steps pass
-successfully. This is what the output will look like on the Actions tab in
+At this point, we are done with our configuration to test and release a
+library. Commit and push your changes to your branch, and ensure all the steps
+pass successfully. This is what the output will look like on the Actions tab in
 GitHub:
-![GitHub Actions Output]
+
+<img src="/images/github-actions-output.png" alt="GitHub Actions Output" height="60"/>
+
+I have posted the final version of my complete GitHub Actions workflows for a
+Python library on the [Gaphas
+repo](https://github.com/gaphor/gaphas/tree/master/.github/workflows).
 
 ## How to Test and Deploy a Python Application using GitHub Actions
 
 My use case for testing a cross-platform Python Application is slightly
 different from the previous one we looked at for a library. For the library, it
-was really important that we tested on all the supported versions of Python.
-For an application, I package the application for the platform it is running on
-with the version of Python that I want the app to use, normally the latest
-stable release of Python. So instead of testing with multiple versions of
-Python, it becomes much more important to ensure that the tests pass on all of
-the platforms that the application will run on, and then package and deploy the
-app for each platform.
+was really important we tested on all the supported versions of Python. For an
+application, I package the application for the platform it is running on with
+the version of Python that I want the app to use, normally the latest stable
+release of Python. So instead of testing with multiple versions of Python, it
+becomes much more important to ensure that the tests pass on all the platforms
+that the application will run on, and then package and deploy the app for each
+platform.
 
 Below are the two pipelines I would like to create, one for CI and one for CD.
 Although you could combine these in to a single pipeline, I like that GitHub
@@ -508,12 +512,12 @@ allows you to make each workflow a little more atomic and understandable. I
 named my two workflows `build.yml` for the CI portion, and `release.yml` for the
 CD portion.
 
-![App pipeline picture]
+<img src="/images/app-workflow.svg" alt="App Workflow" height="300"/>
 
 ### Caching Python Dependencies
 
 Although the lint phase is the same between a library and an application, I am
-going to add in one more optional cahce step that I didn't include earlier for
+going to add in one more optional cache step that I didn't include earlier for
 simplification:
 
 ```yaml
@@ -527,14 +531,13 @@ simplification:
 
 It is a good practice to use a cache to store information that doesn't often
 change in your builds, like Python dependencies. It can help speed up the build
-process and lessen the load on the PyPI servers. I also learned from the
-[Travis CI
+process and lessen the load on the PyPI servers. While setting this up, I also
+learned from the [Travis CI
 documentation](https://docs.travis-ci.com/user/caching/#things-not-to-cache)
-while setting this up that you should not cache large files that are quick to
-install, but are slow to download like Ubuntu packages and docker images. These
-files take as long to download from the cache as they do from the original
-source. This explains why the cache action doesn't have any examples on caching
-these types of files.
+that you should not cache large files that are quick to install, but are slow
+to download like Ubuntu packages and docker images. These files take as long to
+download from the cache as they do from the original source. This explains why
+the cache action doesn't have any examples on caching these types of files.
 
 The caches work by checking if a cached archive exists at the beginning of the
 workflow. If it exists, it downloads it and unpacks it to the path location.
@@ -545,16 +548,17 @@ to remote storage.
 A few configurations to notice, the `path` is operating system dependent because
 pip stores its cache in different locations. My configuration above is for
 Ubuntu, but you would need to use `~\AppData\Local\pip\Cache` for Windows and
-`~/Library/Caches/pip` for macOS. The `key` is used used to determine if the
-correct cache exists for restoring and saving to. Since I am using Poetry for
-dependency management, and I am taking the hash of the `poetry.lock` file and
-adding it to end of a key which contains the context expression for the operating
-system that the job is running on, `runner.os`, and pip. This will look like
-`Windows-pip-iefaieh82h2h231j093` where the end is a long hash. This way if my
-project dependencies change, my `poetry.lock` will be updated, and a new cache
-will be created instead of restoring from the old cache. If you aren't using
-Poetry, you could also use your `requirements.txt` or `Pipfile.lock` for the
-same purpose.
+`~/Library/Caches/pip` for macOS. The `key` is used to determine if the correct
+cache exists for restoring and saving to. Since I am using Poetry for
+dependency management, I am taking the hash of the `poetry.lock` file and
+adding it to end of a key which contains the context expression for the
+operating system that the job is running on, `runner.os`, and pip. This will
+look like
+`Windows-pip-45f8427e5cd3738684a3ca8d009c0ef6de81aa1226afbe5be9216ba645c66e8a`,
+where the end is a long hash. This way if my project dependencies change, my
+`poetry.lock` will be updated, and a new cache will be created instead of
+restoring from the old cache. If you aren't using Poetry, you could also use
+your `requirements.txt` or `Pipfile.lock` for the same purpose.
 
 As we mentioned earlier, if the `key` doesn't match an existing cache, it's
 called a cache miss. The final configuration option called `restore-keys` is
@@ -694,6 +698,10 @@ context expression to get the access token to allow Actions permissions to
 access the project repository, in this case to upload the release assets to a
 drafted release.
 
+The final version of my complete GitHub Actions workflows for the
+cross-platform app are posted on the [Gaphor
+repo](https://github.com/gaphor/gaphor/tree/master/.github/workflows).
+
 ## Future Improvements to My Workflow
 
 I think there is still some opportunity to simplify the workflows that I have
@@ -701,12 +709,12 @@ created through updates to existing actions or creating new actions. As I
 mentioned earlier, it would be nice to have things at a maturity level so that
 no custom environment variable, paths, or shell scripts need to be run. Instead,
 we would be building workflows with actions as building blocks. I wasn't
-expecting this before I started working with GitHub Actions, but I am sold that 
+expecting this before I started working with GitHub Actions, but I am sold that
 this would be immensely powerful.
 
 Since GitHub recently released CI/CD for Actions, many of the GitHub provided
 actions could use a little polish still. Most of the things that I thought of
-for improvements already had been recognized by others with Issues opened for
+for improvements, already had been recognized by others with Issues opened for
 Feature requests. If we give it a little time, I am sure these will be improved
 soon.
 
@@ -728,7 +736,7 @@ tmate](https://github.com/marketplace/actions/debugging-with-tmate) - tmate is
 a terminal sharing app built on top of tmux. This great action allows you to
 pause a workflow in the middle of executing the steps, and then ssh in to the
 host runner and debug your configuration. I was getting a Python segmentation
-fault while running my tests, and this action proved to be exteremely useful.
+fault while running my tests, and this action proved to be extremely useful.
 
 [Release Drafter](https://github.com/marketplace/actions/release-drafter) - In
 my app CD workflow, I showed that I am executing it when I create or edit a
