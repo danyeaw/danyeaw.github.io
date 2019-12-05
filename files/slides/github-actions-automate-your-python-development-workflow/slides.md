@@ -51,6 +51,39 @@ Continuous Integration / Continuous Delivery (CI/CD).
 <!-- .element style="border: 0; box-shadow: None" -->
 
 ---
+# Then There was Azure Pipelines
+
+![Azure Pipelines](images/azure.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+---
+
+## GitHub Actions CI/CD for a Python Library
+
+![GitHub Azure](images/github-actions-tab.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+1. Run lint using pre-commit to run Black over the code base
+2. Use a matrix build to test the library using Python 2.7, 3.6, 3.7, and 3.8
+3. Upload coverage information
+
+---
+
+## GitHub Actions CI/CD Templates
+
+1. Python application - test on a single Python version
+2. Python package - test on multiple Python versions
+3. Publish Python Package - publish a package to PyPI using Twine
+
+---
+
+## Library Workflow 
+
+![Library Workflow](images/library-workflow.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+---
+
 # Summary
 
 ---
