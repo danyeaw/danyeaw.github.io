@@ -90,10 +90,11 @@
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">5 Steps to Build Python Native GUI Widgets for BeeWare</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
                     Dan Yeaw
             </span></p>
             <p class="dateline">
@@ -431,7 +432,7 @@ interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:</p>
 <pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
 </pre>
 
@@ -516,7 +517,7 @@ example, reserve memory on those platforms. Here is an example of what this
 extra TogaCanvas class would like with the Cocoa platform:</p>
 <pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">TogaCanvas</span><span class="p">(</span><span class="n">NSView</span><span class="p">):</span>
     <span class="nd">@objc_method</span>
-    <span class="k">def</span> <span class="nf">drawRect_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">:</span> <span class="n">NSRect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">drawRect_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">:</span> <span class="n">NSRect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">NSGraphicsContext</span><span class="o">.</span><span class="n">currentContext</span><span class="o">.</span><span class="n">graphicsPort</span><span class="p">()</span>
 </pre>
 
@@ -564,15 +565,13 @@ experience creating a widget.</p>
         </section></article><!--End of body content--><footer id="footer">
             Contents © 2019         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

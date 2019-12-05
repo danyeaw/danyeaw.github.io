@@ -11,7 +11,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://dan.yeaw.me/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/python-packaging-with-poetry-and-briefcase/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/github-actions-automate-your-python-development-workflow/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -70,13 +70,690 @@
         <!--Body content-->
         
         
+        
     
         
 
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/python-packaging-with-poetry-and-briefcase/" class="u-url">How to Rock Python Packaging with Poetry and Briefcase</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/github-actions-automate-your-python-development-workflow/" class="u-url">GitHub Actions: Automate Your Python Development Workflow</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Dan Yeaw
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/github-actions-automate-your-python-development-workflow/" rel="bookmark">
+            <time class="published dt-published" datetime="2019-12-04T21:22:00-05:00" itemprop="datePublished" title="2019-12-04 21:22">2019-12-04 21:22</time></a>
+            </p>
+                        <p class="commentline">
+        
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <div>
+<p>At GitHub Universe 2018, GitHub launched GitHub Actions in beta. Later in
+August 2019, GitHub announced the expansion of GitHub Actions to include
+Continuous Integration / Continuous Delivery (CI/CD). At Universe 2019,
+GitHub
+<a href="https://github.blog/2019-11-13-universe-day-one/#github-actions">announced</a>
+that Actions are out of beta and generally available. I spent the last few
+days, while I was taking some vacation during Thanksgiving, to explore GitHub
+Actions for automation of Python projects.</p>
+<p>With my involvement in the <a href="https://gaphor.org">Gaphor</a> project, we have a GUI
+application to <a href="https://github.com/gaphor/gaphor">maintain</a>, as well as two
+libraries, a diagramming widget called
+<a href="https://github.com/gaphor/gaphas">Gaphas</a>, and we more recently took over
+maintenance of a library that enables multidispatch and events called
+<a href="https://github.com/gaphor/generic">Generic</a>. It is important to have an
+efficient programming workflow to maintain these projects, so we can spend more
+of our open source volunteer time focusing on implementing new features and
+other enjoyable parts of programming, and less time doing manual and boring
+project maintenance.</p>
+<p>In this blog post, I am going to give an overview of what CI/CD is, my previous
+experience with other CI/CD systems, how to test and deploy Python applications
+and libraries using GitHub Actions, and finally highlight some other Actions
+that can be used to automate other parts of your Python workflow.</p>
+<h3>Overview of CI/CD</h3>
+<p>Continuous Integration (CI) is the practice of frequently integrating changes to
+code with the existing code repository.</p>
+<p><img src="images/continuous-integration.svg" alt="Continuous Integration" height="250"></p>
+<p>Continuous Delivery / Delivery (CD) then extends CI by making sure the software checked in
+to the master branch is always in a state to be delivered to users, and
+automates the deployment process.</p>
+<p><img src="images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="300"></p>
+<p>For open source projects on GitHub or GitLab,
+the workflow often looks like:</p>
+<ol>
+<li>The latest development is on the mainline branch called master.</li>
+<li>Contributors create their own copy of the project, called a fork, and then
+clone their fork to their local computer and setup a development environment.</li>
+<li>Contributors create a local branch on their computer for a change they want
+to make, add tests for their changes, and make the changes.</li>
+<li>Once all the unit tests pass locally, they commit the changes and push them
+to the new branch on their fork.</li>
+<li>They open a Pull Request to the original repo.</li>
+<li>The Pull Request kicks off a build on the CI system automatically, runs
+formatting and other lint checks, and runs all the tests.</li>
+<li>Once all the tests pass, and the maintainers of the project are good with
+the updates, they merge the changes back to the master branch.</li>
+</ol>
+<p>Either in a fixed release cadence, or occasionally, the maintainers then add a
+version tag to master, and kickoff the CD system to package and release a new
+version to users.</p>
+<h3>My Experience with other CI/CD Systems</h3>
+<p>Since most open source projects didn't want the overhead of maintaining their
+own local CI server using software like Jenkins, the use of cloud-based or
+hosted CI services became very popular over the last 7 years. The most
+frequently used of these was Travis CI with Circle CI a close second. Although
+both of these services introduced initial support for Windows over the last
+year, the majority of users are running tests on Linux and macOS only. It is
+common for projects using Travis or Circle to use another service called
+AppVeyor if they need to test on Windows.</p>
+<p>I think the popularity of Travis CI and the other similar services is based on
+how easy they were to get going with. You would login to the service with your
+GitHub account, tell the service to test one of your projects, add a YAML
+formatted file to your repository using one of the examples, and push to the
+software repository (repo) to trigger your first build. Although these services
+are still hugely popular, 2019 was the year that they started to lose some of
+their momentum. In January 2019, a company called Idera bought Travis CI. In
+February Travis CI then
+<a href="https://twitter.com/alicegoldfuss/status/1098604563664420865">laid-off</a> a lot
+of their senior engineers and technical staff.</p>
+<p>The 800-pound gorilla entered the space in 2018, when Microsoft bought GitHub
+in June and then rebranded their Visual Studio Team Services ecosystem and
+launched Azure Pipelines as a CI service in September. Like most of the popular
+services, it was free for open source projects. The notable features of this
+service was that it launched supporting Linux, macOS, and Windows, and it
+allowed for 10 parallel jobs. Although the other services offer parallel
+builds, on some platforms they are limited for open source projects, and I
+would often be waiting for a server called an "agent" to be available with
+Travis CI. Following the lay-offs at Travis CI, I was ready to explore other
+services to use, and Azure Pipelines was the new hot CI system.</p>
+<p>In March 2019, I was getting ready to launch version 1.0.0 of Gaphor after
+spending a couple of years helping to update it to Python 3 and PyGObject. We
+had been using Travis CI, and we were lacking the ability to test and package
+the app on all three major platforms. I used this as an opportunity to learn
+Azure Pipelines with the goal of being able to fill this gap we had in our
+workflow.</p>
+<p>My takeaways from this experience is that Azure Pipelines is lacking much of
+the ease of use as compared to Travis CI, but has other huge advantages
+including build speed and the flexibility and power to create complex
+cross-platform workflows. Developing a complex workflow on any of these CI
+systems is challenging because the feedback you receive takes a long time to
+get back to you. In order to create a workflow, I normally:</p>
+<ol>
+<li>Create a branch of the project I am working on</li>
+<li>Develop a YAML configuration based on the documentation and examples available</li>
+<li>Push to the branch, to kickoff the CI build</li>
+<li>Realize that something didn't work as expected after 10 minutes of waiting
+for the build to run</li>
+<li>Go back to step 2 and repeat, over and over again</li>
+</ol>
+<p>One of my other main takeaways was that the documentation was often lacking
+good examples of complex workflows, and was not very clear on how to use each
+step. This drove even more trial and error, which requires a lot of patience as
+you are working on a solution. After a lot of effort, I was able to complete a
+configuration that tested Gaphor on Linux, macOS, and Windows. I also was able
+to partially get the CD to work by setting up Pipelines to add the built dmg
+file for macOS to a draft release when I push a new version tag. A couple of
+weeks ago, I was also able build and upload Python Wheel and source
+distribution, along with the Windows binaries built in
+<a href="https://www.msys2.org">MSYS2</a>.</p>
+<p>Despite the challenges getting there, the result was very good! Azure Pipelines
+is screaming fast, about twice as fast as Travis CI was for my complex
+workflows (25 minutes to 12 minutes). The tight integration that allows testing
+on all three major platforms was also just what I was looking for.</p>
+<h3>How to Test a Python Library using GitHub Actions</h3>
+<p>With all the background out of the way, now enters GitHub Actions. Although I
+was very pleased with how Azure Pipelines performs, I thought it would be nice
+to have something that could better mix the ease of use of Travis CI with the
+power Azure Pipelines provides. I hadn't made use of any Actions before
+trying to replace both Travis and Pipelines on the three Gaphor projects that
+I mentioned at the beginning of the post.</p>
+<p>I started first with the libraries, in order to give GitHub Actions a try with
+some of the more straightforward workflows before jumping in to converting Gaphor
+itself. Both Gaphas and Generic were using Travis CI. The workflow was pretty
+standard for a Python package:</p>
+<ol>
+<li>Run lint using <a href="https://pre-commit.com">pre-commit</a> to run
+<a href="https://black.rtd.io">Black</a> over the code base</li>
+<li>Use a matrix build to test the library using Python 2.7, 3.6, 3.7, and 3.8</li>
+<li>Upload coverage information</li>
+</ol>
+<p>To get started with GitHub Actions on a project, go to the Actions tab on the
+main repo:</p>
+<p><img src="images/github-actions-tab.png" alt="GitHub Actions Tab" height="60"></p>
+<p>Based on your project being made up of mostly Python, GitHub will suggest three
+different workflows that you can use as templates to create your own:</p>
+<ol>
+<li>Python application - test on a single Python version</li>
+<li>Python package - test on multiple Python versions</li>
+<li>Publish Python Package - publish a package to PyPI using Twine</li>
+</ol>
+<p>Below is the workflow I had in mind:</p>
+<p><img src="images/library-workflow.svg" alt="Library Workflow" height="200"></p>
+<p>I want to start with a lint job that is run, and once that has successfully
+completed, I want to start parallel jobs using the multiple versions of Python
+that my library supports.</p>
+<p>For these libraries, the 2nd workflow was the closest for what I was looking
+for, since I wanted to test on multiple versions of Python. I selected the
+<code>Set up this workflow</code> option. GitHub then creates a new draft YAML file based
+on the template that you selected, and places it in the <code>.github/workflows</code>
+directory in your repo. At the top of the screen you can also change the name
+of the YAML file from <code>pythonpackage.yml</code> to any filename you choose. I called
+mine <code>build.yml</code>, since calling this type of workflow a build is the
+nomenclature I am familiar with.</p>
+<p>As a side note, the online editor that GitHub has implemented for creating
+Actions is quite good. It includes full autocomplete (toggled with Ctrl+Space),
+and it actively highlights errors in your YAML file to ensure the correct
+syntax for each workflow. These type of error checks are priceless due to the
+long feedback loop, and I actually recommend using the online editor at this
+point over what VSCode or Pycharm provide.</p>
+<h4>Execute on Events</h4>
+<p>The top of each workflow file are two keywords: <code>name</code> and <code>on</code>. The <code>name</code> sets
+what will be displayed in the Actions tab for the workflow you are creating. If
+you don't define a name, then the name of the YAML file will be shown as the
+Action is running. The <code>on</code> keyword defines what will cause the workflow to be
+started. The template uses a value of <code>push</code>, which means
+that the workflow will be kicked off when you push to any branch in the
+repo. Here is an example of how I set these settings for my libraries:</p>
+<pre class="code literal-block"><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build</span>
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">pull_request</span><span class="p">:</span>
+  <span class="nt">push</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+</pre>
+
+
+<p>Instead of running this workflow on any push event, I wanted a build to happen
+during two conditions:</p>
+<ol>
+<li>Any Pull Request</li>
+<li>Any push to the master branch</li>
+</ol>
+<p>You can see how that was configured above. Being able to start a workflow on
+any type of event in GitHub is extremely powerful, and it one of the advantages
+of the tight integration that GitHub Actions has.</p>
+<h4>Lint Job</h4>
+<p>The next section of the YAML file is called <code>jobs</code>, this is where each main
+block of the workflow will be defined as a job. The jobs will then be further
+broken down in to steps, and multiple commands can be executed in each step.
+Each job that you define is given a name. In the template, the job is named
+<code>build</code>, but there isn't any special significance of this name. They also are
+running a lint step for each version of Python being tested against. I decided
+that I wanted to run lint once as a separate job, and then once that is
+complete, all the testing can be kicked off in parallel.</p>
+<p>In order to add lint as a separate job, I created a new job called <code>lint</code>
+nested within the <code>jobs</code> keyword. Below is an example of my lint job:</p>
+<pre class="code literal-block"><span></span><span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">lint</span><span class="p">:</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+    <span class="nt">steps</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">python-version</span><span class="p">:</span> <span class="s">'3.x'</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+          <span class="no">pip install pre-commit</span>
+          <span class="no">pre-commit install-hooks</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Lint with pre-commit</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pre-commit run --all-files</span>
+</pre>
+
+
+<p>Next comes the <code>runs-on</code> keyword which defines which platform GitHub Actions
+will run this job on, and in this case I am running on linting on the latest
+available version of Ubuntu. The <code>steps</code> keyword is where most of the workflow
+content will be, since it defines each step that will be taken as it is run.
+Each step optionally gets a name, and then either defines an Action to use, or a
+command to run.</p>
+<p>Let's start with the Actions first, since they are the first two steps in my
+lint job. The keyword for an Action is <code>uses</code>, and the value is the action repo
+name and the version. I think of Actions as a library, a reusable step that I
+can use in my CI/CD pipeline without having to reinvent the wheel. GitHub
+developed these first two Actions that I am making use of, but you will see
+later that you can make use of any Actions posted by other users, and even
+create your own using the Actions SDK and some TypeScript. I am now convinced
+that this is the "secret sauce" of GitHub Actions, and will be what makes this
+service truly special. I will discuss more about this later.</p>
+<p>The first two Actions I am using clones a copy of the code I am testing from my
+repo, and sets up Python. Actions often use the <code>with</code> keyword for the
+configuration options, and in this case I am telling the <code>setup-python</code> action
+to use a newer version from Python 3.</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Setup Python</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">python-version</span><span class="p">:</span> <span class="s">'3.x'</span>
+</pre>
+
+
+<p>The last two steps of the linting job are using the <code>run</code> keyword. Here I am
+defining commands to execute that aren't covered by an Action. As I mentioned
+earlier, I am using pre-commit to run Black over the project and check the code
+formatting is correct. I have this broken up in to two steps:</p>
+<ol>
+<li>Install Dependencies - installs pre-commit, and the pre-commit hook
+environments</li>
+<li>Lint with pre-commit - runs Black against all the files in the repo</li>
+</ol>
+<p>In the <em>Install Dependencies</em> step, I am also using the pipe operator, "|",
+which signifies that I am giving multiple commands, and I am separating each
+one on a new line. We now should have a complete lint job for a Python library,
+if you haven't already, now would be a good time to commit and push your
+changes to a branch, and check the lint job passes for your repo.</p>
+<h4>Test Job</h4>
+<p>For the test job, I created another job called <code>test</code>, and it also uses
+the <code>ubuntu-latest</code> platform for the job. I did use one new keyword here called
+<code>needs</code>. This defines that this job should only be started once the lint job has
+finished successfully. If I didn't include this, then the lint job and all the
+other test jobs would all be started in parallel.</p>
+<pre class="code literal-block"><span></span>  <span class="nt">test</span><span class="p">:</span>
+    <span class="nt">needs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">lint</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</pre>
+
+
+<p>Next up I used another new keyword called <code>strategy</code>. A strategy creates a build
+matrix for your jobs. A build matrix is a set of different configurations of the
+virtual environment used for the job. For example, you can run a job against
+multiple operating systems, tool version, or in this case against different
+versions of Python. This prevents repetitiveness because otherwise you would
+need to copy and paste the same steps over and over again for different versions
+of Python. Finally, the template we are using also had a max-parallel keyword
+which limits the number of parallel jobs that can run simultaneously. I am only
+using four versions of Python, and I don't have any reason to limit the number
+of parallel jobs, so I removed this line for my YAML file.</p>
+<pre class="code literal-block"><span></span>    <span class="nt">strategy</span><span class="p">:</span>
+      <span class="nt">matrix</span><span class="p">:</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">2.7</span><span class="p p-Indicator">,</span> <span class="nv">3.6</span><span class="p p-Indicator">,</span> <span class="nv">3.7</span><span class="p p-Indicator">,</span> <span class="nv">3.8</span><span class="p p-Indicator">]</span>
+</pre>
+
+
+<p>Now on to the steps of the job. My first two steps, checkout the sources and
+setup Python, are the same two steps as I had above in the lint job. There is
+one difference, and that is that I am using the <code>${{ matrix.python-version }}</code>
+syntax in the setup Python step. I use the {{ }} syntax to define an
+expression. I am using a special kind of expression called a context, which is
+a way to access information about a workflow run, the virtual environment,
+jobs, steps, and in this case the Python version information from the matrix
+parameters that I configured earlier. Finally, I use the $ symbol in front of
+the context expression to tell Actions to expand the expression in to its
+value. If version 3.8 of Python is currently running from the matrix, then <code>${{
+matrix.python-version }}</code> is replaced by <code>3.8</code>.</p>
+<pre class="code literal-block"><span></span>    <span class="nt">steps</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set up Python ${{ matrix.python-version }}</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
+</pre>
+
+
+<p>Since I am testing a GTK diagramming library, I need to also install some
+Ubuntu dependencies. I use the <code>&gt;</code> symbol as YAML syntax to ignore the newlines
+in my run value, this allows me to execute a really long command while keeping
+my standard line length in my .yml file. </p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
+          <span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span>
+          <span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span>
+          <span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span>
+</pre>
+
+
+<p>For my projects, I love using Poetry for managing my Python dependencies.
+See my other article on <a href="posts/python-packaging-with-poetry-and-briefcase/">Python Packaging with Poetry and
+Briefcase</a> for more
+information on how to make use of Poetry for your projects. I am using a custom
+Action that <a href="https://github.com/dschep">Daniel Schep</a> created that installs
+Poetry. Although installing Poetry manually is pretty straightforward, I really
+like being able to make use of these building blocks that others have created.
+Although you should always use a Python virtual environment while you are
+working on a local development environment, they aren't really needed since
+the environment created for CI/CD is already isolated and won't be reused. This
+would be a nice improvement to the <code>install-poetry-action</code>, so that the
+creation of virtualenvs are turned off by default.</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Poetry</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Turn off Virtualenvs</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">poetry config virtualenvs.create false</span>
+</pre>
+
+
+<p>Next we have Poetry install the dependencies using the <code>poetry.lock</code> file using
+the <code>poetry install</code> command. Then we are to the key step of the job, which is
+to run all the tests using Pytest. I preface the <code>pytest</code> command with
+<code>xvfb-run</code> because this is a GUI library, and many of the tests would fail
+because there is no display server, like X or Wayland, running on the CI runner.
+The X virtual framebuffer (Xvfb) display server is used to perform all the
+graphical operations in memory without showing any screen output.</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Python Dependencies</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">poetry install</span>
+      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Test with Pytest</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">xvfb-run pytest</span>
+</pre>
+
+
+<p>The final step of the test phase is to upload the code coverage information. We
+are using <a href="https://codeclimate.com/oss/">Code Climate</a> for analyzing coverage,
+because it also integrates a nice maintainability score based on things like
+code smells and duplication it detects. I find this to be a good tool to help
+us focus our refactoring and other maintenance efforts.
+<a href="https://coveralls.io">Coveralls</a> and <a href="https://codecov.io">Codecov</a> are good
+options that I have used as well. In order for the code coverage information to
+be recorded while Pytest is running, I am using the
+<a href="https://pytest-cov.rtd.io">pytest-cov</a> Pytest plugin.</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Code Climate Coverage Action</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">paambaati/codeclimate-action@v2.3.0</span>
+        <span class="nt">env</span><span class="p">:</span>
+          <span class="nt">CC_TEST_REPORTER_ID</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">195e9f83022747c8eefa3ec9510dd730081ef111acd99c98ea0efed7f632ff8a</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">coverageCommand</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">coverage xml</span>
+</pre>
+
+
+<h4>CD Workflow - Upload to PyPI</h4>
+<p>I am using a second workflow for my app, and this workflow would actually be
+more in place for a library, so I'll cover it here. The Python Package Index
+(PyPI) is normally how we share libraries across Python projects, and it is
+where they are installed from when you run <code>pip install</code>. Once I am ready to
+release a new version of my library, I want the CD pipeline to upload it to
+PyPI automatically.</p>
+<p>If you recall from earlier, the third GitHub Action Python workflow template was
+called Publish Python Package. This template is close to what I needed for my
+use case, except I am using Poetry to build and upload instead of using
+<code>setup.py</code> to build and Twine to upload. I also used a slightly different event
+trigger.</p>
+<pre class="code literal-block"><span></span><span class="nt">on</span><span class="p">:</span>
+  <span class="nt">release</span><span class="p">:</span>
+    <span class="nt">types</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">published</span>
+</pre>
+
+
+<p>This sets my workflow to execute when I fully publish the GitHub release. The
+Publish Python Package template used the event <code>created</code> instead. However, it
+makes more sense to me to publish the new version, and then upload it to PyPI,
+instead of uploading to PyPI and then publishing it. Once a version is uploaded
+to PyPI it can't be reuploaded, and new version has to be created to upload
+again. In other words, doing the most permanent step last is my preference.</p>
+<p>The rest of the workflow, until we get to the last step, should look very
+similar to the test workflow:</p>
+<pre class="code literal-block"><span></span><span class="nt">jobs</span><span class="p">:</span>
+  <span class="nt">deploy</span><span class="p">:</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+    <span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">python-version</span><span class="p">:</span> <span class="s">'3.x'</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Poetry</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span>
+      <span class="nt">with</span><span class="p">:</span>
+        <span class="nt">version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">poetry install</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and publish</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+        <span class="no">poetry build</span>
+        <span class="no">poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}</span>
+</pre>
+
+
+<p>The final step in the workflow uses the <code>poetry publish</code> command to upload the
+Wheel and sdist to PyPI. I defined the <code>secrets.PYPI_USERNAME</code> and
+<code>secrets.PYPI_PASSWORD</code> context expressions by going to the repository
+settings, then selecting Secrets, and defining two new encrypted environmental
+variables that are only exposed to this workflow. If a contributor created a
+Pull Request from a fork of this repo, the secrets would not be passed to any
+of workflows started from the Pull Request. These secrets, passed via the <code>-u</code>
+and <code>-p</code> options of the <code>publish</code> command, are used to authenticate with the
+PyPI servers.</p>
+<p>At this point, we are done with our configuration to test and release a
+library. Commit and push your changes to your branch, and ensure all the steps
+pass successfully. This is what the output will look like on the Actions tab in
+GitHub:</p>
+<p><img src="images/github-actions-output.png" alt="GitHub Actions Output" height="60"></p>
+<p>I have posted the final version of my complete GitHub Actions workflows for a
+Python library on the <a href="https://github.com/gaphor/gaphas/tree/master/.github/workflows">Gaphas
+repo</a>.</p>
+<h3>How to Test and Deploy a Python Application using GitHub Actions</h3>
+<p>My use case for testing a cross-platform Python Application is slightly
+different from the previous one we looked at for a library. For the library, it
+was really important we tested on all the supported versions of Python. For an
+application, I package the application for the platform it is running on with
+the version of Python that I want the app to use, normally the latest stable
+release of Python. So instead of testing with multiple versions of Python, it
+becomes much more important to ensure that the tests pass on all the platforms
+that the application will run on, and then package and deploy the app for each
+platform.</p>
+<p>Below are the two pipelines I would like to create, one for CI and one for CD.
+Although you could combine these in to a single pipeline, I like that GitHub
+Actions allows so much flexibility in being able to define any GitHub event to
+start a workflow. This tight integration is definitely a huge bonus here, and it
+allows you to make each workflow a little more atomic and understandable. I
+named my two workflows <code>build.yml</code> for the CI portion, and <code>release.yml</code> for the
+CD portion.</p>
+<p><img src="images/app-workflow.svg" alt="App Workflow" height="300"></p>
+<h4>Caching Python Dependencies</h4>
+<p>Although the lint phase is the same between a library and an application, I am
+going to add in one more optional cache step that I didn't include earlier for
+simplification:</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Use Python Dependency Cache</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/cache@v1.0.3</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">~/.cache/pip</span>
+          <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}</span>
+          <span class="nt">restore-keys</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-</span>
+</pre>
+
+
+<p>It is a good practice to use a cache to store information that doesn't often
+change in your builds, like Python dependencies. It can help speed up the build
+process and lessen the load on the PyPI servers. While setting this up, I also
+learned from the <a href="https://docs.travis-ci.com/user/caching/#things-not-to-cache">Travis CI
+documentation</a>
+that you should not cache large files that are quick to install, but are slow
+to download like Ubuntu packages and docker images. These files take as long to
+download from the cache as they do from the original source. This explains why
+the cache action doesn't have any examples on caching these types of files.</p>
+<p>The caches work by checking if a cached archive exists at the beginning of the
+workflow. If it exists, it downloads it and unpacks it to the path location.
+At the end of the workflow, the action checks if the cache previously existed,
+if not, this is called a cache miss, and it creates a new archive and uploads it
+to remote storage.</p>
+<p>A few configurations to notice, the <code>path</code> is operating system dependent because
+pip stores its cache in different locations. My configuration above is for
+Ubuntu, but you would need to use <code>~\AppData\Local\pip\Cache</code> for Windows and
+<code>~/Library/Caches/pip</code> for macOS. The <code>key</code> is used to determine if the correct
+cache exists for restoring and saving to. Since I am using Poetry for
+dependency management, I am taking the hash of the <code>poetry.lock</code> file and
+adding it to end of a key which contains the context expression for the
+operating system that the job is running on, <code>runner.os</code>, and pip. This will
+look like
+<code>Windows-pip-45f8427e5cd3738684a3ca8d009c0ef6de81aa1226afbe5be9216ba645c66e8a</code>,
+where the end is a long hash. This way if my project dependencies change, my
+<code>poetry.lock</code> will be updated, and a new cache will be created instead of
+restoring from the old cache. If you aren't using Poetry, you could also use
+your <code>requirements.txt</code> or <code>Pipfile.lock</code> for the same purpose.</p>
+<p>As we mentioned earlier, if the <code>key</code> doesn't match an existing cache, it's
+called a cache miss. The final configuration option called <code>restore-keys</code> is
+optional, and it provides an ordered list of keys to use for restoring the
+cache. It does this by sequentially searching for any caches that partially
+match in the restore-keys list. If a key partially matches, the action
+downloads and unpacks the archive for use, until the new cache is uploaded at
+the end of the workflow.</p>
+<h4>Test Job</h4>
+<p>Ideally, it would be great to use a build matrix to test across platforms. This
+way you could have similar build steps for each platform without repeating
+yourself. This would look something like this:</p>
+<pre class="code literal-block"><span></span><span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+<span class="nt">strategy</span><span class="p">:</span>
+    <span class="nt">matrix</span><span class="p">:</span>
+        <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span> <span class="nv">windows-latest</span><span class="p p-Indicator">,</span> <span class="nv">macOS-latest</span><span class="p p-Indicator">]</span>
+<span class="nt">steps</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.os == 'ubuntu-latest'</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="p p-Indicator">&gt;</span>
+        <span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span>
+        <span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span>
+        <span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span>
+    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install Brew Dependencies</span>
+      <span class="nt">if</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">matrix.os == 'macOS-latest'</span>
+      <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">brew install gobject-introspection gtk+3 adwaita-icon-theme</span>
+</pre>
+
+
+<p>Notice the <code>if</code> keyword tests which operating system is currently being used in
+order to modify the commands for each platform. As I mentioned earlier, the GTK
+app I am working on, requires <a href="https://www.msys2.org">MSYS2</a> in order to test
+and package it for Windows. Since MSYS2 is a niche platform, most of the steps
+are unique and require manually setting paths and executing shell scripts. At
+some point maybe we can get some of these unique parts better wrapped in an
+action, so that when we abstract up to the steps, they can be more common
+across platforms. Right now, using a matrix for each operating system in my
+case wasn't easier than just creating three separate jobs, one for each
+platform.</p>
+<p>If you are interested in a more complex matrix setup, Jeff Triplett
+<a href="https://twitter.com/webology/status/1201887760413528065?s=20">posted</a> his
+configuration for running five different Django versions against five different
+Python versions.</p>
+<p>The implementation of the three test jobs is similar to the library test job
+that we looked at earlier.</p>
+<pre class="code literal-block"><span></span><span class="nt">test-linux</span><span class="p">:</span>
+  <span class="nt">needs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">lint</span>
+  <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="nn">...</span>
+<span class="nt">test-macos</span><span class="p">:</span>
+  <span class="nt">needs</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">lint</span>
+  <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">macOS-latest</span>
+<span class="nn">...</span>
+<span class="nt">test-windows</span><span class="p">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">needs:lint</span>
+  <span class="l l-Scalar l-Scalar-Plain">runs-on</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">windows-latest</span>
+</pre>
+
+
+<p>The other steps to install the dependencies, setup caching, and test with Pytest
+were identical.</p>
+<h4>CD Workflow - Release the App Installers</h4>
+<p>Now that we have gone through the CI workflow for a Python application, on to
+the CD portion. This workflow is using different event triggers:</p>
+<pre class="code literal-block"><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Release</span>
+
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">release</span><span class="p">:</span>
+    <span class="nt">types</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">created</span><span class="p p-Indicator">,</span> <span class="nv">edited</span><span class="p p-Indicator">]</span>
+</pre>
+
+
+<p>GitHub has a Release tab that is built in to each repo. The deployment workflow
+here is started if I create or modify a release. You can define multiple events
+that will start the workflow by adding them as a comma separated list. When I
+want to release a new version of Gaphor:</p>
+<ol>
+<li>I update the version number in the <code>pyproject.toml</code>, commit the change, add
+a version tag, and finally push the commit and the tag.</li>
+<li>Once the tests pass, I edit a previously drafted release to point the tag to
+the tag of the release.</li>
+<li>The release workflow automatically builds and uploads the Python Wheel and
+sdist, the macOS dmg, and the Windows installer.</li>
+<li>Once I am ready, I click on the GitHub option to Publish release.</li>
+</ol>
+<p>In order to achieve this workflow, first we create a job for Windows and macOS:</p>
+<pre class="code literal-block"><span></span><span class="nt">upload-windows</span><span class="p">:</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">windows-latest</span>
+<span class="nn">...</span>
+<span class="nt">upload-macos</span><span class="p">:</span>
+    <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">macOS-latest</span>
+<span class="nn">...</span>
+</pre>
+
+
+<p>The next steps to checkout the source, setup Python, install dependencies,
+install poetry, turn off virtualenvs, use the cache, and have poetry install the
+Python dependencies are the exact same as the application Test Job above.</p>
+<p>Next we build the wheel and sdist, which is a single command when using Poetry:</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build Wheel and sdist</span>
+        <span class="nt">run</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">poetry build</span>
+</pre>
+
+
+<p>Our packaging for Windows is using custom shell scripts that run
+<a href="https://www.pyinstaller.org">PyInstaller</a> to package up the app, libraries, and
+Python, and makensis to create a Windows installer. We are also using a custom
+shell script to package the app for macOS. Once I execute the scripts to
+package the app, I then upload the release assets to GitHub:</p>
+<pre class="code literal-block"><span></span>      <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Upload Assets</span>
+        <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">AButler/upload-release-assets@v2.0</span>
+        <span class="nt">with</span><span class="p">:</span>
+          <span class="nt">files</span><span class="p">:</span> <span class="s">'macos-dmg/*dmg;dist/*;win-installer/*.exe'</span>
+          <span class="nt">repo-token</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</pre>
+
+
+<p>Here I am using Andrew Butler's
+<a href="https://github.com/AButler/upload-release-assets">upload-release-assets</a>
+action. GitHub also has an action to perform this called
+<a href="https://github.com/actions/upload-release-asset">upload-release-asset</a>, but
+at the time of writing this, it didn't support uploading multiple files using
+wildcard characters, called glob patterns. <code>secrets.GITHUB_TOKEN</code> is another
+context expression to get the access token to allow Actions permissions to
+access the project repository, in this case to upload the release assets to a
+drafted release.</p>
+<p>The final version of my complete GitHub Actions workflows for the
+cross-platform app are posted on the <a href="https://github.com/gaphor/gaphor/tree/master/.github/workflows">Gaphor
+repo</a>.</p>
+<h3>Future Improvements to My Workflow</h3>
+<p>I think there is still some opportunity to simplify the workflows that I have
+created through updates to existing actions or creating new actions. As I
+mentioned earlier, it would be nice to have things at a maturity level so that
+no custom environment variable, paths, or shell scripts need to be run. Instead,
+we would be building workflows with actions as building blocks. I wasn't
+expecting this before I started working with GitHub Actions, but I am sold that
+this would be immensely powerful.</p>
+<p>Since GitHub recently released CI/CD for Actions, many of the GitHub provided
+actions could use a little polish still. Most of the things that I thought of
+for improvements, already had been recognized by others with Issues opened for
+Feature requests. If we give it a little time, I am sure these will be improved
+soon.</p>
+<p>I also said that one of my goals was to release to the three major platforms,
+but if you were paying attention in the last section, I only mentioned Windows
+and macOS. We are currently packaging our app using Flatpak for Linux and it is
+distributed through <a href="https://flathub.org">FlatHub</a>. FlatHub does have an
+automatic build system, but it requires manifest files stored in a special
+separate FlatHub repo for the app. I also contributed to the <a href="https://github.com/flatpak/flatpak-builder-tools">Flatpak Builder
+Tools</a> in order to
+automatically generate the needed manifest from the <code>poetry.lock</code> file. This
+works good, but it would be nice in the future to have the CD workflow for my
+app, kickoff updates to the FlatHub repo.</p>
+<h3>Bonus - Other Great Actions</h3>
+<p><a href="https://github.com/marketplace/actions/debugging-with-tmate">Debugging with
+tmate</a> - tmate is
+a terminal sharing app built on top of tmux. This great action allows you to
+pause a workflow in the middle of executing the steps, and then ssh in to the
+host runner and debug your configuration. I was getting a Python segmentation
+fault while running my tests, and this action proved to be extremely useful.</p>
+<p><a href="https://github.com/marketplace/actions/release-drafter">Release Drafter</a> - In
+my app CD workflow, I showed that I am executing it when I create or edit a
+release. The release drafter action drafts my next release with release notes
+based on the Pull Requests that are merged. I then only have to edit the
+release to add the tag I want to release with, and all of my release assets
+automatically get uploaded. The <a href="https://github.com/marketplace/actions/pr-labeler">PR
+Labeler</a> action goes along
+with this well to label your Pull Requests based on branch name patterns like
+<code>feature/*</code>.</p>
+</div>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/python-packaging-with-poetry-and-briefcase/" class="u-url">How to Rock Python Packaging with Poetry and Briefcase</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Dan Yeaw
@@ -724,7 +1401,7 @@ interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:</p>
 <pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
 </pre>
 
@@ -809,7 +1486,7 @@ example, reserve memory on those platforms. Here is an example of what this
 extra TogaCanvas class would like with the Cocoa platform:</p>
 <pre class="code literal-block"><span></span><span class="k">class</span> <span class="nc">TogaCanvas</span><span class="p">(</span><span class="n">NSView</span><span class="p">):</span>
     <span class="nd">@objc_method</span>
-    <span class="k">def</span> <span class="nf">drawRect_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">:</span> <span class="n">NSRect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">drawRect_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">:</span> <span class="n">NSRect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">NSGraphicsContext</span><span class="o">.</span><span class="n">currentContext</span><span class="o">.</span><span class="n">graphicsPort</span><span class="p">()</span>
 </pre>
 
@@ -853,15 +1530,13 @@ experience creating a widget.</p>
         <footer id="footer">
             Contents © 2019         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {
