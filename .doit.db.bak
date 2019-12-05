@@ -657,7 +657,7 @@
 'render_taxonomies:output/categories/cicd/index.html', (867840, 2417)
 'scale_images:output/images/app-workflow.svg', (870400, 225)
 'scale_images:output/images/github-actions-tab.png', (870912, 236)
-'scale_images:output/images/library-workflow.svg', (871424, 233)
+'scale_images:output/images/library-workflow.svg', (871424, 234)
 'copy_files:output/github-actions.gaphor', (871936, 264)
 'scale_images:output/images/continuous-integration.svg', (872448, 246)
 'scale_images:output/images/github-actions-output.png', (872960, 243)

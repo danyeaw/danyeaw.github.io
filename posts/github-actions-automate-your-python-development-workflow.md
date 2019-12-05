@@ -1,7 +1,7 @@
 <!--
 .. title: GitHub Actions: Automate Your Python Development Workflow
 .. slug: github-actions-automate-your-python-development-workflow
-.. date: 2019-11-28 14:51:33 UTC-05:00
+.. date: 2019-12-04 21:22:00 UTC-05:00
 .. tags: Python, GitHub, programming, CI/CD
 .. category: Python 
 .. link: 
