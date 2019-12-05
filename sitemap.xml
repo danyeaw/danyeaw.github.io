@@ -7,126 +7,146 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://dan.yeaw.me/</loc>
-  <lastmod>2019-12-05T01:34:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2018/</loc>
-  <lastmod>2018-12-31T20:57:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2019/</loc>
-  <lastmod>2019-01-03T04:02:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/archive.html</loc>
-  <lastmod>2019-12-05T02:21:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/</loc>
-  <lastmod>2019-12-04T03:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/beeware/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/briefcase/</loc>
-  <lastmod>2019-01-03T04:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_python/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cicd/</loc>
-  <lastmod>2019-12-04T03:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/github/</loc>
-  <lastmod>2019-12-04T03:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/gui/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/packaging/</loc>
-  <lastmod>2019-01-03T04:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/poetry/</loc>
-  <lastmod>2019-01-03T04:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/programming/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/python/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/toga/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/widget/</loc>
-  <lastmod>2018-12-31T21:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/pages/about-me/</loc>
-  <lastmod>2018-12-31T20:23:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/pages/slides/</loc>
-  <lastmod>2018-12-31T20:23:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/github-actions-automate-your-python-development-workflow/</loc>
-  <lastmod>2019-12-04T03:03:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/gui-widget-for-beeware/</loc>
-  <lastmod>2018-12-31T20:47:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</loc>
-  <lastmod>2019-01-03T03:36:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/</loc>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/plugin/markdown/example.html</loc>
+  <lastmod>2019-12-05T13:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/plugin/notes-server/notes.html</loc>
+  <lastmod>2019-12-05T13:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/plugin/notes/notes.html</loc>
+  <lastmod>2019-12-05T13:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/slides.html</loc>
+  <lastmod>2019-12-05T13:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/</loc>
-  <lastmod>2019-12-05T02:21:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/markdown/example.html</loc>
-  <lastmod>2019-05-04T01:40:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes-server/notes.html</loc>
-  <lastmod>2019-05-04T01:40:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/plugin/notes/notes.html</loc>
-  <lastmod>2019-05-04T01:40:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/slides.html</loc>
-  <lastmod>2019-05-04T01:40:00Z</lastmod>
+  <lastmod>2019-12-04T20:56:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/</loc>
-  <lastmod>2019-01-04T00:12:00Z</lastmod>
+  <lastmod>2019-12-05T19:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/markdown/example.html</loc>
-  <lastmod>2019-01-03T03:48:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes-server/notes.html</loc>
-  <lastmod>2019-01-03T03:48:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes/notes.html</loc>
-  <lastmod>2019-01-03T03:48:00Z</lastmod>
+  <lastmod>2019-04-26T16:11:00Z</lastmod>
  </url>
 </urlset>
