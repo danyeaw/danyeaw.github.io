@@ -38,6 +38,6 @@ $ nikola check -f
 Slides are using reveal-md:
 
 ```bash
-npx reveal-md --theme solarized slides.md --static ~/Projects/danyeaw.github.io/output/slides/presentation-name/
+npx reveal-md slides.md --static .
 ```
 
