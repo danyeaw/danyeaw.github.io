@@ -9,6 +9,12 @@
 .. type: text
 -->
 
+<iframe width="400" height="400" marginheight="0" marginwidth="0" src="/slides/github-actions-automate-your-python-development-workflow/index.html">
+  Your browser does not support iframes.
+</iframe>
+[Full screen version](/slides/github-actions-automate-your-python-development-workflow/index.html)
+[Slide source](/slides/github-actions-automate-your-python-development-workflow/slides.md)
+
 <iframe width="400" height="400" marginheight="0" marginwidth="0" src="/slides/python-packaging-with-poetry-and-briefcase/index.html">
   Your browser does not support iframes.
 </iframe>

@@ -84,7 +84,211 @@ Continuous Integration / Continuous Delivery (CI/CD).
 
 ---
 
-# Summary
+# Lint
+
+---
+
+## Execute on Events
+
+```yaml
+name: Build
+on:
+  pull_request:
+  push:
+    branches: master
+```
+
+---
+
+```yaml
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+```
+
+---
+
+```yaml
+      - name: Install Dependencies
+        run: |
+          pip install pre-commit
+          pre-commit install-hooks
+      - name: Lint with pre-commit
+        run: pre-commit run --all-files
+```
+
+---
+
+# Test
+
+---
+
+```yaml
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.6, 3.7, 3.8]
+
+```
+
+---
+
+```yaml
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+```
+
+---
+
+```yaml
+- name: Install Ubuntu Dependencies
+  run: >
+    sudo apt-get update -q && sudo apt-get install
+    --no-install-recommends -y xvfb python3-dev python3-gi
+    python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev
+    libcairo2-dev
+```
+
+---
+
+```yaml
+      - name: Install Poetry
+        uses: dschep/install-poetry-action@v1.2
+        with:
+          version: 1.0.0b3
+      - name: Turn off Virtualenvs
+        run: poetry config virtualenvs.create false
+```
+
+---
+
+```yaml
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v2.3.0
+        env:
+          CC_TEST_REPORTER_ID: 195e9f83022747c8eefa3ec9510dd730081ef111acd99c98ea0efed7f632ff8a
+        with:
+          coverageCommand: coverage xml
+```
+
+---
+
+# CD Workflow
+# Upload to PyPI
+
+---
+
+```yaml
+on:
+  release:
+    types: published
+```
+
+---
+
+```yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+```
+
+---
+
+```yaml
+- name: Install Poetry
+  uses: dschep/install-poetry-action@v1.2
+  with:
+    version: 1.0.0b3
+- name: Install Dependencies
+  run: poetry install
+- name: Build and publish
+  run: |
+    poetry build
+    poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
+```
+---
+
+![GitHub Actions Output](images/github-actions-output.png)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+---
+## Caching Dependencies
+
+```yaml
+- name: Use Python Dependency Cache
+  uses: actions/cache@v1.0.3
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}
+    restore-keys: ${{ runner.os }}-pip-
+```
+```bash
+~\AppData\Local\pip\Cache
+~/Library/Caches/pip
+```
+---
+
+## Test and Deploy a Python Application
+
+---
+
+![App Workflow](images/app-workflow.svg)
+<!-- .element style="border: 0; box-shadow: None" -->
+
+---
+
+# Test
+
+---
+
+```yaml
+runs-on: ${{ matrix.os }}
+strategy:
+    matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+```
+
+---
+
+# Release
+
+---
+
+```yaml
+name: Release
+
+on:
+  release:
+    types: [created, edited]
+```
+
+---
+
+```yaml
+      - name: Upload Assets
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: 'macos-dmg/*dmg;dist/*;win-installer/*.exe'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+```
 
 ---
 
