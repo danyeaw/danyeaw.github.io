@@ -1,10 +1,16 @@
 # Nikola Blog
 
+This blog runs with the [Nikola](https://getnikola.com) static site generator written in Python.
+
 ## Branches
 
 - The src branch is what you edit
 - The master branch is split from the source branch to just
 regenerate with the output directory from the src branch
+
+## Setup
+
+This project uses [Poetry](https://python-poetry.org).
 
 ## External Content
 
