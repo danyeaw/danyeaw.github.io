@@ -1,5 +1,5 @@
 <!--
-.. title: OpenSUSE with Passwordless U2F Login
+.. title: openSUSE with Passwordless U2F Login
 .. slug: opensuse-with-passwordless-u2f-login
 .. date: 2021-01-23 16:26:49 UTC-05:00
 .. tags: openSUSE, Yubikey
