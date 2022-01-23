@@ -16,16 +16,17 @@ supercharging engineering using simple open source tools and open
 collaboration. You will find articles on Python, SysML, and my thoughts on
 technology.
 
-![My picture](/images/profile-pic.png)
+<img src="/images/profile_pic.jpg" alt="A picture of me" height=500>
 
-I'm currently Functional Safety Supervisor for Ford Motor Company, which means
-I help design how complex automated and electrified technologies work together
-to be safe systems. I live near Detroit, MI, and I love its underdog spirit. I
-am originally from California. Prior to this, I served as a submarine officer
-in the U.S. Navy.
+I lead Functional Safety for Ford Motor Company, which means I help design how
+complex automated and electrified technologies work together to create safe
+systems. I live near Detroit, MI, and I love its underdog spirit. I am
+originally from California. Prior to this, I served as a submarine officer in
+the U.S. Navy.
 
 I am married and a father of two young kids who keep me on my toes and keep me
-smiling. I commute by bicycle to work and enjoy brewing beer.
+smiling. I enjoy riding bikes in my free time and contributing to
+[Gaphor](https://gaphor.org)
 
 Please follow or connect with me:
 
