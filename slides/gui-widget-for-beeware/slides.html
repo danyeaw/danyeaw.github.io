@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>5 Steps to Build Python Native GUI Widgets for BeeWare</title>
-    <link rel="stylesheet" href="./css/reveal.css" />
-    <link rel="stylesheet" href="./css/theme/white.css" id="theme" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/white.css" id="theme" />
     <link rel="stylesheet" href="./css/highlight/zenburn.css" />
-    <link rel="stylesheet" href="./css/print/paper.css" type="text/css" media="print" />
+
 
   </head>
   <body>
@@ -185,9 +187,10 @@ with canvas.fill(color=rgb(200, 0, 0)) as fill:
     style (:obj:`Style`): An optional style object. 
     factory (:obj:`module`): A python module that is
         capable to return a implementation of this class.
-
+        
  &quot;&quot;&quot;
-</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+</code></pre>
+</aside></script></section><section  data-markdown><script type="text/template">
 # Step 3
 
 ## Implement Toga_core
@@ -235,7 +238,8 @@ def rect(self, x, y, width, height):
     self.impl.rect(
         self.x, self.y, self.width, self.height
     )
-</code></pre></aside></script></section><section  data-markdown><script type="text/template"># Step 4
+</code></pre>
+</aside></script></section><section  data-markdown><script type="text/template"># Step 4
 ## Implement Toga_impl
 ### dummy backend
 
@@ -254,7 +258,8 @@ def rect(self, x, y, width, height):
     self._action(
         &quot;rect&quot;, x=x, y=y, width=width, height=height
     )
-</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+</code></pre>
+</aside></script></section><section  data-markdown><script type="text/template">
 # Step 5
 ## Implement Toga_impl
 ### your platform
@@ -277,7 +282,8 @@ def rect(self, x, y, width, height):
 
 def rect(self, x, y, width, height, draw_context):
     draw_context.rectangle(x, y, width, height)
-</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+</code></pre>
+</aside></script></section><section  data-markdown><script type="text/template">
 ## Implement Toga_impl
 ### other platforms
 
@@ -285,8 +291,8 @@ def rect(self, x, y, width, height, draw_context):
 <!-- .element style="border: 0; box-shadow: None" -->
     
 <aside class="notes"><p>class TogaCanvas(NSView):
-    @objc<em>method
-    def drawRect</em>(self, rect: NSRect) -&gt; None:
+    @objc_method
+    def drawRect_(self, rect: NSRect) -&gt; None:
         context = NSGraphicsContext.currentContext.graphicsPort()</p>
 <p>class Canvas(Widget):
     def create(self):
@@ -294,7 +300,8 @@ def rect(self, x, y, width, height, draw_context):
 <pre><code>def rect(self, x, y, width, height, draw_context, *args, **kwargs):
     rectangle = CGRectMake(x, y, width, height)
     core_graphics.CGContextAddRect(draw_context, rectangle
-</code></pre></aside></script></section><section  data-markdown><script type="text/template">
+</code></pre>
+</aside></script></section><section  data-markdown><script type="text/template">
 # Iterate
 ### Iterate through steps 1-5 to complete your widget implementation
 </script></section><section  data-markdown><script type="text/template">
@@ -322,9 +329,13 @@ dan@yeaw.me
 </script></section></div>
     </div>
 
-    <script src="./lib/js/head.min.js"></script>
-    <script src="./js/reveal.js"></script>
+    <script src="./dist/reveal.js"></script>
 
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
     <script>
       function extend() {
         var target = {};
@@ -339,17 +350,6 @@ dan@yeaw.me
         return target;
       }
 
-      // Optional libraries used to extend on reveal.js
-      var deps = [
-        { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
-        { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-        { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
-        { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-        { src: './plugin/zoom-js/zoom.js', async: true },
-        { src: './plugin/notes/notes.js', async: true },
-        { src: './plugin/math/math.js', async: true }
-      ];
-
       // default options to init reveal.js
       var defaultOptions = {
         controls: true,
@@ -357,11 +357,17 @@ dan@yeaw.me
         history: true,
         center: true,
         transition: 'default', // none/fade/slide/convex/concave/zoom
-        dependencies: deps
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
       };
 
       // options from URL query string
-      var queryOptions = Reveal.getQueryHash() || {};
+      var queryOptions = Reveal().getQueryHash() || {};
 
       var options = extend(defaultOptions, {"transition":"none","slideNumber":"c","controls":false,"progress":false}, queryOptions);
     </script>
