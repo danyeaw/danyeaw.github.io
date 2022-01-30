@@ -131,7 +131,7 @@
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2022-01-30T22:07:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/markdown/example.html</loc>
@@ -144,5 +144,9 @@
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes/notes.html</loc>
   <lastmod>2022-01-25T03:13:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/slides.html</loc>
+  <lastmod>2022-01-30T22:00:00Z</lastmod>
  </url>
 </urlset>

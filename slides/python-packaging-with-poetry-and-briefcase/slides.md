@@ -1,4 +1,4 @@
-## How to Rock Python Packaging with Poetry and Briefcase
+# How to Rock Python Packaging with Poetry and Briefcase
 
 ---
 
