@@ -9,6 +9,11 @@
 .. type: text
 -->
 
+NOTE: Briefcase now automatically creates a new project with a `pyproject.toml`
+file by running `briefcase new`. I would recommend following the [BeeWare
+Tutorial](https://docs.beeware.org/en/latest/tutorial/tutorial-1.html) to setup
+a new project if you want to use Briefcase for packaging it.
+
 As part of modernizing [Gaphas](https://github.com/gaphor/gaphas), the
 diagramming widget for Python, I took another look at what the best practices
 are for packaging and releasing a new version of a Python library or
