@@ -5,16 +5,18 @@ description = "Dan Yeaw's Blog"
 authors = ["Dan Yeaw <dan@yeaw.me>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-nikola = "^8.0.3"
-aiohttp = "^3.6.2"
-watchdog = "^0.10"
+python = "^3.13"
+nikola = "^8.3.1"
+aiohttp = "^3.10.11"
+watchdog = "^6.0.0"
 ghp-import2 = "^1.0.1"
 toml = "^0.10.2"
+# Work-around https://github.com/pypi/warehouse/issues/15749
+docutils = "!=0.21"
 
 [tool.poetry.extras]
 Extras = ["Nikola"]
 
 [build-system]
-requires = ["poetry==1.1.11"]
+requires = ["poetry==1.8.4"]
 build-backend = "poetry.masonry.api"
