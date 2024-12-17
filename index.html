@@ -11,7 +11,7 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="rss.xml">
 <link rel="canonical" href="https://dan.yeaw.me/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/opensuse-with-passwordless-u2f-login/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/a-big-job-change/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -77,7 +77,25 @@
     
         
     <div class="postindex">
-            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/opensuse-with-passwordless-u2f-login/" class="u-url">openSUSE with Passwordless U2F Login</a></h1>
+            <article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/a-big-job-change/" class="u-url">A Big Job Change</a></h1>
+                <div class="metadata">
+                    <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                        Dan Yeaw
+                    </span></p>
+            <p class="dateline">
+            <a href="posts/a-big-job-change/" rel="bookmark">
+            <time class="published dt-published" datetime="2024-12-16T20:37:04-05:00" itemprop="datePublished" title="2024-12-16 20:37">2024-12-16 20:37</time></a>
+            </p>
+                        <p class="commentline">
+    
+
+
+                </p>
+</div>
+            </header><div class="e-content entry-content">
+                    <p>Write your post here.</p>
+                </div>
+            </article><article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title"><a href="posts/opensuse-with-passwordless-u2f-login/" class="u-url">openSUSE with Passwordless U2F Login</a></h1>
                 <div class="metadata">
                     <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                         Dan Yeaw
@@ -116,22 +134,25 @@ support for Pluggable Authentication Modules (PAM). PAM provides the libraries
 for Linux that allow configuration of authentication of users. In this case we
 want to authenticate using a U2F module, so we install it by opening a terminal
 and typing:</p>
-<pre class="code literal-block">$ sudo zypper <span class="k">in</span> pam_u2f
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>sudo<span class="w"> </span>zypper<span class="w"> </span><span class="k">in</span><span class="w"> </span>pam_u2f
+</pre></div>
+
 <h3>Associating the U2F Key With Your Account</h3>
 <p>The U2F PAM module needs to make use of an authentication file that associates
 the user name that will login with the Yubikey token. Open a terminal and insert
 your Yubikey.</p>
-<pre class="code literal-block">$ mkdir -p ~/.config/Yubico
-$ pamu2fcfg -u <span class="k">$(</span>whoami<span class="k">)</span> &gt;&gt; ~/.config/Yubico/u2f_keys
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.config/Yubico
+$<span class="w"> </span>pamu2fcfg<span class="w"> </span>-u<span class="w"> </span><span class="k">$(</span>whoami<span class="k">)</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.config/Yubico/u2f_keys
+</pre></div>
+
 <p>When your device begins flashing, touch the metal contact to confirm the association.</p>
 <p>For increased security, we'll next move the u2f_keys file to an area where
 you'll need sudo permission to edit the file.</p>
-<pre class="code literal-block">$ sudo mkdir -p /etc/Yubico
-$ sudo mv  ~/.config/Yubico/u2f_keys /etc/Yubico/u2f_keys
-$ sudo chown root.root /etc/Yubico/u2f_keys
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/Yubico
+$<span class="w"> </span>sudo<span class="w"> </span>mv<span class="w">  </span>~/.config/Yubico/u2f_keys<span class="w"> </span>/etc/Yubico/u2f_keys
+$<span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span>root.root<span class="w"> </span>/etc/Yubico/u2f_keys
+</pre></div>
+
 <h3>Edit the PAM Configuration</h3>
 <p>Once the u2f_keys file is moved to a safer location the PAM file will need to be
 modified so that u2f PAM module can find the u2f_keys file. For these PAM
@@ -142,26 +163,30 @@ configure the pam_u2f module, so we'll need to manually edit the config. To do
 this, we will only need to make changes to the main PAM authorization
 configuration called <code>common-auth</code>, so first we need to remove the symbolic link
 and then copy the configuration so that we can edit it.</p>
-<pre class="code literal-block">$ <span class="nb">cd</span> /etc/pam.d
-$ sudo rm common-auth
-$ sudo cp common-auth-pc common-auth
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/pam.d
+$<span class="w"> </span>sudo<span class="w"> </span>rm<span class="w"> </span>common-auth
+$<span class="w"> </span>sudo<span class="w"> </span>cp<span class="w"> </span>common-auth-pc<span class="w"> </span>common-auth
+</pre></div>
+
 <p>Now edit the configuration file that you created. I would normally use vim to
 make a quick edit to a file, but I will use nano instead in case you aren't
 familiar with vim commands:</p>
-<pre class="code literal-block">$ sudo nano common-auth
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>common-auth
+</pre></div>
+
 <p>Scroll to the bottom or hit Alt+/, there should be three lines that aren't commented out:</p>
-<pre class="code literal-block">auth    required        pam_env.so
+<div class="code"><pre class="code literal-block">auth    required        pam_env.so
 auth    optional        pam_gnome_keyring.so
 auth    required        pam_unix.so     try_first_pass
-</pre>
+</pre></div>
+
 <p>After the pam_gnome_keyring line, add a new line so that your file looks like:</p>
-<pre class="code literal-block">auth    required        pam_env.so      
+<div class="code"><pre class="code literal-block">auth    required        pam_env.so      
 auth    optional        pam_gnome_keyring.so
 auth    sufficient      pam_u2f.so      authfile=/etc/Yubico/u2f_keys cue
 auth    required        pam_unix.so     try_first_pass
-</pre>
+</pre></div>
+
 <p>Let's discuss what this did:</p>
 <ul>
 <li>auth adds a new definition for login authorization</li>
@@ -176,21 +201,24 @@ Ctrl+x and then hit enter.</p>
 <h3>Test Logging In</h3>
 <p>Before you close your su terminal, make sure that logging in works using U2F. Using
 a new terminal, try to login:</p>
-<pre class="code literal-block">$ su - <span class="k">$(</span>whoami<span class="k">)</span>
-Password: 
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>su<span class="w"> </span>-<span class="w"> </span><span class="k">$(</span>whoami<span class="k">)</span>
+Password:<span class="w"> </span>
+</pre></div>
+
 <p>Instead of entering your password, hit enter. You should see a prompt to touch
 your device:</p>
-<pre class="code literal-block">Please touch the device.
+<div class="code"><pre class="code literal-block">Please<span class="w"> </span>touch<span class="w"> </span>the<span class="w"> </span>device.
 $
-</pre>
+</pre></div>
+
 <p>If that is successful then congrats, you should now be able to restart your
 computer and login using your Yubikey!</p>
 <h3>Troubleshooting - Enable Debug Mode</h3>
 <p>If you are unable to login and are unsure why, you can enable debugging on the
 Yubico PAM module. First open a terminal, then execute:</p>
-<pre class="code literal-block">$ sudo touch /var/log/pam_u2f.log
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>sudo<span class="w"> </span>touch<span class="w"> </span>/var/log/pam_u2f.log
+</pre></div>
+
 <p>Edit the /etc/pam.d/common-auth file again and add <code>debug debug_file=/var/log/pam_u2f.log</code>
 to the end of the line that you added earlier. Save the file and now each
 login attempt will be saved in the /var/log/pam_u2f.log file.</p>
@@ -205,55 +233,61 @@ save it as secret-file. Then on starting GNOME, a script will automatically run
 that calls GnuPG to decrypt the secret file, and pipe use the password to unlock
 your keyring.</p>
 <p>To build and install it openSUSE, run the following commands: </p>
-<pre class="code literal-block">$ sudo zypper <span class="k">in</span> libgnome-keyring-devel git
-$ git clone https://git.recolic.net/root/gnome-keyring-yubikey-unlock --recursive
-$ <span class="nb">cd</span> gnome-keyring-yubikey-unlock/src
-$ make
-$ <span class="nb">cd</span> ..
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>sudo<span class="w"> </span>zypper<span class="w"> </span><span class="k">in</span><span class="w"> </span>libgnome-keyring-devel<span class="w"> </span>git
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://git.recolic.net/root/gnome-keyring-yubikey-unlock<span class="w"> </span>--recursive
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>gnome-keyring-yubikey-unlock/src
+$<span class="w"> </span>make
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+</pre></div>
+
 <p>Next we need to get your public key id:</p>
-<pre class="code literal-block">$ gpg --list-keys
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>gpg<span class="w"> </span>--list-keys
 /home/dan/.gnupg/pubring.kbx
 ----------------------------
-pub   rsa4096 <span class="m">2020</span>-12-22 <span class="o">[</span>SC<span class="o">]</span>
-      30EE9BFEC3FD0B37F9088DBE42239C515C9B9841
-uid           <span class="o">[</span>ultimate<span class="o">]</span> Dan Yeaw &lt;dan@yeaw.me&gt;
-sub   rsa4096 <span class="m">2021</span>-11-10 <span class="o">[</span>A<span class="o">]</span>
-sub   rsa4096 <span class="m">2021</span>-11-10 <span class="o">[</span>E<span class="o">]</span>
-sub   rsa4096 <span class="m">2021</span>-11-10 <span class="o">[</span>S<span class="o">]</span>
-sub   rsa4096 <span class="m">2020</span>-12-22 <span class="o">[</span>E<span class="o">]</span>
-</pre>
+pub<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2020</span>-12-22<span class="w"> </span><span class="o">[</span>SC<span class="o">]</span>
+<span class="w">      </span>30EE9BFEC3FD0B37F9088DBE42239C515C9B9841
+uid<span class="w">           </span><span class="o">[</span>ultimate<span class="o">]</span><span class="w"> </span>Dan<span class="w"> </span>Yeaw<span class="w"> </span>&lt;dan@yeaw.me&gt;
+sub<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2021</span>-11-10<span class="w"> </span><span class="o">[</span>A<span class="o">]</span>
+sub<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2021</span>-11-10<span class="w"> </span><span class="o">[</span>E<span class="o">]</span>
+sub<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2021</span>-11-10<span class="w"> </span><span class="o">[</span>S<span class="o">]</span>
+sub<span class="w">   </span>rsa4096<span class="w"> </span><span class="m">2020</span>-12-22<span class="w"> </span><span class="o">[</span>E<span class="o">]</span>
+</pre></div>
+
 <p>The hexadecimal id that starts with 30EE9BF is my public gpg key id. Next we are going
 to create the encrypted keyring password pair. Replace YOUR_PUBLIC_GPG_KEY with your
 public gpg key id from the last step and replace YOUR_LOGIN_PASSWORD with the password
 for your user account.</p>
-<pre class="code literal-block">$ ./create_secret_file.sh ~/.gnupg/gnome_keyring_yubikey_secret YOUR_PUBLIC_GPG_KEY
-&gt;&gt;&gt; Please <span class="nb">type</span> keyring_name and password <span class="k">in</span> the following format:
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>./create_secret_file.sh<span class="w"> </span>~/.gnupg/gnome_keyring_yubikey_secret<span class="w"> </span>YOUR_PUBLIC_GPG_KEY
+&gt;&gt;&gt;<span class="w"> </span>Please<span class="w"> </span><span class="nb">type</span><span class="w"> </span>keyring_name<span class="w"> </span>and<span class="w"> </span>password<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>format:
 
 keyring1:password1
 keyring2:password2
 
 login:12345678
 
-&gt;&gt;&gt; When you are <span class="k">done</span>, use Ctrl-D to end.
+&gt;&gt;&gt;<span class="w"> </span>When<span class="w"> </span>you<span class="w"> </span>are<span class="w"> </span><span class="k">done</span>,<span class="w"> </span>use<span class="w"> </span>Ctrl-D<span class="w"> </span>to<span class="w"> </span>end.
 login:YOUR_LOGIN_PASSWORD
-</pre>
+</pre></div>
+
 <p>Next we want to change the permissions of the file, so that only your user can read
 and write to the file:</p>
-<pre class="code literal-block">$ chmod <span class="m">600</span> ~/.gnupg/gnome_keyring_yubikey_secret
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.gnupg/gnome_keyring_yubikey_secret
+</pre></div>
+
 <p>Finally, create an autostart entry so that the script loads when you login to GNOME:</p>
-<pre class="code literal-block">$ nano ~/.config/autostart/net.recolic.gnome-keyring-yubikey-unlock.desktop
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>nano<span class="w"> </span>~/.config/autostart/net.recolic.gnome-keyring-yubikey-unlock.desktop
+</pre></div>
+
 <p>Add the following to the file, replacing YOUR_USER with your username:</p>
-<pre class="code literal-block"><span class="o">[</span>Desktop Entry<span class="o">]</span>
+<div class="code"><pre class="code literal-block"><span class="o">[</span>Desktop<span class="w"> </span>Entry<span class="o">]</span>
 <span class="nv">Type</span><span class="o">=</span>Application
-<span class="nv">Exec</span><span class="o">=</span>/home/YOUR_USER/Projects/gnome-keyring-yubikey-unlock/unlock_keyrings.sh /home/YOUR_USER/.gnupg/gnome_keyring_yubikey_secret
+<span class="nv">Exec</span><span class="o">=</span>/home/YOUR_USER/Projects/gnome-keyring-yubikey-unlock/unlock_keyrings.sh<span class="w"> </span>/home/YOUR_USER/.gnupg/gnome_keyring_yubikey_secret
 <span class="nv">Hidden</span><span class="o">=</span><span class="nb">false</span>
 X-GNOME-Autostart-enabled<span class="o">=</span><span class="nb">true</span>
-<span class="nv">Name</span><span class="o">=</span>GNOME Keyring Yubikey Unlock
-<span class="nv">Comment</span><span class="o">=</span>Unlocks the GNOME Login Keyring without password
-</pre>
+<span class="nv">Name</span><span class="o">=</span>GNOME<span class="w"> </span>Keyring<span class="w"> </span>Yubikey<span class="w"> </span>Unlock
+<span class="nv">Comment</span><span class="o">=</span>Unlocks<span class="w"> </span>the<span class="w"> </span>GNOME<span class="w"> </span>Login<span class="w"> </span>Keyring<span class="w"> </span>without<span class="w"> </span>password
+</pre></div>
+
 <p>Hit Control+x and then enter to save the file. Restart your computer, and you
 should now be able to login and run openSUSE without manually entering your
 password.</p>
@@ -440,12 +474,13 @@ Action is running. The <code>on</code> keyword defines what will cause the workf
 started. The template uses a value of <code>push</code>, which means
 that the workflow will be kicked off when you push to any branch in the
 repo. Here is an example of how I set these settings for my libraries:</p>
-<pre class="code literal-block"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span><span class="w"></span>
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+</pre></div>
+
 <p>Instead of running this workflow on any push event, I wanted a build to happen
 during two conditions:</p>
 <ol>
@@ -466,22 +501,23 @@ that I wanted to run lint once as a separate job, and then once that is
 complete, all the testing can be kicked off in parallel.</p>
 <p>In order to add lint as a separate job, I created a new job called <code>lint</code>
 nested within the <code>jobs</code> keyword. Below is an example of my lint job:</p>
-<pre class="code literal-block"><span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">lint</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span><span class="w"></span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Python</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">          </span><span class="no">pip install pre-commit</span><span class="w"></span>
-<span class="w">          </span><span class="no">pre-commit install-hooks</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lint with pre-commit</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pre-commit run --all-files</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">lint</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Python</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">pip install pre-commit</span>
+<span class="w">          </span><span class="no">pre-commit install-hooks</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Lint with pre-commit</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pre-commit run --all-files</span>
+</pre></div>
+
 <p>Next comes the <code>runs-on</code> keyword which defines which platform GitHub Actions
 will run this job on, and in this case I am running on linting on the latest
 available version of Ubuntu. The <code>steps</code> keyword is where most of the workflow
@@ -501,12 +537,13 @@ service truly special. I will discuss more about this later.</p>
 repo, and sets up Python. Actions often use the <code>with</code> keyword for the
 configuration options, and in this case I am telling the <code>setup-python</code> action
 to use a newer version from Python 3.</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Python</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Python</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span>
+</pre></div>
+
 <p>The last two steps of the linting job are using the <code>run</code> keyword. Here I am
 defining commands to execute that aren't covered by an Action. As I mentioned
 earlier, I am using pre-commit to run Black over the project and check the code
@@ -527,10 +564,11 @@ the <code>ubuntu-latest</code> platform for the job. I did use one new keyword h
 <code>needs</code>. This defines that this job should only be started once the lint job has
 finished successfully. If I didn't include this, then the lint job and all the
 other test jobs would all be started in parallel.</p>
-<pre class="code literal-block"><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span><span class="w"></span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+</pre></div>
+
 <p>Next up I used another new keyword called <code>strategy</code>. A strategy creates a build
 matrix for your jobs. A build matrix is a set of different configurations of the
 virtual environment used for the job. For example, you can run a job against
@@ -541,10 +579,11 @@ of Python. Finally, the template we are using also had a max-parallel keyword
 which limits the number of parallel jobs that can run simultaneously. I am only
 using four versions of Python, and I don't have any reason to limit the number
 of parallel jobs, so I removed this line for my YAML file.</p>
-<pre class="code literal-block"><span class="w">    </span><span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="nt">matrix</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2.7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.8</span><span class="p p-Indicator">]</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">    </span><span class="nt">strategy</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">2.7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.6</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.7</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">3.8</span><span class="p p-Indicator">]</span>
+</pre></div>
+
 <p>Now on to the steps of the job. My first two steps, checkout the sources and
 setup Python, are the same two steps as I had above in the lint job. There is
 one difference, and that is that I am using the <code>${{ matrix.python-version }}</code>
@@ -556,23 +595,25 @@ parameters that I configured earlier. Finally, I use the $ symbol in front of
 the context expression to tell Actions to expand the expression in to its
 value. If version 3.8 of Python is currently running from the matrix, then <code>${{
 matrix.python-version }}</code> is replaced by <code>3.8</code>.</p>
-<pre class="code literal-block"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python ${{ matrix.python-version }}</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python ${{ matrix.python-version }}</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
+</pre></div>
+
 <p>Since I am testing a GTK diagramming library, I need to also install some
 Ubuntu dependencies. I use the <code>&gt;</code> symbol as YAML syntax to ignore the newlines
 in my run value, this allows me to execute a really long command while keeping
 my standard line length in my .yml file. </p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span><span class="w"></span>
-<span class="w">          </span><span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span><span class="w"></span>
-<span class="w">          </span><span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span><span class="w"></span>
-<span class="w">          </span><span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">          </span><span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span>
+<span class="w">          </span><span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span>
+<span class="w">          </span><span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span>
+</pre></div>
+
 <p>For my projects, I love using Poetry for managing my Python dependencies.
 See my other article on <a href="posts/python-packaging-with-poetry-and-briefcase/">Python Packaging with Poetry and
 Briefcase</a> for more
@@ -585,13 +626,14 @@ working on a local development environment, they aren't really needed since
 the environment created for CI/CD is already isolated and won't be reused. This
 would be a nice improvement to the <code>install-poetry-action</code>, so that the
 creation of virtualenvs are turned off by default.</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Poetry</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Turn off Virtualenvs</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry config virtualenvs.create false</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Poetry</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Turn off Virtualenvs</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry config virtualenvs.create false</span>
+</pre></div>
+
 <p>Next we have Poetry install the dependencies using the <code>poetry.lock</code> file using
 the <code>poetry install</code> command. Then we are to the key step of the job, which is
 to run all the tests using Pytest. I preface the <code>pytest</code> command with
@@ -599,11 +641,12 @@ to run all the tests using Pytest. I preface the <code>pytest</code> command wit
 because there is no display server, like X or Wayland, running on the CI runner.
 The X virtual framebuffer (Xvfb) display server is used to perform all the
 graphical operations in memory without showing any screen output.</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Python Dependencies</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry install</span><span class="w"></span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test with Pytest</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xvfb-run pytest</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Python Dependencies</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry install</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test with Pytest</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xvfb-run pytest</span>
+</pre></div>
+
 <p>The final step of the test phase is to upload the code coverage information. We
 are using <a href="https://codeclimate.com/oss/">Code Climate</a> for analyzing coverage,
 because it also integrates a nice maintainability score based on things like
@@ -613,13 +656,14 @@ us focus our refactoring and other maintenance efforts.
 options that I have used as well. In order for the code coverage information to
 be recorded while Pytest is running, I am using the
 <a href="https://pytest-cov.rtd.io">pytest-cov</a> Pytest plugin.</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Code Climate Coverage Action</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">paambaati/codeclimate-action@v2.3.0</span><span class="w"></span>
-<span class="w">        </span><span class="nt">env</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">CC_TEST_REPORTER_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">195e9f83022747c8eefa3ec9510dd730081ef111acd99c98ea0efed7f632ff8a</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">coverageCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coverage xml</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Code Climate Coverage Action</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">paambaati/codeclimate-action@v2.3.0</span>
+<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">CC_TEST_REPORTER_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">195e9f83022747c8eefa3ec9510dd730081ef111acd99c98ea0efed7f632ff8a</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">coverageCommand</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coverage xml</span>
+</pre></div>
+
 <h4>CD Workflow - Upload to PyPI</h4>
 <p>I am using a second workflow for my app, and this workflow would actually be
 more in place for a library, so I'll cover it here. The Python Package Index
@@ -632,10 +676,11 @@ called Publish Python Package. This template is close to what I needed for my
 use case, except I am using Poetry to build and upload instead of using
 <code>setup.py</code> to build and Twine to upload. I also used a slightly different event
 trigger.</p>
-<pre class="code literal-block"><span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">published</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">release</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">published</span>
+</pre></div>
+
 <p>This sets my workflow to execute when I fully publish the GitHub release. The
 Publish Python Package template used the event <code>created</code> instead. However, it
 makes more sense to me to publish the new version, and then upload it to PyPI,
@@ -644,26 +689,27 @@ to PyPI it can't be reuploaded, and new version has to be created to upload
 again. In other words, doing the most permanent step last is my preference.</p>
 <p>The rest of the workflow, until we get to the last step, should look very
 similar to the test workflow:</p>
-<pre class="code literal-block"><span class="nt">jobs</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span><span class="w"></span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span><span class="w"></span>
-<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span><span class="w"></span>
-<span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Poetry</span><span class="w"></span>
-<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span><span class="w"></span>
-<span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span><span class="w"></span>
-<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry install</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build and publish</span><span class="w"></span>
-<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
-<span class="w">        </span><span class="no">poetry build</span><span class="w"></span>
-<span class="w">        </span><span class="no">poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">deploy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v1</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v1</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">'3.x'</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Poetry</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dschep/install-poetry-action@v1.2</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0.0b3</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Dependencies</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry install</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build and publish</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">poetry build</span>
+<span class="w">        </span><span class="no">poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}</span>
+</pre></div>
+
 <p>The final step in the workflow uses the <code>poetry publish</code> command to upload the
 Wheel and sdist to PyPI. I defined the <code>secrets.PYPI_USERNAME</code> and
 <code>secrets.PYPI_PASSWORD</code> context expressions by going to the repository
@@ -703,13 +749,14 @@ CD portion.</p>
 <p>Although the lint phase is the same between a library and an application, I am
 going to add in one more optional cache step that I didn't include earlier for
 simplification:</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Use Python Dependency Cache</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/cache@v1.0.3</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/.cache/pip</span><span class="w"></span>
-<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}</span><span class="w"></span>
-<span class="w">          </span><span class="nt">restore-keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Use Python Dependency Cache</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/cache@v1.0.3</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">~/.cache/pip</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-${{ hashFiles('**/poetry.lock') }}</span>
+<span class="w">          </span><span class="nt">restore-keys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ runner.os }}-pip-</span>
+</pre></div>
+
 <p>It is a good practice to use a cache to store information that doesn't often
 change in your builds, like Python dependencies. It can help speed up the build
 process and lessen the load on the PyPI servers. While setting this up, I also
@@ -749,21 +796,22 @@ the end of the workflow.</p>
 <p>Ideally, it would be great to use a build matrix to test across platforms. This
 way you could have similar build steps for each platform without repeating
 yourself. This would look something like this:</p>
-<pre class="code literal-block"><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span><span class="w"></span>
-<span class="nt">strategy</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">matrix</span><span class="p">:</span><span class="w"></span>
-<span class="w">        </span><span class="nt">os</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">windows-latest</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">macOS-latest</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="nt">steps</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span><span class="w"></span>
-<span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">matrix.os == 'ubuntu-latest'</span><span class="w"></span>
-<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span><span class="w"></span>
-<span class="w">        </span><span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span><span class="w"></span>
-<span class="w">        </span><span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span><span class="w"></span>
-<span class="w">        </span><span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span><span class="w"></span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Brew Dependencies</span><span class="w"></span>
-<span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">matrix.os == 'macOS-latest'</span><span class="w"></span>
-<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">brew install gobject-introspection gtk+3 adwaita-icon-theme</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
+<span class="nt">strategy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">os</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">windows-latest</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">macOS-latest</span><span class="p p-Indicator">]</span>
+<span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Ubuntu Dependencies</span>
+<span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">matrix.os == 'ubuntu-latest'</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">        </span><span class="no">sudo apt-get update -q &amp;&amp; sudo apt-get install</span>
+<span class="w">        </span><span class="no">--no-install-recommends -y xvfb python3-dev python3-gi</span>
+<span class="w">        </span><span class="no">python3-gi-cairo gir1.2-gtk-3.0 libgirepository1.0-dev libcairo2-dev</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install Brew Dependencies</span>
+<span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">matrix.os == 'macOS-latest'</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">brew install gobject-introspection gtk+3 adwaita-icon-theme</span>
+</pre></div>
+
 <p>Notice the <code>if</code> keyword tests which operating system is currently being used in
 order to modify the commands for each platform. As I mentioned earlier, the GTK
 app I am working on, requires <a href="https://www.msys2.org">MSYS2</a> in order to test
@@ -780,29 +828,31 @@ configuration for running five different Django versions against five different
 Python versions.</p>
 <p>The implementation of the three test jobs is similar to the library test job
 that we looked at earlier.</p>
-<pre class="code literal-block"><span class="nt">test-linux</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span><span class="w"></span>
-<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span><span class="w"></span>
-<span class="nn">...</span><span class="w"></span>
-<span class="nt">test-macos</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span><span class="w"></span>
-<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">macOS-latest</span><span class="w"></span>
-<span class="nn">...</span><span class="w"></span>
-<span class="nt">test-windows</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">needs:lint</span><span class="w"></span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">runs-on</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows-latest</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">test-linux</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span>
+<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="nn">...</span>
+<span class="nt">test-macos</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lint</span>
+<span class="w">  </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">macOS-latest</span>
+<span class="nn">...</span>
+<span class="nt">test-windows</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">needs:lint</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">runs-on</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows-latest</span>
+</pre></div>
+
 <p>The other steps to install the dependencies, setup caching, and test with Pytest
 were identical.</p>
 <h4>CD Workflow - Release the App Installers</h4>
 <p>Now that we have gone through the CI workflow for a Python application, on to
 the CD portion. This workflow is using different event triggers:</p>
-<pre class="code literal-block"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Release</span><span class="w"></span>
+<div class="code"><pre class="code literal-block"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Release</span>
 
-<span class="nt">on</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">release</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">created</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">edited</span><span class="p p-Indicator">]</span><span class="w"></span>
-</pre>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">release</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">created</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">edited</span><span class="p p-Indicator">]</span>
+</pre></div>
+
 <p>GitHub has a Release tab that is built in to each repo. The deployment workflow
 here is started if I create or modify a release. You can define multiple events
 that will start the workflow by adding them as a comma separated list. When I
@@ -817,31 +867,34 @@ sdist, the macOS dmg, and the Windows installer.</li>
 <li>Once I am ready, I click on the GitHub option to Publish release.</li>
 </ol>
 <p>In order to achieve this workflow, first we create a job for Windows and macOS:</p>
-<pre class="code literal-block"><span class="nt">upload-windows</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows-latest</span><span class="w"></span>
-<span class="nn">...</span><span class="w"></span>
-<span class="nt">upload-macos</span><span class="p">:</span><span class="w"></span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">macOS-latest</span><span class="w"></span>
-<span class="nn">...</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="nt">upload-windows</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows-latest</span>
+<span class="nn">...</span>
+<span class="nt">upload-macos</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">macOS-latest</span>
+<span class="nn">...</span>
+</pre></div>
+
 <p>The next steps to checkout the source, setup Python, install dependencies,
 install poetry, turn off virtualenvs, use the cache, and have poetry install the
 Python dependencies are the exact same as the application Test Job above.</p>
 <p>Next we build the wheel and sdist, which is a single command when using Poetry:</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build Wheel and sdist</span><span class="w"></span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry build</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build Wheel and sdist</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">poetry build</span>
+</pre></div>
+
 <p>Our packaging for Windows is using custom shell scripts that run
 <a href="https://www.pyinstaller.org">PyInstaller</a> to package up the app, libraries, and
 Python, and makensis to create a Windows installer. We are also using a custom
 shell script to package the app for macOS. Once I execute the scripts to
 package the app, I then upload the release assets to GitHub:</p>
-<pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload Assets</span><span class="w"></span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AButler/upload-release-assets@v2.0</span><span class="w"></span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"></span>
-<span class="w">          </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="s">'macos-dmg/*dmg;dist/*;win-installer/*.exe'</span><span class="w"></span>
-<span class="w">          </span><span class="nt">repo-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span><span class="w"></span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Upload Assets</span>
+<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AButler/upload-release-assets@v2.0</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="s">'macos-dmg/*dmg;dist/*;win-installer/*.exe'</span>
+<span class="w">          </span><span class="nt">repo-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span>
+</pre></div>
+
 <p>Here I am using Andrew Butler's
 <a href="https://github.com/AButler/upload-release-assets">upload-release-assets</a>
 action. GitHub also has an action to perform this called
@@ -1009,11 +1062,13 @@ creating a project that can be packaged and distributed without creating a
 bunch of files and boilerplate manually.</p>
 <p>To install cookiecutter, depending on your setup and operating system, from a
 virtualenv you can run:</p>
-<pre class="code literal-block">$ pip install cookiecutter
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cookiecutter
+</pre></div>
+
 <p>Next we are going to install Poetry. The recommended way is to run:</p>
-<pre class="code literal-block">$ curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py <span class="p">|</span> python
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py<span class="w"> </span><span class="p">|</span><span class="w"> </span>python
+</pre></div>
+
 <h4>TestPyPI Account Sign-Up</h4>
 <p>As part of this tutorial we will be publishing packages. If you don't already
 have an account, please register for an account on
@@ -1022,45 +1077,51 @@ distribution tools and processes without affecting the real PyPI.</p>
 <h4>Create Your Project</h4>
 <p>To create the Python project, we are going to use the Briefcase template, so
 run <code>cookiecutter</code> on this template:</p>
-<pre class="code literal-block">$ cookiecutter https://github.com/pybee/briefcase-template
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>cookiecutter<span class="w"> </span>https://github.com/pybee/briefcase-template
+</pre></div>
+
 <p>Cookiecutter will ask you for information about the project like the name,
 description, and software licence. Once this is finished, add any additional
 code to your project, or just keep it as is for this demo.</p>
 <p>Change your directory to the app name you gave (I called mine dantestapp), and
 initialize git:</p>
-<pre class="code literal-block">$ <span class="nb">cd</span> dantestapp
-$ git init
-$ git add .
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dantestapp
+$<span class="w"> </span>git<span class="w"> </span>init
+$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.
+</pre></div>
+
 <h4>Create a pyproject.toml Configuration</h4>
 <p>Poetry comes equipped to create a pyproject.toml file for your project, which
 makes it easy to add it to an existing or new project. To initiliaze the
 configuration run:</p>
-<pre class="code literal-block">$ poetry init
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>init
+</pre></div>
+
 <p>The command guides you through creating your pyproject.toml config. It
 automatically pulls in the configuration values from the briefcase-template
 that we created earlier so using the default values by hitting enter after the
 first six questions will be fine. This is what it provided for an output:</p>
-<pre class="code literal-block">Package name <span class="o">[</span>dantestapp<span class="o">]</span>: 
-Version <span class="o">[</span><span class="m">0</span>.1.0<span class="o">]</span>: 
-Description <span class="o">[]</span>: 
-Author <span class="o">[</span>Dan Yeaw &lt;dan@yeaw.me&gt;, n to skip<span class="o">]</span>: 
-License <span class="o">[]</span>: MIT
-Compatible Python versions <span class="o">[</span>^3.7<span class="o">]</span>: 
-</pre>
+<div class="code"><pre class="code literal-block">Package<span class="w"> </span>name<span class="w"> </span><span class="o">[</span>dantestapp<span class="o">]</span>:<span class="w"> </span>
+Version<span class="w"> </span><span class="o">[</span><span class="m">0</span>.1.0<span class="o">]</span>:<span class="w"> </span>
+Description<span class="w"> </span><span class="o">[]</span>:<span class="w"> </span>
+Author<span class="w"> </span><span class="o">[</span>Dan<span class="w"> </span>Yeaw<span class="w"> </span>&lt;dan@yeaw.me&gt;,<span class="w"> </span>n<span class="w"> </span>to<span class="w"> </span>skip<span class="o">]</span>:<span class="w"> </span>
+License<span class="w"> </span><span class="o">[]</span>:<span class="w"> </span>MIT
+Compatible<span class="w"> </span>Python<span class="w"> </span>versions<span class="w"> </span><span class="o">[</span>^3.7<span class="o">]</span>:<span class="w"> </span>
+</pre></div>
+
 <h5>Define Dependencies</h5>
 <p>The configuration generator then asks for you to define your dependencies:</p>
-<pre class="code literal-block">Would you like to define your dependencies <span class="o">(</span>require<span class="o">)</span> interactively? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>
-</pre>
+<div class="code"><pre class="code literal-block">Would<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>to<span class="w"> </span>define<span class="w"> </span>your<span class="w"> </span>dependencies<span class="w"> </span><span class="o">(</span>require<span class="o">)</span><span class="w"> </span>interactively?<span class="w"> </span><span class="o">(</span>yes/no<span class="o">)</span><span class="w"> </span><span class="o">[</span>yes<span class="o">]</span>
+</pre></div>
+
 <p>Hit enter for yes.</p>
 <p>For the next prompt <code>Search for package:</code> enter in briefcase. We are setting
 briefcase as a dependency for our project to run.</p>
-<pre class="code literal-block">Enter package <span class="c1"># to add, or the complete package name if it is not listed: </span>
- <span class="o">[</span><span class="m">0</span><span class="o">]</span> briefcase
- <span class="o">[</span><span class="m">1</span><span class="o">]</span> django-briefcase
-</pre>
+<div class="code"><pre class="code literal-block">Enter<span class="w"> </span>package<span class="w"> </span><span class="c1"># to add, or the complete package name if it is not listed: </span>
+<span class="w"> </span><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>briefcase
+<span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>django-briefcase
+</pre></div>
+
 <p>Type 0 to select the first option. and hit enter to select the latest version.
 You now need to repeat this process to also add Toga as a dependency. Toga is
 the native cross-platform GUI toolkit. Once you are done, hit enter again to
@@ -1068,17 +1129,19 @@ complete searching for other dependencies.</p>
 <h5>Define Development Dependencies</h5>
 <p>At the next prompt the config generator is now asking us to define our development
 dependencies:</p>
-<pre class="code literal-block">Would you like to define your dev dependencies <span class="o">(</span>require-dev<span class="o">)</span> interactively <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>
-</pre>
+<div class="code"><pre class="code literal-block">Would<span class="w"> </span>you<span class="w"> </span>like<span class="w"> </span>to<span class="w"> </span>define<span class="w"> </span>your<span class="w"> </span>dev<span class="w"> </span>dependencies<span class="w"> </span><span class="o">(</span>require-dev<span class="o">)</span><span class="w"> </span>interactively<span class="w"> </span><span class="o">(</span>yes/no<span class="o">)</span><span class="w"> </span><span class="o">[</span>yes<span class="o">]</span>
+</pre></div>
+
 <p>Hit enter to select the default value which is yes.</p>
 <p>We are going to make <a href="https://pytest.org">pytest</a> a development dependency for
 the project.</p>
 <p>At the prompt <code>Search for package:</code> enter in pytest.</p>
-<pre class="code literal-block">Found <span class="m">100</span> packages matching pytest
+<div class="code"><pre class="code literal-block">Found<span class="w"> </span><span class="m">100</span><span class="w"> </span>packages<span class="w"> </span>matching<span class="w"> </span>pytest
 
-Enter package <span class="c1"># to add, or the complete package name if it is not listed: </span>
- <span class="o">[</span> <span class="m">0</span><span class="o">]</span> pytest
-</pre>
+Enter<span class="w"> </span>package<span class="w"> </span><span class="c1"># to add, or the complete package name if it is not listed: </span>
+<span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="m">0</span><span class="o">]</span><span class="w"> </span>pytest
+</pre></div>
+
 <p>You will get a long list of pytest packages. Type 0 to select the first option.
 and hit enter to select the latest version. Then hit enter again to complete
 searching for other development dependencies.</p>
@@ -1086,25 +1149,26 @@ searching for other development dependencies.</p>
 <p>The final step of the configuration generator summaries the configuration that it created.
 Notice that first three sections are tool tables for Poetry, and the final one is
 the build-system table.</p>
-<pre class="code literal-block"><span class="o">[</span>tool.poetry<span class="o">]</span>
-<span class="nv">name</span> <span class="o">=</span> <span class="s2">"dantestapp"</span>
-<span class="nv">version</span> <span class="o">=</span> <span class="s2">"0.1.0"</span>
-<span class="nv">description</span> <span class="o">=</span> <span class="s2">""</span>
-<span class="nv">authors</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"Dan Yeaw &lt;dan@yeaw.me&gt;"</span><span class="o">]</span>
-<span class="nv">license</span> <span class="o">=</span> <span class="s2">"MIT"</span>
+<div class="code"><pre class="code literal-block"><span class="o">[</span>tool.poetry<span class="o">]</span>
+<span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"dantestapp"</span>
+<span class="nv">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.1.0"</span>
+<span class="nv">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span>
+<span class="nv">authors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"Dan Yeaw &lt;dan@yeaw.me&gt;"</span><span class="o">]</span>
+<span class="nv">license</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"MIT"</span>
 
 <span class="o">[</span>tool.poetry.dependencies<span class="o">]</span>
-<span class="nv">python</span> <span class="o">=</span> <span class="s2">"^3.7"</span>
-<span class="nv">briefcase</span> <span class="o">=</span> <span class="s2">"^0.2.8"</span>
-<span class="nv">toga</span> <span class="o">=</span> <span class="s2">"^0.2.15"</span>
+<span class="nv">python</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"^3.7"</span>
+<span class="nv">briefcase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"^0.2.8"</span>
+<span class="nv">toga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"^0.2.15"</span>
 
 <span class="o">[</span>tool.poetry.dev-dependencies<span class="o">]</span>
-<span class="nv">pytest</span> <span class="o">=</span> <span class="s2">"^4.0"</span>
+<span class="nv">pytest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"^4.0"</span>
 
 <span class="o">[</span>build-system<span class="o">]</span>
-<span class="nv">requires</span> <span class="o">=</span> <span class="o">[</span><span class="s2">"poetry&gt;=0.12"</span><span class="o">]</span>
-build-backend <span class="o">=</span> <span class="s2">"poetry.masonry.api"</span>
-</pre>
+<span class="nv">requires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"poetry&gt;=0.12"</span><span class="o">]</span>
+build-backend<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"poetry.masonry.api"</span>
+</pre></div>
+
 <p>The dependencies use a "caret requirement", like <code>python = "^3.7"</code>. This makes
 use of <a href="https://semver.org/">semantic versioning</a>. So in this example if Python 3.8
 is released, then it will automatically update to this version. But, it won't
@@ -1122,8 +1186,9 @@ configuration!</p>
 <p>OK, the hard work is over, we have created our project and finished the configuration.
 Now it is time to see how Poetry and Briefcase really shines.</p>
 <p>To install the dependencies that you defined in the pyproject.toml, just run:</p>
-<pre class="code literal-block">$ poetry install
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>install
+</pre></div>
+
 <p>Poetry includes an exhaustive dependency resolver, so it will now resolve all of the
 dependencies it needs to install Briefcase, Toga, and pytest. It will also create
 a <code>poetry.lock</code> file which ensures that anyone using your program would get the
@@ -1132,43 +1197,48 @@ exact same set of dependencies that you used and tested with.</p>
 creates one prior to installing packages, if one isn't already activated. If you
 would like to see which packages are installed and which virtual environment
 Poetry is using you can run:</p>
-<pre class="code literal-block">$ poetry show -v
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>show<span class="w"> </span>-v
 or
-$ poetry config --list
-</pre>
+$<span class="w"> </span>poetry<span class="w"> </span>config<span class="w"> </span>--list
+</pre></div>
+
 <h4>Bundle and Run your Application for Platform Distribution</h4>
 <p>For a Python Application, you want to bundle the application and all of its
 dependencies into a single package so that it can easily be installed on a users
 platform without the user manually install Python and other modules.</p>
 <p>Briefcase allows you to package and run your app using your platform:</p>
-<pre class="code literal-block"><span class="o">(</span>Windows<span class="o">)</span> $ poetry run python setup.py windows -s
-<span class="o">(</span>macOS<span class="o">)</span>   $ poetry run python setup.py macos -s
-<span class="o">(</span>Linux<span class="o">)</span>   $ poetry run python setup.py linux -s
-</pre>
+<div class="code"><pre class="code literal-block"><span class="o">(</span>Windows<span class="o">)</span><span class="w"> </span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>windows<span class="w"> </span>-s
+<span class="o">(</span>macOS<span class="o">)</span><span class="w">   </span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>macos<span class="w"> </span>-s
+<span class="o">(</span>Linux<span class="o">)</span><span class="w">   </span>$<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>setup.py<span class="w"> </span>linux<span class="w"> </span>-s
+</pre></div>
+
 <p>Your app will launch, will just be a blank window at this point.</p>
 <p>Also notice that it creates a folder with the platform name that you used
 above. Inside this folder, Briefcase has packaged your app for distribution on
 your platform. Briefcase also has distribution options for android, ios, and
 django.</p>
 <h4>Build your Library for Distribution on PyPI</h4>
-<pre class="code literal-block">$ poetry build
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>build
 
-Building dantestapp <span class="o">(</span><span class="m">0</span>.1.0<span class="o">)</span>
- - Building sdist
- - Built dantestapp-0.1.0.tar.gz
+Building<span class="w"> </span>dantestapp<span class="w"> </span><span class="o">(</span><span class="m">0</span>.1.0<span class="o">)</span>
+<span class="w"> </span>-<span class="w"> </span>Building<span class="w"> </span>sdist
+<span class="w"> </span>-<span class="w"> </span>Built<span class="w"> </span>dantestapp-0.1.0.tar.gz
 
- - Building wheel
- - Built dantestapp-0.1.0-py3-none-any.whl
-</pre>
+<span class="w"> </span>-<span class="w"> </span>Building<span class="w"> </span>wheel
+<span class="w"> </span>-<span class="w"> </span>Built<span class="w"> </span>dantestapp-0.1.0-py3-none-any.whl
+</pre></div>
+
 <p>The source distribution (sdist) and wheel are now in a new <code>dist</code> folder.</p>
 <h4>Publish your Library to PyPI</h4>
 <p>First we are going to add the TestPyPI repository to Poetry, so that it knows
 where to publish to. The default location is to the real PyPI.</p>
-<pre class="code literal-block">$ poetry config repositories.test-pypi https://test.pypi.org/legacy/
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>config<span class="w"> </span>repositories.test-pypi<span class="w"> </span>https://test.pypi.org/legacy/
+</pre></div>
+
 <p>Now simply run:</p>
-<pre class="code literal-block">$ poetry publish -r test-pypi
-</pre>
+<div class="code"><pre class="code literal-block">$<span class="w"> </span>poetry<span class="w"> </span>publish<span class="w"> </span>-r<span class="w"> </span>test-pypi
+</pre></div>
+
 <p>The <code>-r</code> argument tells Poetry to use the repository that we configured. Poetry
 then will ask for your username and password. Congrats! Your package is now
 available to be viewed at https://test.pypi.org/project/your-project-name/ and
@@ -1318,37 +1388,41 @@ draw a rectangle on a Canvas on different platforms:</p>
 <ul>
 <li>Tkinter</li>
 </ul>
-<pre class="code literal-block"><span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">()</span>
+<div class="code"><pre class="code literal-block"><span class="n">canvas</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Canvas</span><span class="p">()</span>
 <span class="n">canvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
 <span class="n">canvas</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
-</pre>
+</pre></div>
+
 <ul>
 <li>wxpython</li>
 </ul>
-<pre class="code literal-block"><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_PAINT</span><span class="p">,</span> <span class="n">OnPaint</span><span class="p">)</span>
+<div class="code"><pre class="code literal-block"><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_PAINT</span><span class="p">,</span> <span class="n">OnPaint</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
     <span class="n">dc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">PaintDC</span><span class="p">()</span>
     <span class="n">dc</span><span class="o">.</span><span class="n">SetBrush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Brush</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
     <span class="n">dc</span><span class="o">.</span><span class="n">DrawRectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <ul>
 <li>HTML canvas</li>
 </ul>
-<pre class="code literal-block"><span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"myCanvas"</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">"2d"</span><span class="p">);</span>
-<span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">"rgb(200, 0, 0)"</span><span class="p">;</span>
-<span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span> <span class="mf">10</span><span class="p">,</span> <span class="mf">100</span><span class="p">,</span> <span class="mf">100</span><span class="p">);</span>
-</pre>
+<div class="code"><pre class="code literal-block"><span class="kd">var</span><span class="w"> </span><span class="nx">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"myCanvas"</span><span class="p">);</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s2">"2d"</span><span class="p">);</span>
+<span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"rgb(200, 0, 0)"</span><span class="p">;</span>
+<span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">);</span>
+</pre></div>
+
 <ul>
 <li>Gtk+</li>
 </ul>
-<pre class="code literal-block"><span class="n">drawingarea</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">DrawingArea</span><span class="p">()</span>
+<div class="code"><pre class="code literal-block"><span class="n">drawingarea</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">DrawingArea</span><span class="p">()</span>
 <span class="n">drawingarea</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"draw"</span><span class="p">,</span> <span class="n">draw</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">da</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">set_source_rgb</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">ctx</span><span class="o">.</span><span class="n">fill</span><span class="p">()</span>
-</pre>
+</pre></div>
+
 <p>The other thing to understand is how a user will use this widget to build their
 own app. I like to create a quick Use Case diagram to flush this out, but you
 could also use User Stories or similar methods.</p>
@@ -1391,7 +1465,7 @@ your widget stand out by taking a step back and looking at how you can make an
 API that users will really enjoy using.</p>
 <p>Here is an example of writing the initial explanation and widget API for the
 canvas widget:</p>
-<pre class="code literal-block">The canvas is used for creating a blank widget that you can
+<div class="code"><pre class="code literal-block">The canvas is used for creating a blank widget that you can
 draw on.
 
 <span class="gu">Usage</span>
@@ -1404,7 +1478,8 @@ import toga
 canvas = toga.Canvas(style=Pack(flex=1))
 with canvas.fill(color=rgb(200, 0, 0)) as fill:
     fill.rect(10, 10, 100, 100)
-</pre>
+</pre></div>
+
 <p>Once that is complete, now might be a good time to ask for feedback to see if
 you have missed any use cases or if others have any ideas of how to improve the
 public API of the widget. One way to collect feedback would be to submit an
@@ -1419,8 +1494,8 @@ generated by Sphinx for your widget, and creating this before writing your code
 will provide the next level of API documentation.</p>
 <p>Here is an example of how that structure and docstrings would look for a canvas
 widget:</p>
-<pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">Widget</span><span class="p">):</span>
-    <span class="sd">"""Create new canvas.</span>
+<div class="code"><pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Context</span><span class="p">,</span> <span class="n">Widget</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Create new canvas.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        id (str):  An identifier for this widget.</span>
@@ -1429,15 +1504,17 @@ widget:</p>
 <span class="sd">            capable to return a implementation of this class.</span>
 
 <span class="sd">     """</span>
-</pre>
-<pre class="code literal-block"><span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
-    <span class="sd">"""Constructs and returns a :class:`Rect &lt;Rect&gt;`.</span>
+</pre></div>
+
+<div class="code"><pre class="code literal-block"><span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Constructs and returns a :class:`Rect &lt;Rect&gt;`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (float): x coordinate for the rectangle.</span>
 <span class="sd">        ...</span>
 <span class="sd">    """</span>
-</pre>
+</pre></div>
+
 <h2>Step 3</h2>
 <h3>Implement your Toga_core widget using TDD</h3>
 <ul>
@@ -1465,14 +1542,15 @@ then back across the Implementation layer to the Toga_core. The object should be
 equal as long as it was created successfully. The second line of the test
 <code>assertActionPerformed</code> is using the dummy backend to test that the canvas was
 created, and I'll discuss that more in Step 4 below.</p>
-<pre class="code literal-block"><span class="k">def</span> <span class="nf">test_widget_created</span><span class="p">():</span>
+<div class="code"><pre class="code literal-block"><span class="k">def</span> <span class="nf">test_widget_created</span><span class="p">():</span>
     <span class="n">assertEqual</span><span class="p">(</span><span class="n">canvas</span><span class="o">.</span><span class="n">_impl</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertActionPerformed</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="s2">"create Canvas"</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>Further along in my test creation I also wanted to check that the user could modify
 a widget that was already created. So I created a test that modifies the coordinates
 and size of a rectangle. </p>
-<pre class="code literal-block"><span class="k">def</span> <span class="nf">test_rect_modify</span><span class="p">():</span>
+<div class="code"><pre class="code literal-block"><span class="k">def</span> <span class="nf">test_rect_modify</span><span class="p">():</span>
     <span class="n">rect</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
     <span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span>
@@ -1482,7 +1560,8 @@ and size of a rectangle. </p>
     <span class="bp">self</span><span class="o">.</span><span class="n">assertActionPerformedWith</span><span class="p">(</span>
             <span class="n">canvas</span><span class="p">,</span> <span class="s2">"rect"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">height</span><span class="o">=-</span><span class="mf">0.5</span>
         <span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>Once you are done creating your tests and make sure that they are failing as
 expected, it is time to move on to filling in all of those Toga_core classes
 and objects that you left blank in the previous step.</p>
@@ -1490,24 +1569,27 @@ and objects that you left blank in the previous step.</p>
 interface for core functionality for children, styling, layout and ownership by
 specific App and Window. Below our class Canvas is derived from Widget and is
 initialized:</p>
-<pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>As part of the class initialization, Toga also uses the factory method to
 determine the correct Toga_impl platform, and then connect it from the
 Toga_core to Toga_impl<code>self._impl</code> and back the other way using
 <code>interface=self</code>:</p>
-<pre class="code literal-block">        <span class="c1"># Create a platform specific implementation of Canvas</span>
+<div class="code"><pre class="code literal-block">        <span class="c1"># Create a platform specific implementation of Canvas</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">interface</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>Finally, we fill in our methods to call the creation of the rectangle on the
 Toga_impl component using the Implementation layer:</p>
-<pre class="code literal-block">    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block">    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_impl</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
         <span class="p">)</span>
-</pre>
+</pre></div>
+
 <h2>Step 4</h2>
 <h3>Implement the Toga_impl widget on the dummy backend</h3>
 <ul>
@@ -1525,7 +1607,7 @@ correctly calling the Implementation layer API.</p>
 needs to be methods for each call from the Toga_core to the Toga_impl. Below we
 check that the Canvas create and rect method actions were invoked through
 Implementation layer API calls.</p>
-<pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">(</span><span class="s2">"create Canvas"</span><span class="p">)</span>
 
@@ -1533,7 +1615,8 @@ Implementation layer API calls.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">(</span>
             <span class="s2">"rect"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span>
         <span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>You now should be able to run and pass all the tests that you created in Step 3.</p>
 <h2>Step 5</h2>
 <h3>Implement the Toga_impl widget on your platform backend</h3>
@@ -1550,7 +1633,7 @@ your platform that calls those native widgets on your platform.</p>
 Gtk.DrawingArea to draw on when my Canvas widget is created, and then I connect
 that drawing callback to the gtk_draw_callback function which then calls a method
 in Toga_core through the Implementation layer:</p>
-<pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block"><span class="k">class</span> <span class="nc">Canvas</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">native</span> <span class="o">=</span> <span class="n">Gtk</span><span class="o">.</span><span class="n">DrawingArea</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">native</span><span class="o">.</span><span class="n">interface</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interface</span>
@@ -1558,22 +1641,25 @@ in Toga_core through the Implementation layer:</p>
 
     <span class="k">def</span> <span class="nf">gtk_draw_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">gtk_context</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">draw_context</span><span class="o">=</span><span class="n">gtk_context</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <p>Some platforms like Android or Cocoa will require transpiling or bridging to
 the native platform calls since those platforms using a different programming
 language. This may require the creation of extra native objects to, for
 example, reserve memory on those platforms. Here is an example of what this
 extra TogaCanvas class would like with the Cocoa platform:</p>
-<pre class="code literal-block"><span class="k">class</span> <span class="nc">TogaCanvas</span><span class="p">(</span><span class="n">NSView</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block"><span class="k">class</span> <span class="nc">TogaCanvas</span><span class="p">(</span><span class="n">NSView</span><span class="p">):</span>
     <span class="nd">@objc_method</span>
     <span class="k">def</span> <span class="nf">drawRect_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rect</span><span class="p">:</span> <span class="n">NSRect</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">context</span> <span class="o">=</span> <span class="n">NSGraphicsContext</span><span class="o">.</span><span class="n">currentContext</span><span class="o">.</span><span class="n">graphicsPort</span><span class="p">()</span>
-</pre>
+</pre></div>
+
 <p>Finally create each method for your native implementation. Below we create an
 implementation of the rectangle creation that calls Gtk+'s cairo drawing:</p>
-<pre class="code literal-block">    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">draw_context</span><span class="p">):</span>
+<div class="code"><pre class="code literal-block">    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">draw_context</span><span class="p">):</span>
         <span class="n">draw_context</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
-</pre>
+</pre></div>
+
 <h2>Iterate</h2>
 <h4>Iterate through steps 1-5 to complete your widget implementation</h4>
 <p>In the examples, we created a Canvas and a rectangle drawing operation on that
@@ -1603,7 +1689,7 @@ experience creating a widget.</p>
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2022         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2024         <a href="mailto:dan@yeaw.me">Dan Yeaw</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
             
         </footer>

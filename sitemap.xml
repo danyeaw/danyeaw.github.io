@@ -7,146 +7,154 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://dan.yeaw.me/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2018/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2019/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/2021/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/2024/</loc>
+  <lastmod>2024-12-17T01:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/archive.html</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/beeware/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/briefcase/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_linux/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_python/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cicd/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/github/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/gui/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/opensuse/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/packaging/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/poetry/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/programming/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/python/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/toga/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/widget/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/yubikey/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/pages/about-me/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/pages/slides/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/posts/a-big-job-change/</loc>
+  <lastmod>2024-12-17T01:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/github-actions-automate-your-python-development-workflow/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/gui-widget-for-beeware/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/github-actions-automate-your-python-development-workflow/slides.html</loc>
-  <lastmod>2022-01-25T03:18:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/</loc>
-  <lastmod>2022-01-25T03:26:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/gui-widget-for-beeware/slides.html</loc>
-  <lastmod>2022-01-25T03:23:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/</loc>
-  <lastmod>2022-01-30T22:07:00Z</lastmod>
+  <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/markdown/example.html</loc>
-  <lastmod>2022-01-25T03:13:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes-server/notes.html</loc>
-  <lastmod>2022-01-25T03:13:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/plugin/notes/notes.html</loc>
-  <lastmod>2022-01-25T03:13:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/slides/python-packaging-with-poetry-and-briefcase/slides.html</loc>
-  <lastmod>2022-01-30T22:00:00Z</lastmod>
+  <lastmod>2024-12-17T01:18:00Z</lastmod>
  </url>
 </urlset>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Yubikey)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/yubikey.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2022 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Tue, 25 Jan 2022 03:26:11 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>openSUSE with Passwordless U2F Login</title><link>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" height="400"&gt;&lt;/p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Yubikey)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/yubikey.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Tue, 17 Dec 2024 01:33:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>openSUSE with Passwordless U2F Login</title><link>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" height="400"&gt;&lt;/p&gt;
 &lt;p&gt;I have a &lt;a href="https://www.yubico.com/products/yubikey-5-overview/"&gt;Yubikey 5 NFC&lt;/a&gt;
 that I use for 2-Factor Authentication (2FA) on websites that support it and for
 storing my GPG keys.&lt;/p&gt;
@@ -22,22 +22,25 @@ support for Pluggable Authentication Modules (PAM). PAM provides the libraries
 for Linux that allow configuration of authentication of users. In this case we
 want to authenticate using a U2F module, so we install it by opening a terminal
 and typing:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ sudo zypper &lt;span class="k"&gt;in&lt;/span&gt; pam_u2f
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;zypper&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;pam_u2f
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h3&gt;Associating the U2F Key With Your Account&lt;/h3&gt;
 &lt;p&gt;The U2F PAM module needs to make use of an authentication file that associates
 the user name that will login with the Yubikey token. Open a terminal and insert
 your Yubikey.&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ mkdir -p ~/.config/Yubico
-$ pamu2fcfg -u &lt;span class="k"&gt;$(&lt;/span&gt;whoami&lt;span class="k"&gt;)&lt;/span&gt; &amp;gt;&amp;gt; ~/.config/Yubico/u2f_keys
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;~/.config/Yubico
+$&lt;span class="w"&gt; &lt;/span&gt;pamu2fcfg&lt;span class="w"&gt; &lt;/span&gt;-u&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;whoami&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;~/.config/Yubico/u2f_keys
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;When your device begins flashing, touch the metal contact to confirm the association.&lt;/p&gt;
 &lt;p&gt;For increased security, we'll next move the u2f_keys file to an area where
 you'll need sudo permission to edit the file.&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ sudo mkdir -p /etc/Yubico
-$ sudo mv  ~/.config/Yubico/u2f_keys /etc/Yubico/u2f_keys
-$ sudo chown root.root /etc/Yubico/u2f_keys
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;/etc/Yubico
+$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt;  &lt;/span&gt;~/.config/Yubico/u2f_keys&lt;span class="w"&gt; &lt;/span&gt;/etc/Yubico/u2f_keys
+$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;chown&lt;span class="w"&gt; &lt;/span&gt;root.root&lt;span class="w"&gt; &lt;/span&gt;/etc/Yubico/u2f_keys
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h3&gt;Edit the PAM Configuration&lt;/h3&gt;
 &lt;p&gt;Once the u2f_keys file is moved to a safer location the PAM file will need to be
 modified so that u2f PAM module can find the u2f_keys file. For these PAM
@@ -48,26 +51,30 @@ configure the pam_u2f module, so we'll need to manually edit the config. To do
 this, we will only need to make changes to the main PAM authorization
 configuration called &lt;code&gt;common-auth&lt;/code&gt;, so first we need to remove the symbolic link
 and then copy the configuration so that we can edit it.&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ &lt;span class="nb"&gt;cd&lt;/span&gt; /etc/pam.d
-$ sudo rm common-auth
-$ sudo cp common-auth-pc common-auth
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/etc/pam.d
+$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;common-auth
+$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;cp&lt;span class="w"&gt; &lt;/span&gt;common-auth-pc&lt;span class="w"&gt; &lt;/span&gt;common-auth
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Now edit the configuration file that you created. I would normally use vim to
 make a quick edit to a file, but I will use nano instead in case you aren't
 familiar with vim commands:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ sudo nano common-auth
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;nano&lt;span class="w"&gt; &lt;/span&gt;common-auth
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Scroll to the bottom or hit Alt+/, there should be three lines that aren't commented out:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;auth    required        pam_env.so
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;auth    required        pam_env.so
 auth    optional        pam_gnome_keyring.so
 auth    required        pam_unix.so     try_first_pass
-&lt;/pre&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;After the pam_gnome_keyring line, add a new line so that your file looks like:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;auth    required        pam_env.so      
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;auth    required        pam_env.so      
 auth    optional        pam_gnome_keyring.so
 auth    sufficient      pam_u2f.so      authfile=/etc/Yubico/u2f_keys cue
 auth    required        pam_unix.so     try_first_pass
-&lt;/pre&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Let's discuss what this did:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;auth adds a new definition for login authorization&lt;/li&gt;
@@ -82,21 +89,24 @@ Ctrl+x and then hit enter.&lt;/p&gt;
 &lt;h3&gt;Test Logging In&lt;/h3&gt;
 &lt;p&gt;Before you close your su terminal, make sure that logging in works using U2F. Using
 a new terminal, try to login:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ su - &lt;span class="k"&gt;$(&lt;/span&gt;whoami&lt;span class="k"&gt;)&lt;/span&gt;
-Password: 
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;su&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;whoami&lt;span class="k"&gt;)&lt;/span&gt;
+Password:&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Instead of entering your password, hit enter. You should see a prompt to touch
 your device:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;Please touch the device.
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;Please&lt;span class="w"&gt; &lt;/span&gt;touch&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;device.
 $
-&lt;/pre&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;If that is successful then congrats, you should now be able to restart your
 computer and login using your Yubikey!&lt;/p&gt;
 &lt;h3&gt;Troubleshooting - Enable Debug Mode&lt;/h3&gt;
 &lt;p&gt;If you are unable to login and are unsure why, you can enable debugging on the
 Yubico PAM module. First open a terminal, then execute:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ sudo touch /var/log/pam_u2f.log
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;touch&lt;span class="w"&gt; &lt;/span&gt;/var/log/pam_u2f.log
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Edit the /etc/pam.d/common-auth file again and add &lt;code&gt;debug debug_file=/var/log/pam_u2f.log&lt;/code&gt;
 to the end of the line that you added earlier. Save the file and now each
 login attempt will be saved in the /var/log/pam_u2f.log file.&lt;/p&gt;
@@ -111,55 +121,61 @@ save it as secret-file. Then on starting GNOME, a script will automatically run
 that calls GnuPG to decrypt the secret file, and pipe use the password to unlock
 your keyring.&lt;/p&gt;
 &lt;p&gt;To build and install it openSUSE, run the following commands: &lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ sudo zypper &lt;span class="k"&gt;in&lt;/span&gt; libgnome-keyring-devel git
-$ git clone https://git.recolic.net/root/gnome-keyring-yubikey-unlock --recursive
-$ &lt;span class="nb"&gt;cd&lt;/span&gt; gnome-keyring-yubikey-unlock/src
-$ make
-$ &lt;span class="nb"&gt;cd&lt;/span&gt; ..
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;zypper&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;libgnome-keyring-devel&lt;span class="w"&gt; &lt;/span&gt;git
+$&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://git.recolic.net/root/gnome-keyring-yubikey-unlock&lt;span class="w"&gt; &lt;/span&gt;--recursive
+$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;gnome-keyring-yubikey-unlock/src
+$&lt;span class="w"&gt; &lt;/span&gt;make
+$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;..
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Next we need to get your public key id:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ gpg --list-keys
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;gpg&lt;span class="w"&gt; &lt;/span&gt;--list-keys
 /home/dan/.gnupg/pubring.kbx
 ----------------------------
-pub   rsa4096 &lt;span class="m"&gt;2020&lt;/span&gt;-12-22 &lt;span class="o"&gt;[&lt;/span&gt;SC&lt;span class="o"&gt;]&lt;/span&gt;
-      30EE9BFEC3FD0B37F9088DBE42239C515C9B9841
-uid           &lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt; Dan Yeaw &amp;lt;dan@yeaw.me&amp;gt;
-sub   rsa4096 &lt;span class="m"&gt;2021&lt;/span&gt;-11-10 &lt;span class="o"&gt;[&lt;/span&gt;A&lt;span class="o"&gt;]&lt;/span&gt;
-sub   rsa4096 &lt;span class="m"&gt;2021&lt;/span&gt;-11-10 &lt;span class="o"&gt;[&lt;/span&gt;E&lt;span class="o"&gt;]&lt;/span&gt;
-sub   rsa4096 &lt;span class="m"&gt;2021&lt;/span&gt;-11-10 &lt;span class="o"&gt;[&lt;/span&gt;S&lt;span class="o"&gt;]&lt;/span&gt;
-sub   rsa4096 &lt;span class="m"&gt;2020&lt;/span&gt;-12-22 &lt;span class="o"&gt;[&lt;/span&gt;E&lt;span class="o"&gt;]&lt;/span&gt;
-&lt;/pre&gt;
+pub&lt;span class="w"&gt;   &lt;/span&gt;rsa4096&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2020&lt;/span&gt;-12-22&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;SC&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;30EE9BFEC3FD0B37F9088DBE42239C515C9B9841
+uid&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;ultimate&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;Dan&lt;span class="w"&gt; &lt;/span&gt;Yeaw&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;dan@yeaw.me&amp;gt;
+sub&lt;span class="w"&gt;   &lt;/span&gt;rsa4096&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2021&lt;/span&gt;-11-10&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;A&lt;span class="o"&gt;]&lt;/span&gt;
+sub&lt;span class="w"&gt;   &lt;/span&gt;rsa4096&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2021&lt;/span&gt;-11-10&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;E&lt;span class="o"&gt;]&lt;/span&gt;
+sub&lt;span class="w"&gt;   &lt;/span&gt;rsa4096&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2021&lt;/span&gt;-11-10&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;S&lt;span class="o"&gt;]&lt;/span&gt;
+sub&lt;span class="w"&gt;   &lt;/span&gt;rsa4096&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2020&lt;/span&gt;-12-22&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;E&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;The hexadecimal id that starts with 30EE9BF is my public gpg key id. Next we are going
 to create the encrypted keyring password pair. Replace YOUR_PUBLIC_GPG_KEY with your
 public gpg key id from the last step and replace YOUR_LOGIN_PASSWORD with the password
 for your user account.&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ ./create_secret_file.sh ~/.gnupg/gnome_keyring_yubikey_secret YOUR_PUBLIC_GPG_KEY
-&amp;gt;&amp;gt;&amp;gt; Please &lt;span class="nb"&gt;type&lt;/span&gt; keyring_name and password &lt;span class="k"&gt;in&lt;/span&gt; the following format:
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;./create_secret_file.sh&lt;span class="w"&gt; &lt;/span&gt;~/.gnupg/gnome_keyring_yubikey_secret&lt;span class="w"&gt; &lt;/span&gt;YOUR_PUBLIC_GPG_KEY
+&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;Please&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;keyring_name&lt;span class="w"&gt; &lt;/span&gt;and&lt;span class="w"&gt; &lt;/span&gt;password&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;following&lt;span class="w"&gt; &lt;/span&gt;format:
 
 keyring1:password1
 keyring2:password2
 
 login:12345678
 
-&amp;gt;&amp;gt;&amp;gt; When you are &lt;span class="k"&gt;done&lt;/span&gt;, use Ctrl-D to end.
+&amp;gt;&amp;gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;When&lt;span class="w"&gt; &lt;/span&gt;you&lt;span class="w"&gt; &lt;/span&gt;are&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;use&lt;span class="w"&gt; &lt;/span&gt;Ctrl-D&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;end.
 login:YOUR_LOGIN_PASSWORD
-&lt;/pre&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Next we want to change the permissions of the file, so that only your user can read
 and write to the file:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ chmod &lt;span class="m"&gt;600&lt;/span&gt; ~/.gnupg/gnome_keyring_yubikey_secret
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;chmod&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;600&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/.gnupg/gnome_keyring_yubikey_secret
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Finally, create an autostart entry so that the script loads when you login to GNOME:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;$ nano ~/.config/autostart/net.recolic.gnome-keyring-yubikey-unlock.desktop
-&lt;/pre&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;$&lt;span class="w"&gt; &lt;/span&gt;nano&lt;span class="w"&gt; &lt;/span&gt;~/.config/autostart/net.recolic.gnome-keyring-yubikey-unlock.desktop
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Add the following to the file, replacing YOUR_USER with your username:&lt;/p&gt;
-&lt;pre class="code literal-block"&gt;&lt;span class="o"&gt;[&lt;/span&gt;Desktop Entry&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;&lt;span class="o"&gt;[&lt;/span&gt;Desktop&lt;span class="w"&gt; &lt;/span&gt;Entry&lt;span class="o"&gt;]&lt;/span&gt;
 &lt;span class="nv"&gt;Type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Application
-&lt;span class="nv"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/YOUR_USER/Projects/gnome-keyring-yubikey-unlock/unlock_keyrings.sh /home/YOUR_USER/.gnupg/gnome_keyring_yubikey_secret
+&lt;span class="nv"&gt;Exec&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/YOUR_USER/Projects/gnome-keyring-yubikey-unlock/unlock_keyrings.sh&lt;span class="w"&gt; &lt;/span&gt;/home/YOUR_USER/.gnupg/gnome_keyring_yubikey_secret
 &lt;span class="nv"&gt;Hidden&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;false&lt;/span&gt;
 X-GNOME-Autostart-enabled&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;true&lt;/span&gt;
-&lt;span class="nv"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;GNOME Keyring Yubikey Unlock
-&lt;span class="nv"&gt;Comment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Unlocks the GNOME Login Keyring without password
-&lt;/pre&gt;
+&lt;span class="nv"&gt;Name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;GNOME&lt;span class="w"&gt; &lt;/span&gt;Keyring&lt;span class="w"&gt; &lt;/span&gt;Yubikey&lt;span class="w"&gt; &lt;/span&gt;Unlock
+&lt;span class="nv"&gt;Comment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;Unlocks&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;GNOME&lt;span class="w"&gt; &lt;/span&gt;Login&lt;span class="w"&gt; &lt;/span&gt;Keyring&lt;span class="w"&gt; &lt;/span&gt;without&lt;span class="w"&gt; &lt;/span&gt;password
+&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;Hit Control+x and then enter to save the file. Restart your computer, and you
 should now be able to login and run openSUSE without manually entering your
 password.&lt;/p&gt;</description><category>openSUSE</category><category>Yubikey</category><guid>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</guid><pubDate>Sat, 23 Jan 2021 21:26:49 GMT</pubDate></item></channel></rss>
