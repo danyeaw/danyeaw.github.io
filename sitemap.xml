@@ -22,12 +22,20 @@
   <lastmod>2024-12-17T01:33:00Z</lastmod>
  </url>
  <url>
+  <loc>https://dan.yeaw.me/2024/</loc>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://dan.yeaw.me/archive.html</loc>
-  <lastmod>2024-12-17T01:45:00Z</lastmod>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/</loc>
-  <lastmod>2024-12-17T01:33:00Z</lastmod>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/anaconda/</loc>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/beeware/</loc>
@@ -36,6 +44,10 @@
  <url>
   <loc>https://dan.yeaw.me/categories/briefcase/</loc>
   <lastmod>2024-12-17T01:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/cat_career/</loc>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/cat_linux/</loc>
@@ -56,6 +68,10 @@
  <url>
   <loc>https://dan.yeaw.me/categories/gui/</loc>
   <lastmod>2024-12-17T01:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/categories/leadership/</loc>
+  <lastmod>2024-12-21T20:11:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/categories/opensuse/</loc>
@@ -96,6 +112,10 @@
  <url>
   <loc>https://dan.yeaw.me/pages/slides/</loc>
   <lastmod>2024-12-17T01:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://dan.yeaw.me/posts/a-big-job-change/</loc>
+  <lastmod>2024-12-17T01:42:00Z</lastmod>
  </url>
  <url>
   <loc>https://dan.yeaw.me/posts/github-actions-automate-your-python-development-workflow/</loc>

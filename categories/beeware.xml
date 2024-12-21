@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about BeeWare)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/beeware.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Tue, 17 Dec 2024 01:33:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;NOTE: Briefcase now automatically creates a new project with a &lt;code&gt;pyproject.toml&lt;/code&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about BeeWare)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/beeware.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Sat, 21 Dec 2024 20:11:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>How to Rock Python Packaging with Poetry and Briefcase</title><link>https://dan.yeaw.me/posts/python-packaging-with-poetry-and-briefcase/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;NOTE: Briefcase now automatically creates a new project with a &lt;code&gt;pyproject.toml&lt;/code&gt;
 file by running &lt;code&gt;briefcase new&lt;/code&gt;. I would recommend following the &lt;a href="https://docs.beeware.org/en/latest/tutorial/tutorial-1.html"&gt;BeeWare
 Tutorial&lt;/a&gt; to setup
 a new project if you want to use Briefcase for packaging it.&lt;/p&gt;
@@ -329,7 +329,7 @@ how you could contribute your own widget to the project.&lt;/p&gt;
 &lt;li&gt;The &lt;strong&gt;Implementation&lt;/strong&gt; layer&lt;/li&gt;
 &lt;li&gt;The &lt;strong&gt;Native&lt;/strong&gt; layer  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-blackbox.svg" alt="Toga Blackbox" height="200"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-blackbox.svg" alt="Toga Blackbox" style="max-height:200px"&gt;&lt;/p&gt;
 &lt;p&gt;As the input to Toga, the Interface layer provides the public API for the GUI
 application that you are building. This is the code you will type to build your
 app using Toga.&lt;/p&gt;
@@ -343,7 +343,7 @@ required through a bridge or transpiler:&lt;/p&gt;
 &lt;li&gt;Web, Batavia provides a javascript implementation of the Python virtual machine. &lt;/li&gt;
 &lt;li&gt;Android, VOC is a transpiler that converts Python in to Java bytecode.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-whitebox.svg" alt="Toga Whitebox" height="175"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-whitebox.svg" alt="Toga Whitebox" style="max-height:150px"&gt;&lt;/p&gt;
 &lt;p&gt;The Interface layer calls public methods that are in the Toga_core portion of
 the project and this is where this Interface layer API is defined. Toga_core
 also provides any abstract functionality that is independent of the platform
@@ -354,14 +354,14 @@ that Toga is running on, like setting up and running the app itself.&lt;/p&gt;
 Toga_impl.
 2. From Toga_impl, &lt;code&gt;self.interface&lt;/code&gt; is used to go across the interface layer
 back to Toga_core.&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-impl-interface.svg" alt="More Terms" height="175"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/toga-impl-interface.svg" alt="More Terms" style="max-height:170px"&gt;&lt;/p&gt;
 &lt;p&gt;Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
 calling a constructor. In Toga, this factory method is in Toga_core and it is
 used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the &lt;code&gt;sys.platform&lt;/code&gt; of the platform it is running on.&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/factory-pattern.svg" alt="Factory Method" height="300"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/factory-pattern.svg" alt="Factory Method" style="max-height:250px"&gt;&lt;/p&gt;
 &lt;p&gt;Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
 Toga_dummy is passed in as the factory. This allows the tests and the creation
@@ -452,7 +452,7 @@ could also use User Stories or similar methods.&lt;/p&gt;
    run, jump, and move around without unintentionally modifying the rest of the
    objects.  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/usecases.svg" alt="Use Cases" height="300"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/usecases.svg" alt="Use Cases" style="max-height:300px"&gt;&lt;/p&gt;
 &lt;p&gt;The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
 or Draft Pull Request at this point and start to discuss the design of your
 widget abstraction with others and continue that discussion as you design your

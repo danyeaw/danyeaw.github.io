@@ -9,7 +9,7 @@
 .. type: text
 -->
 
-<img src="/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" height="400"/>
+<img src="/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" style="max-height:400px"/>
 
 I have a [Yubikey 5 NFC](https://www.yubico.com/products/yubikey-5-overview/)
 that I use for 2-Factor Authentication (2FA) on websites that support it and for

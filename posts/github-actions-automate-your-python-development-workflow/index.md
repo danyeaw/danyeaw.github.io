@@ -39,13 +39,13 @@ that can be used to automate other parts of your Python workflow.
 Continuous Integration (CI) is the practice of frequently integrating changes to
 code with the existing code repository.
 
-<img src="/images/continuous-integration.svg" alt="Continuous Integration" height="250"/>
+<img src="/images/continuous-integration.svg" alt="Continuous Integration" style="max-height:200px"/>
 
 Continuous Delivery / Delivery (CD) then extends CI by making sure the software checked in
 to the master branch is always in a state to be delivered to users, and
 automates the deployment process.
 
-<img src="/images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="300"/>
+<img src="/images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" style="max-height:300px"/>
 
 For open source projects on GitHub or GitLab,
 the workflow often looks like:
@@ -159,7 +159,7 @@ standard for a Python package:
 To get started with GitHub Actions on a project, go to the Actions tab on the
 main repo:
 
-<img src="/images/github-actions-tab.png" alt="GitHub Actions Tab" height="60"/>
+<img src="/images/github-actions-tab.png" alt="GitHub Actions Tab" style="max-height:60px"/>
 
 Based on your project being made up of mostly Python, GitHub will suggest three
 different workflows that you can use as templates to create your own:
@@ -170,7 +170,7 @@ different workflows that you can use as templates to create your own:
 
 Below is the workflow I had in mind:
 
-<img src="/images/library-workflow.svg" alt="Library Workflow" height="200"/>
+<img src="/images/library-workflow.svg" alt="Library Workflow" style="max-height:200px"/>
 
 I want to start with a lint job that is run, and once that has successfully
 completed, I want to start parallel jobs using the multiple versions of Python
@@ -486,7 +486,7 @@ library. Commit and push your changes to your branch, and ensure all the steps
 pass successfully. This is what the output will look like on the Actions tab in
 GitHub:
 
-<img src="/images/github-actions-output.png" alt="GitHub Actions Output" height="60"/>
+<img src="/images/github-actions-output.png" alt="GitHub Actions Output" style="max-height:60px"/>
 
 I have posted the final version of my complete GitHub Actions workflows for a
 Python library on the [Gaphas
@@ -512,7 +512,7 @@ allows you to make each workflow a little more atomic and understandable. I
 named my two workflows `build.yml` for the CI portion, and `release.yml` for the
 CD portion.
 
-<img src="/images/app-workflow.svg" alt="App Workflow" height="300"/>
+<img src="/images/app-workflow.svg" alt="App Workflow" style="max-height:300px"/>
 
 ### Caching Python Dependencies
 

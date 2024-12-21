@@ -16,7 +16,7 @@ Welcome! If you're here, you're probably as excited as I am about empowering eng
 collaborative innovation. You'll find articles here about **Python**, **SysML**, and my thoughts on the intersection of
 technology and engineering.
 
-<img src="/images/profile_pic.jpg" alt="A picture of me" height=500>  
+<img src="/images/profile_pic.jpg" alt="A picture of me" style="max-height:400px">  
 
 I’m currently an **Engineering Manager for Open Source Software** at [Anaconda](https://anaconda.com), where I lead a
 team of engineers who contribute to impactful projects like:

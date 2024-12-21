@@ -74,7 +74,7 @@ There are three internal layers that make up every widget:
 2. The **Implementation** layer
 3. The **Native** layer  
   
-<img src="/images/toga-blackbox.svg" alt="Toga Blackbox" height="200"/>
+<img src="/images/toga-blackbox.svg" alt="Toga Blackbox" style="max-height:200px"/>
 
 As the input to Toga, the Interface layer provides the public API for the GUI
 application that you are building. This is the code you will type to build your
@@ -90,7 +90,7 @@ required through a bridge or transpiler:
 * Web, Batavia provides a javascript implementation of the Python virtual machine. 
 * Android, VOC is a transpiler that converts Python in to Java bytecode.
 
-<img src="/images/toga-whitebox.svg" alt="Toga Whitebox" height="175"/>
+<img src="/images/toga-whitebox.svg" alt="Toga Whitebox" style="max-height:150px"/>
 
 The Interface layer calls public methods that are in the Toga_core portion of
 the project and this is where this Interface layer API is defined. Toga_core
@@ -105,7 +105,7 @@ Toga_impl.
 2. From Toga_impl, `self.interface` is used to go across the interface layer
 back to Toga_core.
 
-<img src="/images/toga-impl-interface.svg" alt="More Terms" height="175"/>
+<img src="/images/toga-impl-interface.svg" alt="More Terms" style="max-height:170px"/>
 
 Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
@@ -114,7 +114,7 @@ used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_coco
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the `sys.platform` of the platform it is running on.
 
-<img src="/images/factory-pattern.svg" alt="Factory Method" height="300"/>
+<img src="/images/factory-pattern.svg" alt="Factory Method" style="max-height:250px"/>
 
 Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
@@ -205,7 +205,7 @@ For the case of the Canvas widget, I came up with three main use cases:
    run, jump, and move around without unintentionally modifying the rest of the
    objects.  
 
-<img src="/images/usecases.svg" alt="Use Cases" height="300"/>
+<img src="/images/usecases.svg" alt="Use Cases" style="max-height:300px"/>
 
 The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
 or Draft Pull Request at this point and start to discuss the design of your

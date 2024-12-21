@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Career)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_career.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Sat, 21 Dec 2024 20:11:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A Big Job Change</title><link>https://dan.yeaw.me/posts/a-big-job-change/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;I recently changed jobs, and now I am an Engineering Manager for OSS at Anaconda!&lt;/p&gt;
+&lt;p&gt;This is my second major career pivot, and I thought I would share why I decided to make the change. Even though being a
+Submarine Officer, a Functional Safety Lead, and working on OSS are very different, they share a common thread of
+leadership and deeply technical engineering. I’m excited to bring these skills into my new role.&lt;/p&gt;
+&lt;h3&gt;Goodbye to Ford&lt;/h3&gt;
+&lt;p&gt;I spent the last 11 years leading Functional Safety at Ford. It was incredibly rewarding to grow from an individual
+contributor to a manager and eventually to leading a global team dedicated to ensuring Ford vehicles were safe.&lt;/p&gt;
+&lt;p&gt;While this role let me support Functional Safety Engineers across the company, I started to miss getting hands-on with
+technical contributions since most of my time was focused on leading the team.&lt;/p&gt;
+&lt;p&gt;Looking back, there are a couple of things I wish had been different at Ford:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;A strong bias for external talent with executive leadership&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Too much bureaucracy, especially in approval processes&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Having a good mix of new talent join an organization is so important because fresh ideas and perspectives can make a big
+difference. However, in Ford’s software engineering areas, about 90% of the executive leadership roles were filled by
+people from outside the company. While I wasn’t aiming for higher leadership roles, this clear preference for external
+hires made it feel like developing and retaining internal talent wasn’t a priority. As you might expect, it took new
+leaders a while to adapt, and there was a lot of turnover.&lt;/p&gt;
+&lt;p&gt;On top of that, the approval process for things like hiring and travel was overly complicated. Simple approvals could
+take months with no feedback. This culture of control slowed everything down. Delegating authority—like giving managers
+a budget and headcount to work with and holding them accountable—would have made things so much smoother and faster.&lt;/p&gt;
+&lt;p&gt;The thing I’ll miss most about Ford is the people. I loved collaborating with all the Functional Safety Engineers and
+everyone else I worked with. I wish them all the best in the future!&lt;/p&gt;
+&lt;h3&gt;Hello Anaconda&lt;/h3&gt;
+&lt;p&gt;I am now an &lt;strong&gt;Engineering Manager for Open Source Software&lt;/strong&gt; at &lt;a href="https://anaconda.com"&gt;Anaconda&lt;/a&gt;, where I lead a team of
+engineers working on amazing projects like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://beeware.org"&gt;BeeWare&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pyscript.net"&gt;PyScript&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://jupyter.org"&gt;Jupyter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/fsspec/filesystem_spec"&gt;fsspec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/intake/intake"&gt;Intake&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;...and more!&lt;/p&gt;
+&lt;p&gt;Over the last seven years, I’ve been contributing to open source projects, especially in Python. Getting the chance to
+lead a team that does this full-time feels like a dream come true.&lt;/p&gt;
+&lt;p&gt;One of the things I’m most excited about with these projects is how they help make programming more accessible. BeeWare,
+for example, makes it possible to create apps for mobile and desktop, and PyScript lets you write Python directly in
+your web browser. Both tools are fantastic for helping anyone pick up Python, build something useful, and share it with
+others. Meanwhile, Jupyter and fsspec are key tools for data science, making it easier to analyze diverse datasets and
+integrate different data sources.&lt;/p&gt;
+&lt;p&gt;I’m thrilled to have the opportunity to strengthen the open-source communities around these projects, encourage
+healthier collaboration, and create more value for Python users by connecting these tools with the broader PyData
+ecosystem.&lt;/p&gt;</description><category>Anaconda</category><category>Leadership</category><category>Python</category><guid>https://dan.yeaw.me/posts/a-big-job-change/</guid><pubDate>Sat, 21 Dec 2024 20:05:04 GMT</pubDate></item></channel></rss>

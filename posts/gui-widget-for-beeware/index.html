@@ -166,7 +166,7 @@ how you could contribute your own widget to the project.</p>
 <li>The <strong>Implementation</strong> layer</li>
 <li>The <strong>Native</strong> layer  </li>
 </ol>
-<p><img src="../../images/toga-blackbox.svg" alt="Toga Blackbox" height="200"></p>
+<p><img src="../../images/toga-blackbox.svg" alt="Toga Blackbox" style="max-height:200px"></p>
 <p>As the input to Toga, the Interface layer provides the public API for the GUI
 application that you are building. This is the code you will type to build your
 app using Toga.</p>
@@ -180,7 +180,7 @@ required through a bridge or transpiler:</p>
 <li>Web, Batavia provides a javascript implementation of the Python virtual machine. </li>
 <li>Android, VOC is a transpiler that converts Python in to Java bytecode.</li>
 </ul>
-<p><img src="../../images/toga-whitebox.svg" alt="Toga Whitebox" height="175"></p>
+<p><img src="../../images/toga-whitebox.svg" alt="Toga Whitebox" style="max-height:150px"></p>
 <p>The Interface layer calls public methods that are in the Toga_core portion of
 the project and this is where this Interface layer API is defined. Toga_core
 also provides any abstract functionality that is independent of the platform
@@ -191,14 +191,14 @@ that Toga is running on, like setting up and running the app itself.</p>
 Toga_impl.
 2. From Toga_impl, <code>self.interface</code> is used to go across the interface layer
 back to Toga_core.</p>
-<p><img src="../../images/toga-impl-interface.svg" alt="More Terms" height="175"></p>
+<p><img src="../../images/toga-impl-interface.svg" alt="More Terms" style="max-height:170px"></p>
 <p>Toga uses the Factory Method design pattern in order to improve testability.
 This pattern creates objects using a factory method instead of directly
 calling a constructor. In Toga, this factory method is in Toga_core and it is
 used to instantiate a platform backend as the Toga_impl like Toga_ios, Toga_cocoa
 or Toga_gtk. The factory method automatically selects the correct backend based
 on the <code>sys.platform</code> of the platform it is running on.</p>
-<p><img src="../../images/factory-pattern.svg" alt="Factory Method" height="300"></p>
+<p><img src="../../images/factory-pattern.svg" alt="Factory Method" style="max-height:250px"></p>
 <p>Toga_dummy is also a type of Toga_impl backend, and it is used for smoke testing
 without a specific platform to find simple failures. When tests are initialized,
 Toga_dummy is passed in as the factory. This allows the tests and the creation
@@ -289,7 +289,7 @@ could also use User Stories or similar methods.</p>
    run, jump, and move around without unintentionally modifying the rest of the
    objects.  </li>
 </ol>
-<p><img src="../../images/usecases.svg" alt="Use Cases" height="300"></p>
+<p><img src="../../images/usecases.svg" alt="Use Cases" style="max-height:300px"></p>
 <p>The last part of Step 1 is to get feedback. I recommend creating a GitHub Issue
 or Draft Pull Request at this point and start to discuss the design of your
 widget abstraction with others and continue that discussion as you design your

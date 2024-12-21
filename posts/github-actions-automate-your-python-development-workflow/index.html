@@ -137,11 +137,11 @@ that can be used to automate other parts of your Python workflow.</p>
 <h3>Overview of CI/CD</h3>
 <p>Continuous Integration (CI) is the practice of frequently integrating changes to
 code with the existing code repository.</p>
-<p><img src="../../images/continuous-integration.svg" alt="Continuous Integration" height="250"></p>
+<p><img src="../../images/continuous-integration.svg" alt="Continuous Integration" style="max-height:200px"></p>
 <p>Continuous Delivery / Delivery (CD) then extends CI by making sure the software checked in
 to the master branch is always in a state to be delivered to users, and
 automates the deployment process.</p>
-<p><img src="../../images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" height="300"></p>
+<p><img src="../../images/continuous-delivery-deployment.svg" alt="Continuous Delivery / Deployment" style="max-height:300px"></p>
 <p>For open source projects on GitHub or GitLab,
 the workflow often looks like:</p>
 <ol>
@@ -243,7 +243,7 @@ standard for a Python package:</p>
 </ol>
 <p>To get started with GitHub Actions on a project, go to the Actions tab on the
 main repo:</p>
-<p><img src="../../images/github-actions-tab.png" alt="GitHub Actions Tab" height="60"></p>
+<p><img src="../../images/github-actions-tab.png" alt="GitHub Actions Tab" style="max-height:60px"></p>
 <p>Based on your project being made up of mostly Python, GitHub will suggest three
 different workflows that you can use as templates to create your own:</p>
 <ol>
@@ -252,7 +252,7 @@ different workflows that you can use as templates to create your own:</p>
 <li>Publish Python Package - publish a package to PyPI using Twine</li>
 </ol>
 <p>Below is the workflow I had in mind:</p>
-<p><img src="../../images/library-workflow.svg" alt="Library Workflow" height="200"></p>
+<p><img src="../../images/library-workflow.svg" alt="Library Workflow" style="max-height:200px"></p>
 <p>I want to start with a lint job that is run, and once that has successfully
 completed, I want to start parallel jobs using the multiple versions of Python
 that my library supports.</p>
@@ -527,7 +527,7 @@ PyPI servers.</p>
 library. Commit and push your changes to your branch, and ensure all the steps
 pass successfully. This is what the output will look like on the Actions tab in
 GitHub:</p>
-<p><img src="../../images/github-actions-output.png" alt="GitHub Actions Output" height="60"></p>
+<p><img src="../../images/github-actions-output.png" alt="GitHub Actions Output" style="max-height:60px"></p>
 <p>I have posted the final version of my complete GitHub Actions workflows for a
 Python library on the <a href="https://github.com/gaphor/gaphas/tree/master/.github/workflows">Gaphas
 repo</a>.</p>
@@ -548,7 +548,7 @@ start a workflow. This tight integration is definitely a huge bonus here, and it
 allows you to make each workflow a little more atomic and understandable. I
 named my two workflows <code>build.yml</code> for the CI portion, and <code>release.yml</code> for the
 CD portion.</p>
-<p><img src="../../images/app-workflow.svg" alt="App Workflow" height="300"></p>
+<p><img src="../../images/app-workflow.svg" alt="App Workflow" style="max-height:300px"></p>
 <h4>Caching Python Dependencies</h4>
 <p>Although the lint phase is the same between a library and an application, I am
 going to add in one more optional cache step that I didn't include earlier for
