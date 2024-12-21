@@ -11,6 +11,8 @@
 
 I recently changed jobs, and now I am an Engineering Manager for OSS at Anaconda!
 
+![Anaconda Logo](/images/Anaconda_Logo.png)
+
 This is my second major career pivot, and I thought I would share why I decided to make the change. Even though being a
 Submarine Officer, a Functional Safety Lead, and working on OSS are very different, they share a common thread of
 leadership and deeply technical engineering. I’m excited to bring these skills into my new role.
