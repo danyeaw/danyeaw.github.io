@@ -1,4 +1,5 @@
 [tool.poetry]
+package-mode = false
 name = "danyeaw.github.io"
 version = "0.1.0"
 description = "Dan Yeaw's Blog"
