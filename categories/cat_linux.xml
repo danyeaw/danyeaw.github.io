@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Linux)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2024 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Sat, 21 Dec 2024 20:11:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>openSUSE with Passwordless U2F Login</title><link>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" style="max-height:400px"&gt;&lt;/p&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dan Yeaw's Blog (Posts about Linux)</title><link>https://dan.yeaw.me/</link><description></description><atom:link href="https://dan.yeaw.me/categories/cat_linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2025 &lt;a href="mailto:dan@yeaw.me"&gt;Dan Yeaw&lt;/a&gt; </copyright><lastBuildDate>Fri, 28 Nov 2025 21:50:02 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>GNOME GitLab CLI</title><link>https://dan.yeaw.me/posts/gnome-gitlab-cli/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;Git authentication has evolved quite a bit since 2005 when SSH keys were the
+go-to method for connecting to remote repositories.&lt;/p&gt;
+&lt;p&gt;Throughout the 2010s, GitHub made SSH the standard while HTTPS quietly gained
+traction since it played nicer with corporate firewalls. When GitHub
+eventually required personal access tokens instead of passwords, tools like
+Git Credential Manager emerged to handle the credential storage, making HTTPS
+authentication more practical.&lt;/p&gt;
+&lt;p&gt;In 2020 when GitHub released their CLI tool (&lt;code&gt;gh&lt;/code&gt;),
+which uses OAuth for authentication and suddenly made getting started way
+easier—no more fumbling through SSH key generation tutorials for newcomers.&lt;/p&gt;
+&lt;p&gt;I used to have SSH keys installed on my Yubikey, but they were always a hassle
+to set up and use. These days authenticating with &lt;code&gt;gh&lt;/code&gt; is definitely the way
+to go.&lt;/p&gt;
+&lt;p&gt;I also do quite a lot of open source contribution to GNOME's GitLab instance,
+which seems to have completely missed the change to HTTPS that GitHub went
+through. GitLab does have a CLI tool as well called &lt;code&gt;glab&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Clement Sam started &lt;code&gt;glab&lt;/code&gt; as an open source project, and then GitLab adopted
+it in 2022. By default it wants to connect to gitlab.com using SSH, here's 
+how you can set it up using GNOME GitLab and HTTPS.&lt;/p&gt;
+&lt;p&gt;First &lt;a href="https://gitlab.gnome.org/-/user_settings/personal_access_tokens?scopes=api%2Cwrite_repository"&gt;create a new personal access token&lt;/a&gt;
+with &lt;code&gt;write_repository&lt;/code&gt; and &lt;code&gt;api&lt;/code&gt; scopes.&lt;/p&gt;
+&lt;div class="code"&gt;&lt;pre class="code literal-block"&gt;glab&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-g&lt;span class="w"&gt; &lt;/span&gt;host&lt;span class="w"&gt; &lt;/span&gt;gitlab.gnome.org
+glab&lt;span class="w"&gt; &lt;/span&gt;config&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-g&lt;span class="w"&gt; &lt;/span&gt;git_protocol&lt;span class="w"&gt; &lt;/span&gt;https
+glab&lt;span class="w"&gt; &lt;/span&gt;auth&lt;span class="w"&gt; &lt;/span&gt;login&lt;span class="w"&gt; &lt;/span&gt;--use-keyring&lt;span class="w"&gt; &lt;/span&gt;--hostname&lt;span class="w"&gt; &lt;/span&gt;gitlab.gnome.org
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Authenticate with your token that you just created. That's it-enjoy
+contributing to GNOME!&lt;/p&gt;</description><category>GNOME</category><guid>https://dan.yeaw.me/posts/gnome-gitlab-cli/</guid><pubDate>Fri, 28 Nov 2025 20:54:51 GMT</pubDate></item><item><title>openSUSE with Passwordless U2F Login</title><link>https://dan.yeaw.me/posts/opensuse-with-passwordless-u2f-login/</link><dc:creator>Dan Yeaw</dc:creator><description>&lt;p&gt;&lt;img src="https://dan.yeaw.me/images/opensuse-yubikey.png" alt="openSUSE Geeko with Yubikey" style="max-height:400px"&gt;&lt;/p&gt;
 &lt;p&gt;I have a &lt;a href="https://www.yubico.com/products/yubikey-5-overview/"&gt;Yubikey 5 NFC&lt;/a&gt;
 that I use for 2-Factor Authentication (2FA) on websites that support it and for
 storing my GPG keys.&lt;/p&gt;
